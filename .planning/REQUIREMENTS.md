@@ -14,10 +14,10 @@
 
 ### Domains
 
-- [ ] **DOMN-01**: Visitor can open a separate page for each primary domain in v1: analytics platforms, infrastructure / devops, AI / ML tooling, product engineering, and developer experience
-- [ ] **DOMN-02**: Visitor can read a short thesis at the top of each domain page explaining the kinds of problems Dom solves in that area
-- [ ] **DOMN-03**: Visitor can scan a supporting-work list on each domain page for related projects that are not full flagship highlights
-- [ ] **DOMN-04**: Visitor can navigate from each domain page back to the homepage and out to relevant proof artifacts
+- [x] **DOMN-01**: Visitor can open a separate page for each primary domain in v1: analytics platforms, infrastructure / devops, AI / ML tooling, product engineering, and developer experience
+- [x] **DOMN-02**: Visitor can read a short thesis at the top of each domain page explaining the kinds of problems Dom solves in that area
+- [x] **DOMN-03**: Visitor can scan a supporting-work list on each domain page for related projects that are not full flagship highlights
+- [x] **DOMN-04**: Visitor can navigate from each domain page back to the homepage and out to relevant proof artifacts
 
 ### Highlights
 
@@ -77,10 +77,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | QUAL-02 | Phase 1 - Publishing Foundation | Complete |
 | QUAL-03 | Phase 1 - Publishing Foundation | Complete |
 | QUAL-04 | Phase 1 - Publishing Foundation | Complete |
-| DOMN-01 | Phase 2 - Domain Hubs & Supporting Work | Pending |
-| DOMN-02 | Phase 2 - Domain Hubs & Supporting Work | Pending |
-| DOMN-03 | Phase 2 - Domain Hubs & Supporting Work | Pending |
-| DOMN-04 | Phase 2 - Domain Hubs & Supporting Work | Pending |
+| DOMN-01 | Phase 2 - Domain Hubs & Supporting Work | Complete |
+| DOMN-02 | Phase 2 - Domain Hubs & Supporting Work | Complete |
+| DOMN-03 | Phase 2 - Domain Hubs & Supporting Work | Complete |
+| DOMN-04 | Phase 2 - Domain Hubs & Supporting Work | Complete |
 | HOME-01 | Phase 3 - Homepage Positioning | Pending |
 | HOME-02 | Phase 3 - Homepage Positioning | Pending |
 | HOME-03 | Phase 3 - Homepage Positioning | Pending |
@@ -106,4 +106,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-03-09*
-*Last updated: 2026-03-09 after Phase 01 completion*
+*Last updated: 2026-03-09 after Phase 02 Plan 01 completion*

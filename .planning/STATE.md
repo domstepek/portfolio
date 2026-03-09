@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 1 live verification approved; ready for Phase 2 planning
-last_updated: "2026-03-09T19:30:17Z"
-last_activity: 2026-03-09 — Phase 1 verified on live GitHub Pages; future browser smoke checks should prefer /agent-browser --native
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-09T20:29:05Z"
+last_activity: 2026-03-09 — Completed 02-01 with a typed domain registry, shared `/domains/[slug]/` routes, and baseline supporting-work pages for all five v1 domains
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
-  percent: 100
+  total_plans: 6
+  completed_plans: 4
+  percent: 67
 ---
 
 # Project State
@@ -26,33 +26,33 @@ See: `.planning/PROJECT.md` (updated 2026-03-09)
 ## Current Position
 
 Phase: 2 of 6 (Domain Hubs & Supporting Work)
-Plan: Not yet planned
-Status: Ready for planning
-Last activity: 2026-03-09 — Phase 1 verified on live GitHub Pages; future browser smoke checks should prefer `/agent-browser --native`
+Plan: 2 of 3 (02-02 next)
+Status: 02-01 complete; ready for 02-02
+Last activity: 2026-03-09 — Completed 02-01 with a typed domain registry, shared `/domains/[slug]/` routes, and baseline supporting-work pages for all five v1 domains
 
-Progress: [██████████] 100%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: 6 min
-- Total execution time: 0.3 hours
+- Total execution time: 0.4 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 3 | 18 min | 6 min |
-| 2 | 0 | - | - |
+| 2 | 1 | 5 min | 5 min |
 | 3 | 0 | - | - |
 | 4 | 0 | - | - |
 | 5 | 0 | - | - |
 | 6 | 0 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3 min), 01-02 (6 min), 01-03 (9 min)
-- Trend: Phase 1 closed with local and CI release gates, a verified live GitHub Pages deploy, and a browser-testing convention that prefers `/agent-browser --native`
+- Last 5 plans: 01-01 (3 min), 01-02 (6 min), 01-03 (9 min), 02-01 (5 min)
+- Trend: Phase 2 now has a stable typed domain registry, shared domain routes, and baseline supporting-work pages, so the next work can focus on copy clarity, polish, and stronger artifact validation
 
 *Updated after each plan completion*
 
@@ -77,6 +77,12 @@ Recent decisions affecting current work:
 - [Phase 01]: Derive default Pages `PUBLIC_SITE_URL` and `PUBLIC_BASE_PATH` from repository context in CI, while still allowing repository-variable overrides. — This keeps project-site deploys working by default without hard-coding the final hosted URL.
 - [Phase 01]: Treat live GitHub Pages publish and manual QA as an explicit user-setup handoff when the remote/Pages target is not trustworthy in the local repo state. — This preserves an honest phase gate without pretending hosted verification already happened.
 - [Phase 01]: Prefer `/agent-browser --native` for browser-accessible site smoke checks before escalating to human-only validation. — This lets future verification cover live URLs, asset paths, source inspection, and 404 behavior directly in-browser while reserving people for subjective layout and keyboard-usage judgment.
+- [Phase 02 Context]: Use short domain titles, give each project one canonical home domain, and assign that home by the primary problem solved while allowing light cross-links for overlap.
+- [Phase 02 Context]: Open each domain page with a first-person thesis sentence, short bullets, and an explicit scope line inside one shared page pattern.
+- [Phase 02 Context]: Present supporting work as moderately curated stacked entries with inline proof links and an explicit top-of-page `back home` link.
+- [Phase 02]: Keep the five domain hubs in one typed registry with one module per domain so future homepage and validation work use the same source of truth.
+- [Phase 02]: Render every domain through one shared text-first template with inline proof links and stable `data-*` markers so later validation can inspect built HTML instead of source.
+- [Phase 02]: Use related-domain links for overlap instead of duplicating full supporting-work entries across multiple domain pages.
 
 ### Roadmap Evolution
 
@@ -89,11 +95,11 @@ None right now.
 
 ### Blockers/Concerns
 
-- Domain boundaries need to stay clear so projects do not get duplicated across pages.
-- Flagship highlights need concrete proof, not generic platform language.
+- Domain structure is now locked, but `02-02` should tighten copy density and domain boundary clarity before Phase 3 reuses this content.
+- Flagship highlights and deeper role/decision proof remain intentionally deferred to Phase 4.
 
 ## Session Continuity
 
-Last session: 2026-03-09T19:30:17Z
-Stopped at: Phase 1 live verification approved; ready for Phase 2 planning
-Resume file: None
+Last session: 2026-03-09T20:29:05Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: .planning/phases/02-domain-hubs-supporting-work/02-02-PLAN.md
