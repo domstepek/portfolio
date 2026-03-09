@@ -41,7 +41,7 @@ const infrastructure: DomainEntry = {
           href: "https://github.com/tpr-datalabs/stargazer-applications",
         },
       ],
-      overlapNote: "it carries analytics apps too, but the main value is the deploy rail that supports",
+      overlapNote: "some of the shipped apps live in",
       relatedDomains: ["analytics"],
     },
     {
@@ -65,7 +65,7 @@ const infrastructure: DomainEntry = {
           href: "https://github.com/tpr-datalabs/sso-reverse-proxy",
         },
       ],
-      overlapNote: "the protected apps live in nearby",
+      overlapNote: "the protected apps themselves live in",
       relatedDomains: ["product"],
     },
   ],

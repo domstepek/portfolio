@@ -67,7 +67,7 @@ const developerExperience: DomainEntry = {
           href: "https://github.com/tpr-datalabs/product-migration-scripts",
         },
       ],
-      overlapNote: "the destination data lives in nearby",
+      overlapNote: "the destination data lives in",
       relatedDomains: ["analytics"],
     },
   ],

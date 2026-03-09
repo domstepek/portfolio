@@ -28,7 +28,7 @@ const aiMl: DomainEntry = {
           href: "https://github.com/tpr-datalabs/collection-curator-api",
         },
       ],
-      overlapNote: "the product and reporting use cases sit nearby in",
+      overlapNote: "the adjacent use cases land in",
       relatedDomains: ["analytics", "product"],
     },
     {
@@ -56,7 +56,7 @@ const aiMl: DomainEntry = {
           href: "https://github.com/tpr-datalabs/datalabs-api",
         },
       ],
-      overlapNote: "the consuming data workflows land nearby in",
+      overlapNote: "the consuming data workflows live in",
       relatedDomains: ["analytics"],
     },
   ],

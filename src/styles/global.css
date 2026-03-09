@@ -169,6 +169,113 @@ a:hover {
   font-size: 0.95rem;
 }
 
+.domain-page {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.domain-page > * {
+  min-width: 0;
+}
+
+.domain-page__back {
+  margin: 0;
+}
+
+.domain-page__back-link {
+  display: inline-block;
+}
+
+.domain-page__intro,
+.domain-page__section {
+  display: grid;
+  gap: 1rem;
+}
+
+.domain-page__title {
+  max-width: min(100%, 18ch);
+}
+
+.domain-page__thesis {
+  max-width: 34rem;
+  color: var(--text);
+  font-size: clamp(1.08rem, 1.02rem + 0.35vw, 1.3rem);
+  line-height: 1.65;
+}
+
+.domain-page__section-title {
+  max-width: min(100%, 22ch);
+}
+
+.domain-page__list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.domain-page__list li + li {
+  margin-top: 0;
+}
+
+.domain-page__scope,
+.supporting-work__context {
+  color: var(--text);
+}
+
+.domain-page__scope strong,
+.supporting-work__links strong,
+.supporting-work__overlap strong {
+  color: var(--text);
+}
+
+.supporting-work {
+  gap: clamp(1rem, 2vw, 1.35rem);
+}
+
+.supporting-work__item {
+  max-width: var(--measure);
+  display: grid;
+  gap: 0.55rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.supporting-work__item:first-of-type {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.supporting-work__title {
+  max-width: var(--measure);
+  font-size: clamp(1.1rem, 1.05rem + 0.25vw, 1.25rem);
+}
+
+.supporting-work__links,
+.supporting-work__overlap,
+.domain-page__nearby {
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+.supporting-work__links a,
+.supporting-work__overlap a,
+.domain-page__nearby a,
+.domain-page__back-link {
+  display: inline-block;
+}
+
+.supporting-work__links a + a,
+.supporting-work__overlap a + a,
+.domain-page__nearby a + a {
+  margin-left: 0.1rem;
+}
+
+.supporting-work__links a:focus-visible,
+.supporting-work__overlap a:focus-visible,
+.domain-page__nearby a:focus-visible,
+.domain-page__back-link:focus-visible {
+  outline-offset: 0.22rem;
+}
+
 @media (max-width: 40rem) {
   .shell {
     width: min(calc(100% - 1.5rem), var(--shell-width));
@@ -181,5 +288,17 @@ a:hover {
 
   .site-main {
     padding-block: 2rem 3rem;
+  }
+
+  .domain-page {
+    gap: 1.5rem;
+  }
+
+  .domain-page__title {
+    max-width: 100%;
+  }
+
+  .supporting-work__item {
+    padding-top: 0.85rem;
   }
 }

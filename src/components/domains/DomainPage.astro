@@ -23,36 +23,36 @@ const supportingItems = supportingWork.map((item) => ({
 }));
 ---
 
-<article data-domain-page>
-  <p>
-    <a data-back-home href={homePath}>back home</a>
+<article class="domain-page" data-domain-page>
+  <p class="domain-page__back">
+    <a class="domain-page__back-link" data-back-home href={homePath}>back home</a>
   </p>
 
-  <header>
-    <h1>{title}</h1>
-    <p data-domain-thesis>{thesis}</p>
+  <header class="domain-page__intro">
+    <h1 class="domain-page__title">{title}</h1>
+    <p class="domain-page__thesis" data-domain-thesis>{thesis}</p>
   </header>
 
-  <section aria-labelledby="belongs-here-heading">
-    <h2 id="belongs-here-heading">what belongs here</h2>
-    <ul>
+  <section class="domain-page__section" aria-labelledby="belongs-here-heading">
+    <h2 class="domain-page__section-title" id="belongs-here-heading">what belongs here</h2>
+    <ul class="domain-page__list">
       {belongsHere.map((item) => (
         <li>{item}</li>
       ))}
     </ul>
-    <p>
+    <p class="domain-page__scope">
       <strong>scope:</strong> {scope}
     </p>
   </section>
 
-  <section aria-labelledby="supporting-work-heading" data-supporting-work>
-    <h2 id="supporting-work-heading">supporting work</h2>
+  <section class="domain-page__section supporting-work" aria-labelledby="supporting-work-heading" data-supporting-work>
+    <h2 class="domain-page__section-title" id="supporting-work-heading">supporting work</h2>
     {supportingItems.map((item) => (
-      <article data-supporting-item>
-        <h3>{item.title}</h3>
-        <p>{item.context}</p>
+      <article class="supporting-work__item" data-supporting-item>
+        <h3 class="supporting-work__title">{item.title}</h3>
+        <p class="supporting-work__context">{item.context}</p>
         {item.proofLinks.length > 0 && (
-          <p>
+          <p class="supporting-work__links">
             <strong>proof:</strong>{" "}
             {item.proofLinks.map((link, index) => (
               <>
@@ -65,7 +65,7 @@ const supportingItems = supportingWork.map((item) => ({
           </p>
         )}
         {(item.overlapNote || item.relatedEntries.length > 0) && (
-          <p>
+          <p class="supporting-work__overlap">
             <strong>overlap:</strong>{" "}
             {item.overlapNote ? `${item.overlapNote} ` : "also touches "}
             {item.relatedEntries.map((entry, index) => (
@@ -82,9 +82,9 @@ const supportingItems = supportingWork.map((item) => ({
   </section>
 
   {relatedEntries.length > 0 && (
-    <section aria-labelledby="related-domains-heading">
-      <h2 id="related-domains-heading">nearby domains</h2>
-      <p>
+    <section class="domain-page__section" aria-labelledby="related-domains-heading">
+      <h2 class="domain-page__section-title" id="related-domains-heading">nearby domains</h2>
+      <p class="domain-page__nearby">
         when a project crosses boundaries, it usually lands closest to{" "}
         {relatedEntries.map((entry, index) => (
           <>

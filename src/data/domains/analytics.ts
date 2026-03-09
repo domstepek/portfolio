@@ -54,7 +54,7 @@ const analytics: DomainEntry = {
           href: "https://github.com/tpr-datalabs/stargazer-applications",
         },
       ],
-      overlapNote: "the cluster and deploy rail live nearby in",
+      overlapNote: "the cluster and deploy rail belong more in",
       relatedDomains: ["infrastructure"],
     },
   ],
