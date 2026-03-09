@@ -100,8 +100,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 - Mapped to phases: 21
 - Unmapped: 0
 
-**Phase 1 handoff:**
-- Live GitHub Pages deployment confirmation and the remaining manual QA pass are tracked in `.planning/phases/01-publishing-foundation/01-VALIDATION.md` and `.planning/phases/01-publishing-foundation/01-USER-SETUP.md`.
+**Phase 1 sign-off:**
+- Live GitHub Pages deployment and manual QA were completed for `https://domstepek.github.io/website/`.
+- Future browser-accessible site smoke checks should prefer `/agent-browser --native` before asking for human-only validation.
 
 ---
 *Requirements defined: 2026-03-09*

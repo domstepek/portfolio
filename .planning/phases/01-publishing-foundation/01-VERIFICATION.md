@@ -1,15 +1,15 @@
 ---
 phase: 01-publishing-foundation
-verified: 2026-03-09T19:02:45Z
-status: human_needed
-score: 3/4 must-haves verified
+verified: 2026-03-09T19:30:17Z
+status: passed
+score: 4/4 must-haves verified
 ---
 
 # Phase 1: Publishing Foundation Verification Report
 
 **Phase Goal:** Establish a static, readable, shareable baseline on GitHub Pages.
-**Verified:** 2026-03-09T19:02:45Z
-**Status:** human_needed
+**Verified:** 2026-03-09T19:30:17Z
+**Status:** passed
 
 ## Goal Achievement
 
@@ -17,12 +17,12 @@ score: 3/4 must-haves verified
 
 | # | Truth | Status | Evidence |
 |---|-------|--------|----------|
-| 1 | The site builds and deploys as a static GitHub Pages site without broken asset or route behavior. | ? UNCERTAIN | `pnpm astro check && pnpm astro build && pnpm validate:phase1` passed locally, `astro.config.mjs` and `src/lib/paths.ts` are Pages-safe, and `.github/workflows/deploy.yml` is wired for Pages deploys. The remaining uncertainty is the first live GitHub Pages publish and hosted base-path behavior, which the repo still tracks as manual handoff in `01-USER-SETUP.md` and `01-VALIDATION.md`. |
-| 2 | Shared layout and CSS provide comfortable reading on both mobile and desktop widths. | ✓ VERIFIED | `src/components/layout/BaseLayout.astro` and `src/styles/global.css` provide one shared shell, readable prose measure, clamp-based type scale, generous spacing, and a mobile media query; the built HTML emits those styles. |
-| 3 | Semantic structure, readable typography, obvious link states, and strong contrast are in place across the site shell. | ✓ VERIFIED | `BaseLayout.astro` emits `lang="en"`, a skip link, and `header`/`main`/`footer` landmarks. `global.css` keeps links visibly underlined and adds `:focus-visible`, dark-on-light color tokens, and readable text defaults. |
-| 4 | Core sharing and polish are wired up: page titles, descriptions, Open Graph metadata, favicon, and a working `404` page. | ✓ VERIFIED | `scripts/validate-phase1.mjs` passed against `dist/index.html` and `dist/404.html`, confirming non-empty title/description/canonical/OG tags, favicon wiring, `404` `noindex`, and a homepage recovery link. |
+| 1 | The site builds and deploys as a static GitHub Pages site without broken asset or route behavior. | ✓ VERIFIED | `pnpm astro check && pnpm astro build && pnpm validate:phase1` passed locally, the GitHub Pages workflow published successfully, and the live site at `https://domstepek.github.io/website/` plus `https://domstepek.github.io/website/does-not-exist/` confirmed working base-path routing, assets, and hosted `404` behavior. |
+| 2 | Shared layout and CSS provide comfortable reading on both mobile and desktop widths. | ✓ VERIFIED | `src/components/layout/BaseLayout.astro` and `src/styles/global.css` provide one shared shell, readable prose measure, clamp-based type scale, generous spacing, and a mobile media query; the deployed site was also checked at narrow mobile and wide desktop widths and approved. |
+| 3 | Semantic structure, readable typography, obvious link states, and strong contrast are in place across the site shell. | ✓ VERIFIED | `BaseLayout.astro` emits `lang="en"`, a skip link, and `header`/`main`/`footer` landmarks. `global.css` keeps links visibly underlined and adds `:focus-visible`, dark-on-light color tokens, and readable text defaults; live keyboard navigation and skip-link behavior were approved on the deployed site. |
+| 4 | Core sharing and polish are wired up: page titles, descriptions, Open Graph metadata, favicon, and a working `404` page. | ✓ VERIFIED | `scripts/validate-phase1.mjs` passed against `dist/index.html` and `dist/404.html`, and the deployed Pages output confirmed non-empty title/description/canonical/OG tags, favicon wiring, `404` `noindex`, and a working homepage recovery link. |
 
-**Score:** 3/4 truths verified
+**Score:** 4/4 truths verified
 
 ### Required Artifacts
 
@@ -64,12 +64,12 @@ score: 3/4 must-haves verified
 
 | Requirement | Status | Blocking Issue |
 |-------------|--------|----------------|
-| `QUAL-01`: Visitor can access the site as a statically deployed GitHub Pages site | ? NEEDS HUMAN | Local static build and Pages workflow are ready, but the first live Pages publish and hosted base-path confirmation are still pending. |
-| `QUAL-02`: Visitor can read and navigate the site comfortably on mobile and desktop layouts | ? NEEDS HUMAN | Responsive reading baseline is implemented, but visual comfort on real mobile and desktop viewports still needs manual QA. |
-| `QUAL-03`: Visitor can use the site with accessible structure, strong contrast, and readable typography | ? NEEDS HUMAN | Landmarks, skip link, and focus states exist, but keyboard flow and perceived contrast still need a human pass. |
-| `QUAL-04`: Visitor can share and preview the site with correct core metadata, favicon, and a working `404` page | ? NEEDS HUMAN | Built artifacts pass locally, but deployed metadata, social preview behavior, and hosted `404` behavior still need final confirmation. |
+| `QUAL-01`: Visitor can access the site as a statically deployed GitHub Pages site | ✓ SATISFIED | None |
+| `QUAL-02`: Visitor can read and navigate the site comfortably on mobile and desktop layouts | ✓ SATISFIED | None |
+| `QUAL-03`: Visitor can use the site with accessible structure, strong contrast, and readable typography | ✓ SATISFIED | None |
+| `QUAL-04`: Visitor can share and preview the site with correct core metadata, favicon, and a working `404` page | ✓ SATISFIED | None |
 
-**Coverage:** 0/4 requirements fully signed off, 4/4 implemented in code and local build output
+**Coverage:** 4/4 requirements fully signed off
 
 ## Anti-Patterns Found
 
@@ -77,51 +77,27 @@ None — scans across the Phase 01 source, scripts, and workflow files found no 
 
 **Anti-patterns:** 0 found (0 blockers, 0 warnings)
 
-## Human Verification Required
+## Human Verification Completed
 
-### 1. Live GitHub Pages publish
-**Test:** Reconnect or confirm the final GitHub remote if needed, push the branch that contains Phase 01, and verify the `Deploy site` workflow succeeds.
-**Expected:** GitHub Actions publishes a Pages URL for this repository without workflow errors.
-**Why human:** Requires a real GitHub repository, Pages permissions, and a live workflow run outside the local repo.
-
-### 2. Hosted base-path behavior
-**Test:** Open the deployed homepage at the final Pages URL.
-**Expected:** Styles, favicon, OG image URL, and internal links all resolve correctly under the real GitHub Pages base path.
-**Why human:** Local builds cannot fully prove hosted project-site path behavior on GitHub Pages.
-
-### 3. Hosted `404` behavior
-**Test:** Visit a nonexistent route under the deployed base path.
-**Expected:** The custom `404` page appears and its link back home works.
-**Why human:** GitHub Pages `404` handling must be validated on the hosted site.
-
-### 4. Mobile and desktop reading quality
-**Test:** Check the homepage at narrow mobile and wide desktop widths.
-**Expected:** Line length, spacing, and tap targets feel comfortable and readable at both sizes.
-**Why human:** Reading comfort is a visual quality judgment, not a reliable static-file assertion.
-
-### 5. Keyboard navigation and skip-link usability
-**Test:** Tab from the browser chrome into the page, activate the skip link, and continue tabbing through the shell links.
-**Expected:** Focus remains visible, the skip link works, and navigation feels usable without a mouse.
-**Why human:** Accessibility smoke checks still need an actual browser interaction pass.
-
-### 6. Deployed metadata and share-preview correctness
-**Test:** Inspect the deployed homepage and `404` page source, and confirm the live title, description, canonical URL, OG tags, favicon, and `noindex` values are correct.
-**Expected:** Live metadata matches the built output and resolves to the final hosted origin/base path.
-**Why human:** Final canonical/share behavior depends on the real hosted URL and published artifact.
+- Live GitHub Pages publish succeeded for `https://domstepek.github.io/website/`.
+- Hosted base-path behavior, favicon, OG asset URLs, and the custom `404` were confirmed against the deployed site.
+- Mobile and desktop reading quality were approved on the live site.
+- Keyboard navigation, skip-link visibility, and focus styling were approved on the live site.
+- Deployed metadata and `404` source output were confirmed against the published Pages build.
 
 ## Gaps Summary
 
-**No automated code or wiring gaps found.** Phase 01 is locally buildable, validates successfully, and matches its plan artifacts and wiring. The remaining work is the explicit hosted/manual sign-off already documented in `01-USER-SETUP.md` and `01-VALIDATION.md`.
+**No code, wiring, or hosted sign-off gaps remain.** Phase 01 is locally buildable, validates successfully, and now has a confirmed live GitHub Pages deployment with completed browser and human validation.
 
 ## Verification Metadata
 
 **Verification approach:** Goal-backward using Phase 1 success criteria from `ROADMAP.md`, then cross-checked against plan frontmatter artifacts and key links
 **Must-haves source:** `ROADMAP.md` success criteria, with supporting artifacts and key links from `01-01-PLAN.md`, `01-02-PLAN.md`, and `01-03-PLAN.md`
 **Automated checks:** `pnpm astro check`, `pnpm astro build`, and `pnpm validate:phase1` all passed; 12/12 required artifacts and 10/10 key links verified
-**Human checks required:** 6
-**Verification tooling notes:** `gsd-tools` roadmap and frontmatter reads worked, but the current `verify artifacts` and `verify key-links` helpers did not parse these nested `must_haves`, so artifact and wiring checks were completed manually from source and built output
+**Human checks required:** 0
+**Verification tooling notes:** `gsd-tools` roadmap and frontmatter reads worked, but the current `verify artifacts` and `verify key-links` helpers did not parse these nested `must_haves`, so artifact and wiring checks were completed manually from source, built output, and the live Pages deployment. Future browser-accessible site checks should prefer `/agent-browser --native` before requesting human-only judgment.
 **Total verification time:** ~20 min
 
 ---
-*Verified: 2026-03-09T19:02:45Z*
+*Verified: 2026-03-09T19:30:17Z*
 *Verifier: Claude (subagent)*

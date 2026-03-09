@@ -1,7 +1,7 @@
 ---
 phase: 1
 slug: publishing-foundation
-status: draft
+status: approved
 nyquist_compliant: true
 wave_0_complete: true
 created: 2026-03-09
@@ -17,7 +17,7 @@ created: 2026-03-09
 
 | Property | Value |
 |----------|-------|
-| **Framework** | other - Astro compiler checks, production build validation, Node artifact assertions, optional Playwright smoke tests |
+| **Framework** | other - Astro compiler checks, production build validation, Node artifact assertions, and `/agent-browser --native` smoke checks against the deployed site |
 | **Config file** | `package.json`, `astro.config.mjs`, `scripts/validate-phase1.mjs` (introduced by `01-03`), optional `playwright.config.ts` |
 | **Quick run command** | `pnpm astro check && pnpm astro build` |
 | **Full suite command** | `pnpm astro check && pnpm astro build && pnpm validate:phase1` (available after `01-03`) |
@@ -30,7 +30,7 @@ created: 2026-03-09
 - **After each completed task in `01-01` and `01-02`:** Run `pnpm astro check && pnpm astro build`
 - **After wave 1 (`01-01`) and wave 2 (`01-02`):** Run `pnpm astro check && pnpm astro build`
 - **After `01-03` Task 1 and after remaining wave 3 tasks:** Run `pnpm astro check && pnpm astro build && pnpm validate:phase1`
-- **Before `$gsd-verify-work`:** Full suite must be green, then complete the live GitHub Pages manual checks listed below
+- **Before `$gsd-verify-work`:** Full suite must be green, then use `/agent-browser --native` for browser-accessible live checks before reserving any remaining human-only validation to the checklist below
 - **Max feedback latency:** 30 seconds
 
 ---
@@ -41,14 +41,14 @@ The map below is the planning-time contract for Phase 1. Wave numbers match the 
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 1-01-01 | 01 | 1 | QUAL-01 | build | `pnpm astro check && pnpm astro build` | `dist/index.html` | ⬜ pending |
-| 1-01-02 | 01 | 1 | QUAL-01 | config | `pnpm astro build` | `astro.config.mjs` | ⬜ pending |
-| 1-01-03 | 01 | 1 | QUAL-04 | static | `pnpm astro check` | `src/lib/paths.ts` | ⬜ pending |
-| 1-02-01 | 02 | 2 | QUAL-03 | static | `pnpm astro check && pnpm astro build` | `src/components/layout/BaseLayout.astro` | ⬜ pending |
-| 1-02-02 | 02 | 2 | QUAL-02 | static | `pnpm astro check && pnpm astro build` | `src/styles/global.css` | ⬜ pending |
-| 1-02-03 | 02 | 2 | QUAL-04 | build | `pnpm astro build` | `dist/404.html` | ⬜ pending |
-| 1-03-01 | 03 | 3 | QUAL-04 | artifact | `pnpm astro check && pnpm astro build && pnpm validate:phase1` | `scripts/validate-phase1.mjs` | ⬜ pending |
-| 1-03-02 | 03 | 3 | QUAL-01 | config | `test -f .github/workflows/deploy.yml` | `.github/workflows/deploy.yml` | ⬜ pending |
+| 1-01-01 | 01 | 1 | QUAL-01 | build | `pnpm astro check && pnpm astro build` | `dist/index.html` | ✅ green |
+| 1-01-02 | 01 | 1 | QUAL-01 | config | `pnpm astro build` | `astro.config.mjs` | ✅ green |
+| 1-01-03 | 01 | 1 | QUAL-04 | static | `pnpm astro check` | `src/lib/paths.ts` | ✅ green |
+| 1-02-01 | 02 | 2 | QUAL-03 | static | `pnpm astro check && pnpm astro build` | `src/components/layout/BaseLayout.astro` | ✅ green |
+| 1-02-02 | 02 | 2 | QUAL-02 | static | `pnpm astro check && pnpm astro build` | `src/styles/global.css` | ✅ green |
+| 1-02-03 | 02 | 2 | QUAL-04 | build | `pnpm astro build` | `dist/404.html` | ✅ green |
+| 1-03-01 | 03 | 3 | QUAL-04 | artifact | `pnpm astro check && pnpm astro build && pnpm validate:phase1` | `scripts/validate-phase1.mjs` | ✅ green |
+| 1-03-02 | 03 | 3 | QUAL-01 | config | `test -f .github/workflows/deploy.yml` | `.github/workflows/deploy.yml` | ✅ green |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -67,7 +67,7 @@ None. Phase 1 introduces its validation tooling during normal execution:
 
 ## Manual-Only Verifications
 
-These are phase-gate checks after wave 3 and after the repository has a working GitHub Pages deployment target. They are required before Phase 1 sign-off, but they are not expected to run during wave 1 or wave 2.
+These are phase-gate checks after wave 3 and after the repository has a working GitHub Pages deployment target. Use `/agent-browser --native` first for browser-addressable checks like loading the live page, inspecting source, and confirming the hosted `404`. Reserve human-only validation for subjective checks like reading comfort and keyboard-flow feel.
 
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
@@ -78,15 +78,17 @@ These are phase-gate checks after wave 3 and after the repository has a working 
 | Keyboard navigation, skip link, and focus states are usable | QUAL-03 | Accessibility smoke checks still need human confirmation | Tab from the browser chrome into the page, activate the skip link, and verify visible focus treatment across links |
 | Metadata is correct in the built and deployed output | QUAL-04 | Social preview and canonical correctness need source inspection | Inspect the homepage source and confirm non-empty title, description, canonical URL, `og:title`, `og:description`, `og:image`, and favicon references; inspect the 404 page source and confirm `noindex` is present |
 
+Phase 1 sign-off completed against `https://domstepek.github.io/website/`.
+
 ---
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or an explicitly mapped phase-gate manual check
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] No separate Wave 0 dependencies remain; validation producers are mapped to plans `01-01` through `01-03`
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 30s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or an explicitly mapped phase-gate manual check
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] No separate Wave 0 dependencies remain; validation producers are mapped to plans `01-01` through `01-03`
+- [x] No watch-mode flags
+- [x] Feedback latency < 30s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved
