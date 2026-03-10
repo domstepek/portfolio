@@ -46,7 +46,7 @@ result: pass
 
 total: 7
 passed: 6
-issues: 2
+issues: 3
 pending: 0
 skipped: 0
 
@@ -81,4 +81,26 @@ skipped: 0
   missing:
     - "Retro pixel cursor PNG assets (pointer + hand) in public/cursors/"
     - "CSS cursor rules: body { cursor: url(...) } and a:hover { cursor: url(...) }"
+  debug_session: ""
+- truth: "All site copy reads as visitor-facing content with no placeholder or internal categorization text"
+  status: failed
+  reason: "User reported: Domain hub pages have copy that reads like internal placeholder notes meant to be removed. The 'what belongs here' section heading, scope/boundary lines like 'if the job is helping people inspect, compare, or trust the data itself, it belongs here; if the hard part is shipping the platform or model behavior, it belongs somewhere else' and the bulleted belongsHere items read like an internal taxonomy guide, not something a visitor should see."
+  severity: major
+  test: 3
+  root_cause: "Domain data files (src/data/domains/*.ts) have 'scope' and 'belongsHere' fields that were written as internal categorization notes. The DomainPage.astro component renders them under a 'what belongs here' heading. These need to be either rewritten as visitor-facing copy or removed entirely. Affects all 5 domain hub pages."
+  artifacts:
+    - path: "src/data/domains/analytics.ts"
+      issue: "scope and belongsHere fields read as internal notes"
+    - path: "src/data/domains/infrastructure.ts"
+      issue: "scope and belongsHere fields read as internal notes"
+    - path: "src/data/domains/ai-ml.ts"
+      issue: "scope and belongsHere fields read as internal notes"
+    - path: "src/data/domains/product.ts"
+      issue: "scope and belongsHere fields read as internal notes"
+    - path: "src/data/domains/developer-experience.ts"
+      issue: "scope and belongsHere fields read as internal notes"
+    - path: "src/components/domains/DomainPage.astro"
+      issue: "Renders 'what belongs here' section with internal-sounding copy"
+  missing:
+    - "Rewrite scope/belongsHere as visitor-facing 'what I work on here' descriptions, or remove the section entirely"
   debug_session: ""
