@@ -6,14 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
-    "build": "astro build",
-    "validate:phase1": "node ./scripts/validate-phase1.mjs",
-    "validate:phase2": "node ./scripts/validate-phase2.mjs",
-    "validate:phase3": "node ./scripts/validate-phase3.mjs",
-    "validate:phase4": "node ./scripts/validate-phase4.mjs",
-    "validate:phase5": "node ./scripts/validate-phase5.mjs",
-    "validate:phase6": "node ./scripts/validate-phase6.mjs",
-    "validate:site": "pnpm validate:phase1 && pnpm validate:phase2 && pnpm validate:phase3 && pnpm validate:phase4 && pnpm validate:phase5 && pnpm validate:phase6"
+    "build": "astro build"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
