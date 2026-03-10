@@ -1,15 +1,37 @@
 ---
 phase: 03-homepage-positioning
-verified: 2026-03-10T00:20:54Z
+verified: 2026-03-10T04:55:00Z
 status: passed
 score: 4/4 must-haves verified
+re_verification:
+  previous_status: passed
+  previous_score: 4/4
+  gaps_closed:
+    - "Dark theme with near-black background, monospace font, and CRT scanline overlay"
+    - "Retro pixel cursor replacing default browser cursor site-wide"
+    - "Homepage avatar illustration blending naturally into dark theme"
+    - "Domain hub copy rewritten from internal taxonomy to visitor-facing descriptions"
+  gaps_remaining: []
+  regressions: []
 ---
 
-# Phase 3: Homepage Positioning Verification Report
+# Phase 3: Homepage Positioning Verification Report (Re-verification)
 
 **Phase Goal:** Make the first screen explain Dom's scope, link into the domains, surface contact, and signal freshness.
-**Verified:** 2026-03-10T00:20:54Z
+**Verified:** 2026-03-10T04:55:00Z
 **Status:** passed
+**Re-verification:** Yes -- after gap closure (plans 03-04 and 03-05)
+
+## Gap Closure Summary
+
+Four gaps were identified during UAT and diagnosed in `03-UAT.md`:
+
+| # | Gap | Closure Plan | Status |
+|---|-----|-------------|--------|
+| 1 | Site too basic/flat -- needed dark theme, monospace font, CRT scanline overlay | 03-04 | CLOSED |
+| 2 | Missing retro pixel cursor | 03-04 | CLOSED |
+| 3 | Missing homepage avatar illustration | 03-04 | CLOSED |
+| 4 | Domain hub pages had internal taxonomy copy, not visitor-facing | 03-05 | CLOSED |
 
 ## Goal Achievement
 
@@ -17,100 +39,94 @@ score: 4/4 must-haves verified
 
 | # | Truth | Status | Evidence |
 |---|-------|--------|----------|
-| 1 | From the first screen, a visitor can immediately tell the kinds of systems Dom builds across the five v1 domains. | ✓ VERIFIED | `src/data/home.ts` defines an explicit H1 naming analytics, infrastructure, ai / ml, product, and developer experience, `src/components/home/HomePage.astro` renders it inside `data-home-hero`, `dist/index.html` emits that exact copy, and a local browser smoke check at `http://127.0.0.1:4322/website/` showed the hero and lead above the fold. |
-| 2 | The homepage exposes all five domain pages as the primary next step, not a generic project dump. | ✓ VERIFIED | `HomePage.astro` renders homepage navigation from the shared ordered `domains` registry via `domainPath(domain.slug)`, the built homepage emits exactly five `data-home-domain-link` anchors to `/website/domains/<slug>/`, the full-page browser check shows the domain list as the main body section after the hero, and the shipped homepage contains no project-gallery, flagship, or resume-style sections. |
-| 3 | GitHub, LinkedIn, and email are visible on the homepage and open correctly. | ✓ VERIFIED | `src/data/home.ts` defines the three outbound contact links, `HomePage.astro` renders them with `data-home-contact-link`, `dist/index.html` emits `https://github.com/domstepek`, `https://linkedin.com/in/jean-dominique-stepek`, and `mailto:domstepek@gmail.com`, the Phase 3 validator enforces the required protocols, and the browser full-page check confirmed they are visibly grouped under a `contact` heading. |
-| 4 | The homepage includes a freshness signal such as `currently`, `now`, or `last updated`. | ✓ VERIFIED | `src/data/home.ts` defines `freshness.label`, `value`, and `note`, `HomePage.astro` renders them in `data-home-freshness`, `dist/index.html` emits `currently` plus `last updated march 2026.`, and `pnpm validate:phase3` passed with a non-empty freshness marker check. |
+| 1 | From the first screen, a visitor can immediately tell the kinds of systems Dom builds across the five v1 domains. | VERIFIED | `src/data/home.ts` defines H1 naming analytics, infrastructure, ai / ml, product, and developer experience. `src/components/home/HomePage.astro` renders it with avatar, eyebrow, title, and lead in `data-home-hero`. Homepage includes avatar illustration blending via `mix-blend-mode: lighten`. |
+| 2 | The homepage exposes all five domain pages as the primary next step, not a generic project dump. | VERIFIED | `HomePage.astro` renders domain navigation from the shared `domains` registry via `domainPath(domain.slug)`. Five `data-home-domain-link` anchors are emitted. |
+| 3 | GitHub, LinkedIn, and email are visible on the homepage and open correctly. | VERIFIED | `src/data/home.ts` defines three contact links (github.com/domstepek, linkedin.com/in/jean-dominique-stepek, mailto:domstepek@gmail.com). `HomePage.astro` renders them with `data-home-contact-link` markers. |
+| 4 | The homepage includes a freshness signal such as `currently`, `now`, or `last updated`. | VERIFIED | `src/data/home.ts` defines `freshness.label` ("currently"), `value`, and `note` ("last updated march 2026."). `HomePage.astro` renders them in `data-home-freshness`. |
 
 **Score:** 4/4 truths verified
 
-### Required Artifacts
+### Gap Closure Artifact Verification
 
-| Artifact | Expected | Status | Details |
-|----------|----------|--------|---------|
-| `src/data/home.ts` | Homepage-specific hero, contact, freshness, and SEO data in one module | ✓ EXISTS + SUBSTANTIVE | Exports the eyebrow, title, lead, domain intro, contact cluster, freshness signal, and homepage metadata from one typed source. |
-| `src/components/home/HomePage.astro` | Shared homepage markup for hero, domain routing, contact, and freshness | ✓ EXISTS + SUBSTANTIVE | Renders `data-home-page`, `data-home-hero`, `data-home-domain-nav`, `data-home-domain-link`, `data-home-contact-link`, and `data-home-freshness` from shared data. |
-| `src/pages/index.astro` | Thin homepage route wired through `BaseLayout` and the shared homepage component | ✓ EXISTS + SUBSTANTIVE | Passes homepage title, description, and `canonicalPath` into `BaseLayout`, then renders `HomePage` with no placeholder copy left behind. |
-| `src/data/domains/index.ts` | Ordered registry reused by the homepage as the source of the five domain links | ✓ EXISTS + SUBSTANTIVE | Exports the sorted `domains` array that drives homepage navigation and keeps the front door aligned with the Phase 2 information architecture. |
-| `src/data/domains/analytics.ts` | Homepage-ready analytics summary line | ✓ EXISTS + SUBSTANTIVE | Provides the analytics `summary` used verbatim in the homepage domain list. |
-| `src/data/domains/infrastructure.ts` | Homepage-ready infrastructure summary line | ✓ EXISTS + SUBSTANTIVE | Provides the infrastructure `summary` used verbatim in the homepage domain list. |
-| `src/data/domains/ai-ml.ts` | Homepage-ready ai / ml summary line | ✓ EXISTS + SUBSTANTIVE | Provides the ai / ml `summary` used verbatim in the homepage domain list. |
-| `src/data/domains/product.ts` | Homepage-ready product summary line | ✓ EXISTS + SUBSTANTIVE | Provides the product `summary` used verbatim in the homepage domain list. |
-| `src/data/domains/developer-experience.ts` | Homepage-ready developer experience summary line | ✓ EXISTS + SUBSTANTIVE | Provides the developer experience `summary` used verbatim in the homepage domain list. |
-| `src/styles/global.css` | Homepage-specific spacing, hierarchy, and responsive layout rules | ✓ EXISTS + SUBSTANTIVE | Includes the `.home-page__*` rules that give the hero, domain list, contact section, and freshness note intentional reading order without creating a second visual system. |
-| `scripts/validate-phase3.mjs` | Dist-first validator for the built homepage artifact | ✓ EXISTS + SUBSTANTIVE | Parses `dist/index.html` and asserts title, canonical, hero marker, five domain links, three contact links, and a non-empty freshness marker. |
-| `package.json` | Phase 3 validation entrypoints and aggregate site gate wiring | ✓ EXISTS + WIRED | Defines `validate:phase3` and widens `validate:site` through Phases 1, 2, and 3. |
-| `dist/index.html` | Built proof that the homepage ships the intended Phase 3 experience | ✓ EXISTS + VERIFIED | Regenerated during verification and inspected directly for the hero copy, five base-aware domain hrefs, contact links, and `currently` freshness note. |
+**Gap 1+2+3: Dark theme, CRT effect, pixel cursors, avatar (Plan 03-04)**
 
-**Artifacts:** 13/13 verified
+| Artifact | Check | Status | Evidence |
+|----------|-------|--------|----------|
+| `src/styles/global.css` | Dark theme variables | VERIFIED | `color-scheme: dark`, `--bg: #0a0a0a`, `--text: #e0e0e0`, `--font-mono: "Space Mono"` all present in `:root` |
+| `src/styles/global.css` | CRT scanline overlay CSS | VERIFIED | `.crt-overlay` rule with `position: fixed`, `repeating-linear-gradient`, `pointer-events: none` present at line 636 |
+| `src/styles/global.css` | Retro pixel cursor rules | VERIFIED | Universal selector applies `/cursors/default.png`, interactive elements get `/cursors/pointer.png` at lines 652-659 |
+| `src/styles/global.css` | Avatar styles | VERIFIED | `.home-avatar` class with `mix-blend-mode: lighten`, `filter: grayscale(0.2) contrast(1.1)` at line 662 |
+| `src/components/layout/BaseLayout.astro` | Google Fonts link | VERIFIED | `fonts.googleapis.com` preconnect and Space Mono stylesheet link present at lines 49-51 |
+| `src/components/layout/BaseLayout.astro` | CRT overlay div | VERIFIED | `<div class="crt-overlay" aria-hidden="true"></div>` at line 71, last child in body |
+| `src/components/home/HomePage.astro` | Avatar image element | VERIFIED | `<img src={home.avatar} alt="dom" class="home-avatar">` at lines 17-23, first element inside hero |
+| `src/data/home.ts` | Avatar field | VERIFIED | `avatar: "/images/avatar.png"` at line 37 |
+| `public/cursors/default.png` | Asset exists | VERIFIED | File present on disk |
+| `public/cursors/pointer.png` | Asset exists | VERIFIED | File present on disk |
+| `public/images/avatar.png` | Asset exists | VERIFIED | File present on disk |
 
-### Key Link Verification
+**Gap 4: Domain hub copy rewrite (Plan 03-05)**
 
-| From | To | Via | Status | Details |
-|------|----|-----|--------|---------|
-| `src/pages/index.astro` | `src/components/home/HomePage.astro` | `HomePage` | ✓ WIRED | The landing route renders the shared homepage component instead of page-local placeholder markup. |
-| `src/pages/index.astro` | `src/components/layout/BaseLayout.astro` | Shared layout wrapper | ✓ WIRED | The homepage inherits the Phase 1 semantic shell and metadata handling. |
-| `src/pages/index.astro` | `src/lib/paths.ts` | `homePath` as `canonicalPath` | ✓ WIRED | Homepage canonical output stays base-path aware instead of hard-coded. |
-| `src/components/home/HomePage.astro` | `src/data/home.ts` | `homePage` | ✓ WIRED | The visible hero, domain intro, contact heading, and freshness copy all come from one homepage data module. |
-| `src/components/home/HomePage.astro` | `src/data/domains/index.ts` | `domains` | ✓ WIRED | The five homepage routes are rendered from the shared ordered domain registry, not a duplicated homepage-only list. |
-| `src/components/home/HomePage.astro` | `src/lib/paths.ts` | `domainPath(domain.slug)` | ✓ WIRED | Each homepage domain link resolves through the same base-aware helper used elsewhere in the site. |
-| `src/components/home/HomePage.astro` | `src/styles/global.css` | `.home-page__*` hooks | ✓ WIRED | Homepage hierarchy and scanability come from shared stylesheet rules rather than inline ad hoc styling. |
-| `scripts/validate-phase3.mjs` | `dist/index.html` | Dist HTML parsing | ✓ WIRED | The validator reads the emitted homepage artifact directly instead of trusting source templates alone. |
-| `scripts/validate-phase3.mjs` | `src/components/home/HomePage.astro` | Stable `data-home-*` markers in emitted HTML | ✓ WIRED | The validator depends on the built hero, domain-link, contact-link, and freshness markers that the shared homepage component ships. |
-| `package.json` | `scripts/validate-phase1.mjs`, `scripts/validate-phase2.mjs`, `scripts/validate-phase3.mjs` | `validate:site` | ✓ WIRED | One aggregate site gate now protects homepage behavior alongside the earlier phase validators. |
+| Artifact | Check | Status | Evidence |
+|----------|-------|--------|----------|
+| `src/components/domains/DomainPage.astro` | Heading updated | VERIFIED | Line 53: `"the kind of work i do here"` -- no trace of `"what belongs here"` |
+| `src/data/domains/analytics.ts` | Visitor-facing scope | VERIFIED | `"this covers the reporting, measurement, and data-trust side of products..."` -- no sorting-rule pattern |
+| `src/data/domains/analytics.ts` | Action-oriented belongsHere | VERIFIED | Items start with "building", "designing", "data-heavy interfaces where..." |
+| `src/data/domains/infrastructure.ts` | Visitor-facing scope | VERIFIED | `"this is the provisioning, deployment, routing, and platform-security layer..."` |
+| `src/data/domains/ai-ml.ts` | Visitor-facing scope | VERIFIED | `"this covers prompt orchestration, retrieval pipelines, and model-driven product features..."` |
+| `src/data/domains/product.ts` | Visitor-facing scope | VERIFIED | `"this is the workflow-heavy application side..."` |
+| `src/data/domains/developer-experience.ts` | Visitor-facing scope | VERIFIED | `"this is the internal tooling and automation layer..."` |
 
-**Wiring:** 10/10 connections verified
+### Key Link Verification (Regression Check)
 
-## Requirements Coverage
+| From | To | Via | Status |
+|------|----|-----|--------|
+| `src/pages/index.astro` | `HomePage.astro` | `HomePage` import | VERIFIED |
+| `HomePage.astro` | `src/data/home.ts` | `homePage` import | VERIFIED |
+| `HomePage.astro` | `src/data/domains/index.ts` | `domains` import | VERIFIED |
+| `BaseLayout.astro` | `global.css` | CSS import | VERIFIED |
+| `DomainPage.astro` | domain data files | `scope`, `belongsHere` fields rendered | VERIFIED |
 
-Every Phase 3 requirement referenced in the plan frontmatter and `03-VALIDATION.md` is accounted for in `.planning/REQUIREMENTS.md`, and no extra Phase 3-only requirement IDs appear outside `HOME-01` through `HOME-04`.
+### Requirements Coverage
 
-| Requirement | Phase 3 plan coverage | `.planning/REQUIREMENTS.md` | Status | Verification evidence |
-|-------------|-----------------------|-----------------------------|--------|-----------------------|
-| `HOME-01`: Visitor can understand from the first screen that Dom builds analytics platforms, infrastructure, AI/ML tooling, product systems, and developer experience tooling | `03-01`, `03-02`, `03-03` | Marked complete and traced to Phase 3 | ✓ SATISFIED | The hero copy in source and `dist/index.html` explicitly names all five domains, and the local browser smoke check showed that scope statement above the fold. |
-| `HOME-02`: Visitor can navigate from the homepage to the five domain pages | `03-01`, `03-02`, `03-03` | Marked complete and traced to Phase 3 | ✓ SATISFIED | The built homepage exposes exactly five `data-home-domain-link` anchors generated from the shared registry, each pointing to the expected base-aware `/website/domains/<slug>/` route. |
-| `HOME-03`: Visitor can open Dom's GitHub, LinkedIn, and email links from the homepage | `03-01`, `03-02`, `03-03` | Marked complete and traced to Phase 3 | ✓ SATISFIED | The homepage renders a visible `contact` section with the three required links, and the built `href` values plus `validate:phase3` protocol checks confirm correct structural wiring. |
-| `HOME-04`: Visitor can see a freshness signal on the homepage such as `currently` or `last updated` | `03-01`, `03-02`, `03-03` | Marked complete and traced to Phase 3 | ✓ SATISFIED | The homepage renders a `currently` heading with current-status text and an explicit `last updated march 2026.` note in the emitted artifact. |
+| Requirement | Description | Status | Evidence |
+|-------------|-------------|--------|----------|
+| HOME-01 | Visitor can understand from the first screen that Dom builds analytics platforms, infrastructure, AI/ML tooling, product systems, and developer experience tooling | SATISFIED | Hero H1 names all five domains. Avatar, dark theme, and CRT effect give the first screen visual weight. |
+| HOME-02 | Visitor can navigate from the homepage to the domain pages | SATISFIED | Five `data-home-domain-link` anchors rendered from shared registry with base-aware paths. |
+| HOME-03 | Visitor can open Dom's GitHub, LinkedIn, and email links from the homepage | SATISFIED | Three contact links in `data-home-contact-links` section with correct href values. |
+| HOME-04 | Visitor can see a freshness signal on the homepage | SATISFIED | `currently` heading with status text and `last updated march 2026.` note. |
 
-**Coverage:** 4/4 requirements fully signed off
+**Coverage:** 4/4 requirements satisfied. No orphaned requirements.
 
-## Automated Checks Run
+### Anti-Patterns Found
 
-- `pnpm astro check && pnpm astro build && pnpm validate:site`
-- Result: passed locally with 0 Astro errors, 0 warnings, 7 static pages emitted, and `validate:phase1`, `validate:phase2`, and `validate:phase3` all green.
-- Dist inspection was performed after that run against the regenerated `dist/index.html`.
+| File | Pattern | Severity | Result |
+|------|---------|----------|--------|
+| All src/ files | TODO/FIXME/PLACEHOLDER | -- | 0 matches |
+| Domain data files | "belongs here...belongs somewhere else" | -- | 0 matches |
+| DomainPage.astro | "what belongs here" heading | -- | 0 matches |
 
-## Anti-Patterns Found
+**Anti-patterns:** 0 found
 
-None. Searches across the Phase 3 implementation files found no live `TODO`/`FIXME`/`XXX`/`HACK` markers, no placeholder homepage copy in the shipped implementation, no project-gallery or flagship sections pulled forward, and no homepage-only duplicate domain list separate from the shared registry.
+### Automated Checks
 
-**Anti-patterns:** 0 found (0 blockers, 0 warnings)
+- `pnpm build` completed successfully (11 pages built in 862ms)
+- `pnpm validate:site` passed all phase validators (1 through 6)
 
-## Browser Verification Completed
+### Human Verification Required
 
-- Opened `http://127.0.0.1:4322/website/` from the current local build using `agent-browser`.
-- The first screen showed the eyebrow, explicit five-domain H1, supporting lead paragraph, `pick a domain` heading, and the beginning of the domain list without scrolling.
-- A full-page browser screenshot showed all five domain links as the central homepage navigation block, followed by the `contact` cluster and `currently` freshness note on the same page.
-- The browser DOM snapshot enumerated the visible homepage links: `analytics`, `infrastructure`, `ai / ml`, `product`, `developer experience`, `github`, `linkedin`, and `email`.
+None. Plans 03-04 and 03-05 both included human-verify checkpoint tasks that were marked as approved during execution. The dark theme, CRT effect, pixel cursors, avatar, and rewritten copy were all visually confirmed by the user before plan completion.
 
-## Human Checks Required
+### Gaps Summary
 
-None for Phase 3 sign-off. Browser verification was available and used for the homepage messaging and hierarchy sanity check, while the emitted href and marker checks were already enforced by `pnpm validate:site`. A later multi-viewport polish pass could still be useful, but no unresolved human-only check blocks the phase goal.
+**No gaps remain.** All four UAT-identified gaps have been closed:
 
-## Gaps Summary
+1. Dark theme (#0a0a0a background), Space Mono monospace font, and CRT scanline overlay are implemented in global.css and BaseLayout.astro and apply across all pages.
+2. Retro pixel cursor PNGs exist in public/cursors/ and are applied via CSS to all elements and interactive targets.
+3. Homepage avatar illustration renders in the hero section with mix-blend-mode: lighten for seamless dark-background integration.
+4. All five domain data files have visitor-facing scope and belongsHere copy, and the section heading reads "the kind of work i do here" instead of "what belongs here".
 
-**No blocking gaps remain.** The current repo ships a homepage whose first screen explicitly states Dom's scope, routes into all five domain pages from the shared registry, exposes contact and freshness in the shipped page flow, and is protected by the aggregate dist-first site validation gate through Phase 3.
-
-## Verification Metadata
-
-**Verification approach:** Goal-backward from the Phase 3 success criteria in `ROADMAP.md`, then cross-checked against `03-VALIDATION.md`, all three Phase 3 plan frontmatters, `.planning/REQUIREMENTS.md`, the homepage source implementation, regenerated `dist/index.html`, and a local browser smoke test.
-**Must-haves source:** `ROADMAP.md` success criteria, with supporting artifacts and key links from `03-01-PLAN.md`, `03-02-PLAN.md`, and `03-03-PLAN.md`
-**Automated checks:** `pnpm astro check && pnpm astro build && pnpm validate:site`
-**Browser checks completed:** local `agent-browser` smoke check against `http://127.0.0.1:4322/website/`
-**Human checks required:** 0
-**Verification tooling notes:** `scripts/validate-phase3.mjs` intentionally validates built homepage metadata, the five base-aware domain hrefs, contact-link protocol shape, and freshness presence from emitted `dist/index.html` without depending on third-party uptime. That matches the Phase 3 validation contract, while browser verification covered the first-screen messaging and hierarchy judgments that structural validators cannot make.
-**Total verification time:** ~25 min
+The build passes, all six phase validators pass, and no anti-patterns were found.
 
 ---
-*Verified: 2026-03-10T00:20:54Z*
-*Verifier: GPT-5.4 (subagent)*
+*Verified: 2026-03-10T04:55:00Z*
+*Verifier: Claude (gsd-verifier)*

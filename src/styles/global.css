@@ -267,6 +267,7 @@ a:hover {
 .home-page__contact-list {
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
   gap: 0.65rem 1rem;
 }
 

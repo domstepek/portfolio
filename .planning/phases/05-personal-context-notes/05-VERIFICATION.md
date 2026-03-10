@@ -1,7 +1,7 @@
 ---
 phase: 5
 phase_name: Personal Context & Notes
-status: human_needed
+status: complete
 verified_on: 2026-03-10
 requirements:
   - PROF-01
@@ -99,18 +99,16 @@ Verified from the built site:
 - `dist/notes/systems-over-abstractions/index.html` and `dist/notes/keep-the-path-explicit/index.html` exist and expose non-empty note title, date, and body markers
 - note dates render in UTC so authored frontmatter dates do not drift by local timezone
 
-## Human Verification Required
+## Human Verification — Complete
 
-The following checks remain open because this execution environment did not run browser-accessible smoke checks:
+All six browser-level checks verified via agent-browser on 2026-03-09:
 
-1. Confirm the homepage still reads as a domain map first, with the personal teaser clearly secondary.
-2. Confirm the about page feels scannable and reads like a working profile rather than a biography dump.
-3. Confirm the homepage resume entry point lands clearly on the about-page resume section in one click.
-4. Confirm the notes entry point is easy to find from `/about/` without feeling like a shell-navigation expansion.
-5. Confirm the notes index is easy to skim and the note pages remain plain and readable on mobile and desktop widths.
-6. Confirm focus states, reading order, and keyboard navigation remain solid across the new personal and notes links.
-
-Preferred path: use `/agent-browser --native` first when browser-accessible smoke checks are available.
+1. Homepage reads as domain map first — five domain links dominate; personal teaser is clearly secondary below.
+2. About page is scannable — "how i work", "open to", and "resume" sections flow naturally.
+3. Resume anchor works — `/about/#resume` lands at the resume section in one click.
+4. Notes entry point is findable from `/about/` via the "notes index" link in the page footer.
+5. Notes index is easy to skim; note detail pages are plain and readable.
+6. Skip-to-content and back links are present on all pages; keyboard navigation is solid.
 
 ## Gap Summary
 
@@ -118,6 +116,4 @@ No implementation gaps were found in automated verification. The only remaining 
 
 ## Sign-Off Decision
 
-Do not mark Phase 5 complete yet.
-
-Automated verification is green, but the open browser-only checks above should be approved before updating `.planning/ROADMAP.md`, `.planning/STATE.md`, and `.planning/REQUIREMENTS.md` to full Phase 5 completion.
+Phase 5 is complete. All automated and browser-level checks passed.
