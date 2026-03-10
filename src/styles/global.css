@@ -810,18 +810,108 @@ label[for], [onclick], [tabindex]:not([tabindex="-1"]) {
 
 .resume-page__contact {
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
   color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.75;
 }
 
-.resume-page__contact a::before,
-.resume-page__contact a::after {
+.resume-page__phone {
+  color: var(--muted);
+}
+
+.resume-page__chip {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.6rem;
+  padding: 0 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  background: var(--bg-elevated);
+  color: var(--accent-strong);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.resume-page__chip,
+.resume-page__chip *,
+.resume-page__chip::before {
+  cursor: url('/cursors/pointer.png') 10 0, pointer;
+}
+
+.resume-page__chip::before {
+  content: "click to cp";
+  visibility: hidden;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.resume-page__chip::after {
   content: none;
 }
 
-.resume-page__contact a {
+.resume-page__chip-label,
+.resume-page__chip-hover,
+.resume-page__chip-done {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.resume-page__chip-hover,
+.resume-page__chip-done {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.resume-page__chip-hover {
+  color: var(--muted);
   font-weight: 400;
+  font-size: 0.75rem;
+}
+
+.resume-page__chip-done {
+  color: var(--accent);
+  font-weight: 400;
+  font-size: 0.75rem;
+}
+
+/* Hovered state */
+.resume-page__chip.is-hovered .resume-page__chip-label {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.resume-page__chip.is-hovered .resume-page__chip-hover {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Copied state */
+.resume-page__chip.is-copied .resume-page__chip-label {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.resume-page__chip.is-copied .resume-page__chip-done {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.resume-page__chip:hover {
+  border-color: var(--accent);
 }
 
 .resume-page__section {
@@ -1043,6 +1133,23 @@ label[for], [onclick], [tabindex]:not([tabindex="-1"]) {
   .resume-page__contact {
     font-size: 8pt;
     line-height: 1.5;
+  }
+
+  .resume-page__chip {
+    all: unset;
+    font-family: var(--font-mono);
+    font-size: 8pt;
+    color: #111;
+  }
+
+  .resume-page__chip-label,
+  .resume-page__chip-hover,
+  .resume-page__chip-done {
+    display: none !important;
+  }
+
+  .resume-page__chip::after {
+    content: attr(data-print-text);
   }
 
   .resume-page__section-title {

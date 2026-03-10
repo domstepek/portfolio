@@ -12,14 +12,29 @@ import { homePath, assetPath } from "../../lib/paths";
     <header class="resume-page__header">
       <h1 class="resume-page__name">{resumePage.name}</h1>
       <p class="resume-page__headline">{resumePage.headline}</p>
-      <p class="resume-page__contact">
-        {resumePage.contact.phone} |{" "}
-        <a href={`mailto:${resumePage.contact.email}`}>{resumePage.contact.email}</a> |{" "}
-        <a href={`https://${resumePage.contact.portfolio}`}>{resumePage.contact.portfolio}</a>
-        <br />
-        <a href={`https://${resumePage.contact.github}`}>{resumePage.contact.github}</a> |{" "}
-        <a href={`https://${resumePage.contact.linkedin}`}>{resumePage.contact.linkedin}</a>
-      </p>
+      <div class="resume-page__contact">
+        <span class="resume-page__phone">{resumePage.contact.phone}</span>
+        <button class="resume-page__chip" type="button" data-copy={resumePage.contact.email} data-print-text={resumePage.contact.email}>
+          <span class="resume-page__chip-label">email</span>
+          <span class="resume-page__chip-hover">click to cp</span>
+          <span class="resume-page__chip-done">copied</span>
+        </button>
+        <button class="resume-page__chip" type="button" data-copy={`https://${resumePage.contact.portfolio}`} data-print-text={resumePage.contact.portfolio}>
+          <span class="resume-page__chip-label">portfolio</span>
+          <span class="resume-page__chip-hover">click to cp</span>
+          <span class="resume-page__chip-done">copied</span>
+        </button>
+        <button class="resume-page__chip" type="button" data-copy={`https://${resumePage.contact.github}`} data-print-text={resumePage.contact.github}>
+          <span class="resume-page__chip-label">github</span>
+          <span class="resume-page__chip-hover">click to cp</span>
+          <span class="resume-page__chip-done">copied</span>
+        </button>
+        <button class="resume-page__chip" type="button" data-copy={`https://${resumePage.contact.linkedin}`} data-print-text={resumePage.contact.linkedin}>
+          <span class="resume-page__chip-label">linkedin</span>
+          <span class="resume-page__chip-hover">click to cp</span>
+          <span class="resume-page__chip-done">copied</span>
+        </button>
+      </div>
     </header>
 
     <section class="resume-page__section" aria-labelledby="resume-skills-heading">
@@ -82,3 +97,28 @@ import { homePath, assetPath } from "../../lib/paths";
     </button>
   </div>
 </div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((btn) => {
+    btn.addEventListener("mouseenter", () => {
+      if (!btn.classList.contains("is-copied")) btn.classList.add("is-hovered");
+    });
+    btn.addEventListener("mouseleave", () => {
+      btn.classList.remove("is-hovered");
+    });
+    btn.addEventListener("click", async () => {
+      const text = btn.dataset.copy;
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        // fallback: silent fail
+      }
+      btn.classList.remove("is-hovered");
+      btn.classList.add("is-copied");
+      setTimeout(() => {
+        btn.classList.remove("is-copied");
+      }, 1200);
+    });
+  });
+</script>
