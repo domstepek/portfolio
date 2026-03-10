@@ -46,7 +46,7 @@ result: pass
 
 total: 7
 passed: 6
-issues: 1
+issues: 2
 pending: 0
 skipped: 0
 
@@ -68,4 +68,17 @@ skipped: 0
     - "Monospace or retro-styled typography"
     - "CSS CRT scanline/interlace overlay effect"
     - "Visual personality matching snwy.me reference"
+  debug_session: ""
+- truth: "The site uses a custom retro pixel cursor that reinforces the old-school aesthetic"
+  status: failed
+  reason: "User reported: Want a retro pixelated cursor (classic Mac OS style pointer/hand) site-wide. Reference: https://www.figma.com/community/file/939098898751395313 — black-and-white pixel art cursor set. Fits the CRT/retro theme."
+  severity: minor
+  test: 6
+  root_cause: "Site uses default browser cursor. No custom cursor CSS or cursor image assets exist. Need pixel art cursor PNGs (default pointer + link hand) and CSS cursor rules in global.css."
+  artifacts:
+    - path: "src/styles/global.css"
+      issue: "No custom cursor rules"
+  missing:
+    - "Retro pixel cursor PNG assets (pointer + hand) in public/cursors/"
+    - "CSS cursor rules: body { cursor: url(...) } and a:hover { cursor: url(...) }"
   debug_session: ""
