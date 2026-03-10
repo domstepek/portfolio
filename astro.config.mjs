@@ -1,7 +1,7 @@
 import { defineConfig } from "astro/config";
 
-const DEFAULT_SITE_URL = "https://jstepek.github.io";
-const DEFAULT_BASE_PATH = "/website";
+const DEFAULT_SITE_URL = "https://jean-dominique-stepek.is-a.dev";
+const DEFAULT_BASE_PATH = "/";
 
 const normalizeBasePath = (value) => {
   if (!value || value === "/") {

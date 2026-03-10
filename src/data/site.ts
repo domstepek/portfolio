@@ -1,5 +1,5 @@
-const DEFAULT_SITE_URL = "https://jstepek.github.io";
-const DEFAULT_BASE_PATH = "/website";
+const DEFAULT_SITE_URL = "https://jean-dominique-stepek.is-a.dev";
+const DEFAULT_BASE_PATH = "/";
 
 const normalizeBasePath = (value: string | undefined) => {
   if (!value || value === "/") {
@@ -15,7 +15,7 @@ export const siteConfig = {
   name: "dom",
   defaultTitle: "dom | systems, products, and tooling",
   defaultDescription:
-    "a static astro foundation for a domain-first personal site about systems, products, and developer tooling.",
+    "dom builds analytics platforms, infrastructure, ai/ml tooling, product systems, and developer experience tooling.",
   siteUrl: resolveSiteUrl(import.meta.env.PUBLIC_SITE_URL),
   basePath: normalizeBasePath(import.meta.env.PUBLIC_BASE_PATH ?? DEFAULT_BASE_PATH),
   defaultSocialImage: "og-default.png",
