@@ -1,0 +1,211 @@
+---
+import type { ScreenshotItem } from "../../data/domains/types";
+
+interface Props {
+  screenshots: ScreenshotItem[];
+}
+
+const { screenshots } = Astro.props;
+---
+
+<figure class="screenshot-gallery" data-screenshot-gallery>
+  <div class="screenshot-gallery__viewport" data-gallery-viewport>
+    <ul class="screenshot-gallery__track" data-gallery-track>
+      {screenshots.map((shot) => (
+        <li class="screenshot-gallery__slide">
+          <button
+            class="screenshot-gallery__trigger"
+            type="button"
+            data-gallery-trigger
+            data-full-src={shot.src}
+            data-full-alt={shot.alt}
+            data-caption={shot.caption || shot.alt}
+          >
+            <img
+              class="screenshot-gallery__image"
+              src={shot.src}
+              alt={shot.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
+          {shot.caption && (
+            <span class="screenshot-gallery__slide-caption">{shot.caption}</span>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <nav class="screenshot-gallery__nav" data-gallery-nav aria-label="Screenshot navigation">
+    <button
+      class="screenshot-gallery__arrow screenshot-gallery__arrow--prev"
+      type="button"
+      data-gallery-prev
+      aria-label="Previous screenshots"
+      disabled
+    >
+      &larr;
+    </button>
+    <div class="screenshot-gallery__dots" data-gallery-dots></div>
+    <button
+      class="screenshot-gallery__arrow screenshot-gallery__arrow--next"
+      type="button"
+      data-gallery-next
+      aria-label="Next screenshots"
+    >
+      &rarr;
+    </button>
+  </nav>
+
+  <dialog class="screenshot-gallery__lightbox" data-gallery-lightbox>
+    <button
+      class="screenshot-gallery__lightbox-close"
+      type="button"
+      data-gallery-lightbox-close
+      aria-label="Close lightbox"
+    >
+      &times;
+    </button>
+    <img class="screenshot-gallery__lightbox-image" data-gallery-lightbox-img src="" alt="" />
+    <p class="screenshot-gallery__lightbox-caption" data-gallery-lightbox-caption></p>
+  </dialog>
+</figure>
+
+<script>
+  function initGalleries() {
+    document.querySelectorAll<HTMLElement>("[data-screenshot-gallery]").forEach((gallery) => {
+      const viewport = gallery.querySelector<HTMLElement>("[data-gallery-viewport]")!;
+      const track = gallery.querySelector<HTMLElement>("[data-gallery-track]")!;
+      const prevBtn = gallery.querySelector<HTMLButtonElement>("[data-gallery-prev]")!;
+      const nextBtn = gallery.querySelector<HTMLButtonElement>("[data-gallery-next]")!;
+      const dotsContainer = gallery.querySelector<HTMLElement>("[data-gallery-dots]")!;
+      const lightbox = gallery.querySelector<HTMLDialogElement>("[data-gallery-lightbox]")!;
+      const lightboxImg = gallery.querySelector<HTMLImageElement>("[data-gallery-lightbox-img]")!;
+      const lightboxCaption = gallery.querySelector<HTMLParagraphElement>("[data-gallery-lightbox-caption]")!;
+      const lightboxClose = gallery.querySelector<HTMLButtonElement>("[data-gallery-lightbox-close]")!;
+      const triggers = gallery.querySelectorAll<HTMLButtonElement>("[data-gallery-trigger]");
+      const slides = track.querySelectorAll<HTMLElement>(".screenshot-gallery__slide");
+
+      if (slides.length === 0) return;
+
+      const mobileQuery = window.matchMedia("(max-width: 40rem)");
+      let visibleCount = mobileQuery.matches ? 1 : 3;
+
+      function getPageCount() {
+        return Math.max(1, Math.ceil(slides.length / visibleCount));
+      }
+
+      function getScrollMetrics() {
+        const slideWidth = slides[0].getBoundingClientRect().width;
+        const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+        const stepSize = (slideWidth + gap) * visibleCount;
+        return { slideWidth, gap, stepSize };
+      }
+
+      function getCurrentPage() {
+        if (slides.length === 0) return 0;
+        const { stepSize } = getScrollMetrics();
+        const scrollPos = viewport.scrollLeft;
+        return Math.round(scrollPos / stepSize);
+      }
+
+      function buildDots() {
+        const pageCount = getPageCount();
+        dotsContainer.innerHTML = "";
+        if (pageCount <= 1) return;
+        for (let i = 0; i < pageCount; i++) {
+          const dot = document.createElement("button");
+          dot.className = "screenshot-gallery__dot";
+          dot.type = "button";
+          dot.setAttribute("aria-label", `Go to page ${i + 1}`);
+          dot.addEventListener("click", () => scrollToPage(i));
+          dotsContainer.appendChild(dot);
+        }
+        updateState();
+      }
+
+      function scrollToPage(page: number) {
+        const { stepSize } = getScrollMetrics();
+        viewport.scrollTo({ left: page * stepSize, behavior: "smooth" });
+      }
+
+      function updateState() {
+        const scrollPos = viewport.scrollLeft;
+        const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+        const threshold = 5;
+
+        const atStart = scrollPos <= threshold;
+        const atEnd = scrollPos >= maxScroll - threshold;
+
+        prevBtn.disabled = atStart;
+        nextBtn.disabled = atEnd;
+
+        const page = getCurrentPage();
+        const dots = dotsContainer.querySelectorAll<HTMLButtonElement>(".screenshot-gallery__dot");
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("screenshot-gallery__dot--active", i === page);
+        });
+      }
+
+      // Hide nav if not enough slides to scroll
+      function updateNavVisibility() {
+        const nav = gallery.querySelector<HTMLElement>("[data-gallery-nav]")!;
+        nav.style.display = slides.length <= visibleCount ? "none" : "";
+      }
+
+      prevBtn.addEventListener("click", () => {
+        const { stepSize } = getScrollMetrics();
+        viewport.scrollBy({ left: -stepSize, behavior: "smooth" });
+      });
+
+      nextBtn.addEventListener("click", () => {
+        const { stepSize } = getScrollMetrics();
+        viewport.scrollBy({ left: stepSize, behavior: "smooth" });
+      });
+
+      viewport.addEventListener("scroll", () => updateState(), { passive: true });
+      viewport.addEventListener("scrollend", () => updateState(), { passive: true });
+
+      mobileQuery.addEventListener("change", (e) => {
+        visibleCount = e.matches ? 1 : 3;
+        buildDots();
+        updateNavVisibility();
+      });
+
+      // Lightbox
+      function openLightbox(trigger: HTMLButtonElement) {
+        lightboxImg.src = trigger.dataset.fullSrc || "";
+        lightboxImg.alt = trigger.dataset.fullAlt || "";
+        lightboxCaption.textContent = trigger.dataset.caption || "";
+        document.documentElement.style.overflow = "hidden";
+        lightbox.showModal();
+      }
+
+      function closeLightbox() {
+        lightbox.close();
+        document.documentElement.style.overflow = "";
+      }
+
+      triggers.forEach((trigger) => {
+        trigger.addEventListener("click", () => openLightbox(trigger));
+      });
+
+      lightboxClose.addEventListener("click", closeLightbox);
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      lightbox.addEventListener("close", () => {
+        document.documentElement.style.overflow = "";
+      });
+
+      buildDots();
+      updateNavVisibility();
+    });
+  }
+
+  initGalleries();
+  document.addEventListener("astro:page-load", initGalleries);
+</script>

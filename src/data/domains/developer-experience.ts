@@ -22,7 +22,7 @@ const developerExperience: DomainEntry = {
       slug: "monorepo-template",
       title: "monorepo template",
       summary:
-        "a turborepo-based monorepo foundation with shared configs, ci pipelines, and deployment conventions so new projects start from a proven baseline instead of from scratch.",
+        "a pnpm-workspace monorepo foundation with shared configs, ci pipelines, and deployment conventions so new projects start from a proven baseline instead of from scratch.",
       problem:
         "every new project started with the same setup chores — linting, typescript config, ci pipelines, deploy scripts — and each team solved them slightly differently, creating drift.",
       role:
@@ -33,7 +33,7 @@ const developerExperience: DomainEntry = {
         "the foundation had to stay maintainable by the team, not just by the person who set it up.",
       ],
       decisions: [
-        "used Turborepo for workspace orchestration so builds, linting, and testing could run across packages with dependency-aware caching.",
+        "used pnpm workspaces for monorepo orchestration so builds, linting, and testing could run across packages with shared dependencies.",
         "encoded shared configs (tsconfig, eslint, prettier) as workspace packages so conventions stayed consistent without copy-pasting.",
         "included ci pipeline templates and deploy conventions so new projects inherited a working release path from day one.",
       ],
@@ -43,12 +43,27 @@ const developerExperience: DomainEntry = {
         "reduced the drift that happened when every project solved the same tooling problems independently.",
       ],
       stack: [
-        "Turborepo",
+        "pnpm workspaces",
         "TypeScript",
         "ESLint",
         "Prettier",
         "GitHub Actions",
       ],
+      visual: {
+        alt: "a dependency graph showing two apps depending on shared packages for ui components, typescript config, and eslint config.",
+        caption:
+          "pnpm workspace graph — shared configs as packages so conventions stay consistent without copy-pasting.",
+        mermaid: `graph TD
+  Root[pnpm workspace root] --> Frontend[frontend]
+  Root --> Backend[backend]
+  Root --> E2E[e2e]
+  Root --> CICD[cicd]
+  Root --> Docs[docs]
+  E2E --> Frontend
+  E2E --> Backend
+  CICD --> Frontend
+  CICD --> Backend`,
+      },
     },
     {
       slug: "global-design-system",
@@ -80,10 +95,11 @@ const developerExperience: DomainEntry = {
         "Vite",
         "Storybook",
       ],
-      proofLinks: [
+      screenshots: [
         {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/global-design-system",
+          src: "/highlights/developer-experience/global-design-system/storybook.png",
+          alt: "storybook showing the design system color documentation with base, gray, primary, error, warning, and success color scales alongside the component tree.",
+          caption: "storybook — color system documentation with component tree navigation",
         },
       ],
     },
@@ -93,67 +109,31 @@ const developerExperience: DomainEntry = {
       title: "product team cli",
       context:
         "an internal cli for environment setup, config edits, and feature toggles so recurring team tasks became scripted instead of tribal knowledge.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/product-team-cli",
-        },
-      ],
     },
     {
       title: "product migration scripts",
       context:
         "migration tooling for moving analytics product data and config without turning rollouts into manual cleanup days.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/product-migration-scripts",
-        },
-      ],
     },
     {
       title: "cdk-eks contributions",
       context:
         "contributed AWS permissions and access patterns to the shared EKS platform foundation — the core CDK stacks and cluster setup were led by another engineer.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/cdk-eks",
-        },
-      ],
     },
     {
       title: "stargazer applications",
       context:
         "tweaked Helm chart templates and environment values in the GitOps repo for service deployments on the shared EKS cluster — the ArgoCD and ApplicationSet setup was led by another engineer.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/stargazer-applications",
-        },
-      ],
     },
     {
       title: "private cdn",
       context:
         "an internal CDN and proxy layer for caching assets and controlling delivery paths in one place.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/private_cdn",
-        },
-      ],
     },
     {
       title: "sso reverse proxy",
       context:
         "a reusable auth sidecar that put SSO in front of ECS and EKS services without rebuilding the same edge logic per app.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/sso-reverse-proxy",
-        },
-      ],
     },
   ],
   relatedDomains: ["product", "analytics-ai"],

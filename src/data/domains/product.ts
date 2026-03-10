@@ -59,14 +59,29 @@ const product: DomainEntry = {
         "WebdriverIO",
         "Cucumber",
       ],
-      proofLinks: [
+      visual: {
+        alt: "a state diagram showing the shipment lifecycle from created through shipped, received, processed, reported, and archived — with exception handling branching off the shipped state.",
+        caption:
+          "the shipment lifecycle the app was built around — exceptions and follow-ups were the hard part, not the happy path.",
+        mermaid: `graph TD
+  Created --> Shipped
+  Shipped --> Received
+  Received --> Processed
+  Processed --> Reported
+  Reported --> Archived
+  Shipped --> Exception
+  Exception --> Shipped`,
+      },
+      screenshots: [
         {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/sample_tracking",
+          src: "/highlights/product/sample-tracking/reports-library.png",
+          alt: "the reports library showing published and draft reports with department, channel, owner, and status columns.",
+          caption: "reports library — published and draft reports with status tracking",
         },
         {
-          label: "qa repo",
-          href: "https://github.com/tpr-datalabs/web-portal-qa-bdd",
+          src: "/highlights/product/sample-tracking/report-detail.png",
+          alt: "a report detail view with KPI cards for total samples, received, on-time, and delayed counts, plus a filterable sample table.",
+          caption: "report detail — KPI summary cards with filterable sample table below",
         },
       ],
     },
@@ -102,10 +117,11 @@ const product: DomainEntry = {
         "Vite",
         "Sentry",
       ],
-      proofLinks: [
+      screenshots: [
         {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/supply-chain",
+          src: "/highlights/product/supply-chain/forecast-table.png",
+          alt: "the forecasting interface showing fiscal season targets across multiple seasons with department breakdowns and receipt unit data.",
+          caption: "forecast table — fiscal season targets with department-level drill-down across seasons",
         },
       ],
     },
@@ -142,6 +158,18 @@ const product: DomainEntry = {
         "EC2",
         "Docker",
       ],
+      screenshots: [
+        {
+          src: "/highlights/product/charla/dashboard.png",
+          alt: "the charla analytics dashboard showing cross-platform engagement metrics and community health indicators.",
+          caption: "charla dashboard — cross-platform social engagement analytics",
+        },
+        {
+          src: "/highlights/product/charla/community-health.png",
+          alt: "the community health page showing audience engagement patterns and growth trends across connected social platforms.",
+          caption: "community health — audience engagement patterns across platforms",
+        },
+      ],
     },
   ],
   supportingWork: [
@@ -149,23 +177,11 @@ const product: DomainEntry = {
       title: "pricing app",
       context:
         "helped set up the infrastructure and deployment for a dedicated pricing workflow app — the product and backend logic were led by other engineers, but i contributed the initial project scaffolding and deploy path.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/pricing-app",
-        },
-      ],
     },
     {
       title: "cms",
       context:
         "a multi-tenant Payload CMS for shared content and admin workflows rather than a one-off marketing site.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/cms",
-        },
-      ],
     },
   ],
   relatedDomains: ["analytics-ai", "developer-experience"],

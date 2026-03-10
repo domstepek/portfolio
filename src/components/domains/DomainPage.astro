@@ -2,6 +2,8 @@
 import { getDomainBySlug } from "../../data/domains";
 import type { DomainEntry } from "../../data/domains/types";
 import { assetPath, domainPath, homePath } from "../../lib/paths";
+import MermaidDiagram from "../diagrams/MermaidDiagram.astro";
+import ScreenshotGallery from "./ScreenshotGallery.astro";
 
 interface Props {
   domain: DomainEntry;
@@ -25,9 +27,13 @@ const flagshipItems = flagships.map((flagship) => ({
   visual: flagship.visual
     ? {
         ...flagship.visual,
-        src: toVisualSrc(flagship.visual.src),
+        src: flagship.visual.src ? toVisualSrc(flagship.visual.src) : undefined,
       }
     : undefined,
+  screenshots: (flagship.screenshots ?? []).map((s) => ({
+    ...s,
+    src: toVisualSrc(s.src),
+  })),
 }));
 
 const supportingItems = supportingWork.map((item) => ({
@@ -145,7 +151,15 @@ const supportingItems = supportingWork.map((item) => ({
             </p>
           )}
 
-          {flagship.visual && (
+          {flagship.visual && flagship.visual.mermaid && (
+            <MermaidDiagram
+              definition={flagship.visual.mermaid}
+              alt={flagship.visual.alt}
+              caption={flagship.visual.caption}
+            />
+          )}
+
+          {flagship.visual && !flagship.visual.mermaid && flagship.visual.src && (
             <figure class="flagship__figure" data-flagship-visual>
               <img
                 class="flagship__image"
@@ -158,6 +172,10 @@ const supportingItems = supportingWork.map((item) => ({
                 <figcaption class="flagship__caption">{flagship.visual.caption}</figcaption>
               )}
             </figure>
+          )}
+
+          {flagship.screenshots.length > 0 && (
+            <ScreenshotGallery screenshots={flagship.screenshots} />
           )}
         </article>
       ))}

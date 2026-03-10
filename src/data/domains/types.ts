@@ -9,6 +9,13 @@ export interface ProofLink {
 }
 
 export interface FlagshipVisual {
+  src?: string;
+  alt: string;
+  caption?: string;
+  mermaid?: string;
+}
+
+export interface ScreenshotItem {
   src: string;
   alt: string;
   caption?: string;
@@ -26,6 +33,7 @@ export interface FlagshipHighlight {
   stack: string[];
   proofLinks?: ProofLink[];
   visual?: FlagshipVisual;
+  screenshots?: ScreenshotItem[];
 }
 
 export interface SupportingWorkItem {

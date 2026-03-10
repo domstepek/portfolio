@@ -64,22 +64,60 @@ const analyticsAi: DomainEntry = {
         "Sentry",
         "Umami",
       ],
-      proofLinks: [
-        {
-          label: "portal repo",
-          href: "https://github.com/tpr-datalabs/web-portal",
-        },
-        {
-          label: "api repo",
-          href: "https://github.com/tpr-datalabs/collection-curator-api",
-        },
-      ],
       visual: {
-        src: "highlights/ai-ml/collection-curator-api/architecture.svg",
         alt: "a service diagram showing a client calling an Express and Apollo API that coordinates auth, data stores, and a protected FastAPI service for python endpoints.",
         caption:
           "the api side mattered because the ai layer lived inside a real service shape with auth, data, and mixed-language boundaries.",
+        mermaid: `graph LR
+  Client["client<br/><small>rest + graphql calls</small>"] --> API
+
+  subgraph API["express + apollo"]
+    direction TB
+    A1[rest endpoints]
+    A2[graphql api + subscriptions]
+    A3[zod validation + auth middleware]
+    A4[reverse proxy to python endpoints]
+  end
+
+  API --> Postgres["postgres<br/><small>prisma models</small>"]
+  API --> Snowflake["snowflake<br/><small>product data</small>"]
+  API --> Redis["redis<br/><small>pub-sub for subscriptions</small>"]
+  API --> FastAPI["fastapi<br/><small>python endpoints</small>"]
+
+  Cognito["cognito auth + secrets-managed service boundary"] -.-> API`,
       },
+      screenshots: [
+        {
+          src: "/highlights/analytics-ai/collection-curator/curation-table.png",
+          alt: "the configurable curation table with sortable columns, filters, and product thumbnails — the core operator-facing data surface.",
+          caption: "curation table — configurable columns, inline filters, real-time collaboration",
+        },
+        {
+          src: "/highlights/analytics-ai/collection-curator/visualizer.png",
+          alt: "the visual assortment grid in edit mode with drag-and-drop product cards, category tree sidebar, and selection toolbar.",
+          caption: "visualizer — drag-and-drop assortment grid with edit mode and category filtering",
+        },
+        {
+          src: "/highlights/analytics-ai/collection-curator/export-modal.png",
+          alt: "the export modal with PowerPoint selected, showing type, folder, product, image size, and card info options before download.",
+          caption: "export modal — PowerPoint, Excel, or image export with configurable options",
+        },
+        {
+          src: "/highlights/analytics-ai/collection-curator/pptx-output.png",
+          alt: "the generated PowerPoint opened in Microsoft PowerPoint, showing a cover slide with collection metadata and a 43-slide deck in the thumbnail panel.",
+          caption: "generated PowerPoint — 43-slide deck created directly from the platform",
+        },
+        {
+          src: "/highlights/analytics-ai/collection-curator/ai-chatbot.png",
+          alt: "the Mira AI chatbot responding to a natural language query by retrieving SKU data, generating insights, and sending an email summary.",
+          caption: "mira ai chatbot — natural language queries with tool use and email delivery",
+        },
+        {
+          src: "/highlights/analytics-ai/collection-curator/360-insights.png",
+          alt: "the collaboration report showing KPI summary metrics and regional product grids for cross-market assortment analysis.",
+          caption: "360 insights — collaboration report with regional product breakdowns",
+        },
+      ],
     },
   ],
   supportingWork: [
@@ -87,49 +125,21 @@ const analyticsAi: DomainEntry = {
       title: "mcp tools & agent demo",
       context:
         "wrote MCP tool definitions for the analytics platform and built a demo surface showing user-driven vs agent-driven actions — giving stakeholders a concrete example of model-driven tool use.",
-      proofLinks: [
-        {
-          label: "demo",
-          href: "https://cdn-dev.tapestrydev.com/mcp-demo",
-        },
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/mcp-demo",
-        },
-      ],
     },
     {
       title: "bedrock utilities in datalabs api",
       context:
         "Bedrock-backed retrieve, converse, and knowledge-base helpers wired into a larger production API surface.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/datalabs-api",
-        },
-      ],
     },
     {
       title: "superset on stargazer",
       context:
         "mapped the existing EKS cluster and release rails into a repeatable deployment path for Apache Superset so teams could publish dashboards without a separate platform project.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/stargazer-applications",
-        },
-      ],
     },
     {
       title: "umami",
       context:
         "a self-hosted analytics deployment in AWS so baseline measurement stayed inside our own stack and easy to inspect.",
-      proofLinks: [
-        {
-          label: "repo",
-          href: "https://github.com/tpr-datalabs/umami",
-        },
-      ],
     },
   ],
   relatedDomains: ["product", "developer-experience"],

@@ -1,0 +1,56 @@
+---
+interface Props {
+  definition: string;
+  alt: string;
+  caption?: string;
+}
+
+const { definition, alt, caption } = Astro.props;
+---
+
+<figure class="flagship__figure mermaid-figure" data-flagship-visual>
+  <div class="mermaid-diagram" data-mermaid-definition={definition} role="img" aria-label={alt}>
+    <pre class="mermaid">{definition}</pre>
+  </div>
+  {caption && (
+    <figcaption class="flagship__caption">{caption}</figcaption>
+  )}
+</figure>
+
+<script>
+  import mermaid from "mermaid";
+
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: "dark",
+    themeVariables: {
+      darkMode: true,
+      background: "#141414",
+      primaryColor: "#2a2a2a",
+      primaryTextColor: "#e0e0e0",
+      primaryBorderColor: "#6fba7f",
+      lineColor: "#8a8a8a",
+      secondaryColor: "#1a1a1a",
+      tertiaryColor: "#0a0a0a",
+      nodeTextColor: "#e0e0e0",
+      mainBkg: "#1a1a1a",
+      nodeBorder: "#6fba7f",
+      clusterBkg: "#141414",
+      clusterBorder: "#2a2a2a",
+      titleColor: "#e0e0e0",
+      edgeLabelBackground: "#141414",
+      fontFamily:
+        '"Space Mono", ui-monospace, "SFMono-Regular", "SF Mono", Consolas, monospace',
+    },
+  });
+
+  async function renderDiagrams() {
+    await mermaid.run({ querySelector: ".mermaid" });
+  }
+
+  // Run on initial load
+  renderDiagrams();
+
+  // Re-run on Astro page transitions
+  document.addEventListener("astro:page-load", renderDiagrams);
+</script>
