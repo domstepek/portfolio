@@ -92,7 +92,7 @@ export const personalPage = {
       "ai / ml-adjacent tools where workflow, quality, and operability matter",
       "developer tooling, validation, and team-facing enablement work",
     ],
-    note: "the domain pages are where the deeper proof lives; this section is the compact version.",
+    note: "each domain page has the full project walkthroughs if you want more depth.",
   },
   notes: {
     intro:

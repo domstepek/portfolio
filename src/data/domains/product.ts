@@ -38,8 +38,8 @@ const product: DomainEntry = {
         "kept the product shaped like an operational tool, with reporting nearby but not taking over the primary workflow.",
       ],
       outcomes: [
-        "gave the team a shared operational home for sample movement and status tracking.",
-        "reduced the need to reconcile exports, shipment context, and recurring updates across separate tools.",
+        "sample movement and status tracking lived in one operational home instead of scattered across update threads.",
+        "reconciling exports, shipment context, and recurring updates across separate tools stopped being a daily chore.",
         "showed the kind of workflow-heavy product work i like most: software that holds a messy real process together.",
       ],
       stack: [
@@ -81,8 +81,8 @@ const product: DomainEntry = {
         "treated backend rules and frontend workflow as one product surface so the business logic stayed inspectable.",
       ],
       outcomes: [
-        "moved pricing out of ad hoc spreadsheet work and into a dedicated product workflow.",
-        "made quote logic easier to repeat and reason about across the team.",
+        "pricing moved out of ad hoc spreadsheets and into a dedicated product workflow.",
+        "quote logic became easier to repeat and reason about across the team.",
         "created a clearer handoff between pricing decisions and the rest of the operational process.",
       ],
       stack: [

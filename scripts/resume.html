@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Jean-Dominique Stepek — Resume</title>
+<style>
+  @page {
+    margin: 0.45in 0.5in;
+    size: letter;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9pt;
+    line-height: 1.38;
+    color: #1a1a1a;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  a {
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+
+  /* --- Header --- */
+  .header {
+    text-align: center;
+    padding-bottom: 8pt;
+    border-bottom: 1.5pt solid #1a1a1a;
+    margin-bottom: 10pt;
+  }
+
+  .name {
+    font-size: 20pt;
+    font-weight: 700;
+    letter-spacing: 0.5pt;
+    margin-bottom: 3pt;
+  }
+
+  .headline {
+    font-size: 9.5pt;
+    color: #444;
+    margin-bottom: 5pt;
+    font-weight: 400;
+  }
+
+  .contact {
+    font-size: 8.5pt;
+    color: #333;
+    line-height: 1.55;
+  }
+
+  .contact .sep {
+    color: #999;
+    margin: 0 3pt;
+  }
+
+  /* --- Sections --- */
+  .section {
+    margin-bottom: 9pt;
+  }
+
+  .section-title {
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2pt;
+    color: #1a1a1a;
+    border-bottom: 0.75pt solid #ccc;
+    padding-bottom: 2pt;
+    margin-bottom: 6pt;
+  }
+
+  /* --- Skills --- */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 90pt 1fr;
+    gap: 2pt 8pt;
+  }
+
+  .skill-label {
+    font-weight: 700;
+    font-size: 8.5pt;
+    color: #1a1a1a;
+    padding: 1pt 0;
+  }
+
+  .skill-items {
+    font-size: 8.5pt;
+    color: #333;
+    padding: 1pt 0;
+  }
+
+  /* --- Experience --- */
+  .role {
+    margin-bottom: 7pt;
+  }
+
+  .role:last-child {
+    margin-bottom: 0;
+  }
+
+  .role-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2pt;
+  }
+
+  .role-company {
+    font-weight: 700;
+    font-size: 9.5pt;
+  }
+
+  .role-dates {
+    font-size: 8.5pt;
+    color: #555;
+    flex-shrink: 0;
+  }
+
+  .project-title {
+    font-weight: 600;
+    font-size: 8.5pt;
+    font-style: italic;
+    color: #333;
+    margin: 3pt 0 1pt 0;
+  }
+
+  .bullets {
+    list-style: disc;
+    padding-left: 16pt;
+    margin: 0;
+  }
+
+  .bullets li {
+    font-size: 8.5pt;
+    color: #2a2a2a;
+    line-height: 1.38;
+    padding: 0.5pt 0;
+  }
+
+  /* --- Education --- */
+  .edu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1pt 0;
+  }
+
+  .edu-school {
+    font-size: 9pt;
+    font-weight: 600;
+  }
+
+  .edu-year {
+    font-size: 8.5pt;
+    color: #555;
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="name">Jean-Dominique Stepek</div>
+  <div class="headline">Full-Stack & Platform Engineer | Analytics, Infrastructure, Product, Internal Tooling</div>
+  <div class="contact">
+    (916) 342-9303
+    <span class="sep">|</span>
+    <a href="mailto:domstepek@gmail.com">domstepek@gmail.com</a>
+    <span class="sep">|</span>
+    <a href="https://jean-dominique-stepek.is-a.dev">jean-dominique-stepek.is-a.dev</a>
+    <span class="sep">|</span>
+    <a href="https://github.com/domstepek">github.com/domstepek</a>
+    <span class="sep">|</span>
+    <a href="https://linkedin.com/in/jean-dominique-stepek">linkedin.com/in/jean-dominique-stepek</a>
+  </div>
+</header>
+
+<section class="section">
+  <h2 class="section-title">Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-label">Languages</div>
+    <div class="skill-items">TypeScript, Python, SQL, GraphQL</div>
+
+    <div class="skill-label">Frontend</div>
+    <div class="skill-items">React, Next.js, Vite, Redux, Mantine, Tailwind CSS</div>
+
+    <div class="skill-label">Backend</div>
+    <div class="skill-items">Node.js, Express, Apollo GraphQL, Prisma</div>
+
+    <div class="skill-label">Data</div>
+    <div class="skill-items">PostgreSQL, Snowflake, Redis, BullMQ, DynamoDB</div>
+
+    <div class="skill-label">Infrastructure</div>
+    <div class="skill-items">AWS (CDK, EKS, Bedrock, Cognito), Kubernetes, Helm, ArgoCD, Jenkins, Docker</div>
+
+    <div class="skill-label">AI / ML</div>
+    <div class="skill-items">AWS Bedrock, Agent Harnesses (e.g. Claude Code), GSD</div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">Experience</h2>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-company">Tapestry — Software Development Engineer (Full Stack)</div>
+      <div class="role-dates">Jun 2022 – Present</div>
+    </div>
+
+    <div class="project-title">Collection Curator</div>
+    <ul class="bullets">
+      <li>Shaped the reporting workflow for an operator-facing analytics portal — filters, drill-downs, and follow-up actions in one surface — replacing scattered tools and ad hoc data pulls.</li>
+      <li>Built a configurable table interface for seasonal collection curation with custom column types (multiselects, dates, tags), enabling analysts to filter and organize product data without ad hoc spreadsheet work.</li>
+      <li>Led frontend development of a PowerPoint-style presentation tool with React and Styled Components, including drag-and-drop, keyboard navigation, and export-to-PDF features.</li>
+      <li>Created an internal GenAI chatbot using AWS Bedrock and RAG retrieval for answering platform-related user queries — cutting support tickets by 50%.</li>
+      <li>Built an MCP server and agent layer for the analytics platform, giving stakeholders a working example of model-driven tool use that made the tradeoffs between user-driven and agent-driven actions concrete.</li>
+      <li>Stood up the shared EKS platform foundation with AWS CDK — networking, cluster primitives, ArgoCD, and environment-specific config — so service deployments became repeatable GitOps operations instead of manual buildouts.</li>
+    </ul>
+
+    <div class="project-title">Supply Chain Forecasting App</div>
+    <ul class="bullets">
+      <li>Spearheaded full-stack development of a predictive analytics platform with React, TypeScript, GraphQL, and Snowflake, reducing inventory waste by $30M/year.</li>
+      <li>Designed the forecasting interface around fiscal season targets and receipt predictions, enabling inventory planners to adjust forecasts without falling back to spreadsheet workflows.</li>
+    </ul>
+
+    <div class="project-title">Sample Tracking</div>
+    <ul class="bullets">
+      <li>Built the operational app for sample shipment tracking, status management, exports, and recurring reporting — consolidating scattered update threads into one surface for 16 stakeholders.</li>
+      <li>Saved ~800 hours/year by replacing manual reconciliation of exports, shipment context, and recurring updates across separate tools.</li>
+    </ul>
+  </div>
+
+  <div class="role">
+    <div class="role-header">
+      <div class="role-company">Charla.cc — Co-Founder & Software Engineer</div>
+      <div class="role-dates">Jul 2021 – May 2022</div>
+    </div>
+    <ul class="bullets">
+      <li>Co-founded and built a social analytics platform tracking community engagement patterns across social media APIs, with unified customer profiles and proprietary metrics.</li>
+      <li>Built data ingestion pipelines from social media APIs to DGraph using Go and AWS Lambda, and owned infrastructure: Dockerized services, CI/CD with AWS CodePipeline, EC2 and Lambda compute.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">Education</h2>
+  <div class="edu-row">
+    <div class="edu-school">Hack Reactor — Advanced Software Engineering Immersive</div>
+    <div class="edu-year">2021</div>
+  </div>
+  <div class="edu-row">
+    <div class="edu-school">American River College — A.S. Computer Science</div>
+    <div class="edu-year">2020</div>
+  </div>
+</section>
+
+</body>
+</html>

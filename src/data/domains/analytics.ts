@@ -38,9 +38,9 @@ const analytics: DomainEntry = {
         "kept follow-up actions near the reporting surface so the portal could help resolve questions instead of only describe them.",
       ],
       outcomes: [
-        "gave the team one reporting home for exploring product data, filters, and exceptions.",
+        "one reporting surface for product data, filters, and exceptions — instead of stitching context together across tools.",
         "cut down the back-and-forth between raw data pulls and separate operational tools during investigations.",
-        "became the clearest analytics proof point in the portfolio because the reporting depth was tied to real day-to-day use.",
+        "the reporting depth held up because it was tied to real daily use, not a dashboard someone opened once a quarter.",
       ],
       stack: [
         "React",
@@ -80,9 +80,9 @@ const analytics: DomainEntry = {
         "kept dashboard authoring separate from lower-level cluster concerns so the analytics workflow stayed approachable.",
       ],
       outcomes: [
-        "made Apache Superset a realistic option on the shared platform instead of a theoretical someday tool.",
+        "Apache Superset went from theoretical to deployable on the shared platform.",
         "shortened the path from 'we need a dashboard' to a working deployment shape.",
-        "proved that analytics tooling could ride the same release and platform standards as the rest of the stack.",
+        "analytics tooling rode the same release and platform standards as everything else — no special-case hosting.",
       ],
       stack: [
         "Apache Superset",

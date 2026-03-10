@@ -38,8 +38,8 @@ const developerExperience: DomainEntry = {
         "used a standard React and TypeScript library workflow so adoption did not require special tooling.",
       ],
       outcomes: [
-        "gave product teams a shared ui baseline instead of repeated component drift.",
-        "made it easier to ship consistent interface work across separate apps.",
+        "product teams got a shared ui baseline instead of repeated component drift.",
+        "consistent interface work across four separate apps stopped requiring each team to solve the same component problems.",
         "turned ui reuse into something maintainable rather than a folder of copied snippets.",
       ],
       stack: [
@@ -75,8 +75,8 @@ const developerExperience: DomainEntry = {
         "focused first on high-risk flows where manual regression cost was already obvious.",
       ],
       outcomes: [
-        "made portal regressions easier to catch before they became release-day surprises.",
-        "reduced the amount of repetitive manual checking needed for high-risk workflows.",
+        "portal regressions surfaced before release day instead of after.",
+        "the repetitive manual checking that ate time on high-risk workflows mostly went away.",
         "created reusable qa tooling that supported both browser and api confidence on the same project.",
       ],
       stack: [

@@ -39,9 +39,9 @@ export const homePage = {
   title:
     "i work across analytics, infrastructure, ai / ml, product, and developer experience.",
   lead:
-    "the projects here sit where data, platform, workflow, and internal tooling overlap. this homepage is a quick route into the five areas where that work shows up most often.",
+    "most of what i build sits where data, platform, workflow, and internal tooling overlap — the kind of work that only makes sense when you see the full loop.",
   domainIntro:
-    "pick the domain that matches the problem. the links below are the main route through the site, not a side gallery.",
+    "pick the domain that matches the problem.",
   personalTeaser: {
     heading: "personal context",
     body:
@@ -70,7 +70,7 @@ export const homePage = {
   freshness: {
     label: "currently",
     value:
-      "refining the homepage so the five domains read like a quick map instead of a project list.",
+      "exploring agent-style workflows and how model context protocol changes the shape of internal tooling.",
     note: "last updated march 2026.",
   },
   seo: {

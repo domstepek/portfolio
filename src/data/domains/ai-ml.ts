@@ -38,9 +38,9 @@ const aiMl: DomainEntry = {
         "treated the project as an investigation of the next product analytics api iteration rather than a throwaway chat demo.",
       ],
       outcomes: [
-        "proved a more capable architecture for ai-assisted curation than the existing app sync path alone.",
-        "made it easier to test retrieval, subscriptions, and mixed-language service behavior in one place.",
-        "gave the team a concrete sandbox for seeing where model-backed product workflows were promising and where they added complexity.",
+        "the architecture proved more capable for ai-assisted curation than the existing app sync path alone.",
+        "retrieval, subscriptions, and mixed-language service behavior could be tested in one place instead of across disconnected prototypes.",
+        "the team got a concrete sandbox for seeing where model-backed workflows were promising and where they just added complexity.",
       ],
       stack: [
         "Express",
@@ -85,8 +85,8 @@ const aiMl: DomainEntry = {
         "used a live demo link and repo as proof so the idea stayed inspectable outside a slide deck.",
       ],
       outcomes: [
-        "gave stakeholders a working example of MCP-style interaction instead of a conceptual pitch.",
-        "made the tradeoffs between user-driven and agent-driven actions much easier to discuss.",
+        "stakeholders could point at a working example of MCP-style interaction instead of debating a conceptual pitch.",
+        "tradeoffs between user-driven and agent-driven actions became much easier to discuss with something tangible in front of people.",
         "served as a small but credible proof point that agent tooling could be grounded in product behavior.",
       ],
       stack: [

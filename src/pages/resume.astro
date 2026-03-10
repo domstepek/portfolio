@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../components/layout/BaseLayout.astro";
+import ResumePage from "../components/resume/ResumePage.astro";
+import { resumePage } from "../data/resume";
+import { routePath } from "../lib/paths";
+---
+
+<BaseLayout
+  title={resumePage.seo.title}
+  description={resumePage.seo.description}
+  canonicalPath={routePath("resume")}
+>
+  <ResumePage />
+</BaseLayout>

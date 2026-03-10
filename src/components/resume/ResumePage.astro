@@ -1,0 +1,84 @@
+---
+import { resumePage } from "../../data/resume";
+import { homePath, assetPath } from "../../lib/paths";
+---
+
+<div class="resume-page" data-resume-page>
+  <p class="resume-page__back print-hide">
+    <a class="resume-page__back-link" href={homePath}>back home</a>
+  </p>
+
+  <div class="resume-page__sheet">
+    <header class="resume-page__header">
+      <h1 class="resume-page__name">{resumePage.name}</h1>
+      <p class="resume-page__headline">{resumePage.headline}</p>
+      <p class="resume-page__contact">
+        {resumePage.contact.phone} |{" "}
+        <a href={`mailto:${resumePage.contact.email}`}>{resumePage.contact.email}</a> |{" "}
+        <a href={`https://${resumePage.contact.portfolio}`}>{resumePage.contact.portfolio}</a>
+        <br />
+        <a href={`https://${resumePage.contact.github}`}>{resumePage.contact.github}</a> |{" "}
+        <a href={`https://${resumePage.contact.linkedin}`}>{resumePage.contact.linkedin}</a>
+      </p>
+    </header>
+
+    <section class="resume-page__section" aria-labelledby="resume-skills-heading">
+      <h2 class="resume-page__section-title" id="resume-skills-heading">Skills</h2>
+      <dl class="resume-page__skills">
+        {resumePage.skills.map((category) => (
+          <div class="resume-page__skill-row">
+            <dt class="resume-page__skill-label">{category.label}</dt>
+            <dd class="resume-page__skill-items">{category.items}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section class="resume-page__section" aria-labelledby="resume-experience-heading">
+      <h2 class="resume-page__section-title" id="resume-experience-heading">Experience</h2>
+      {resumePage.experience.map((role) => (
+        <div class="resume-page__role">
+          <div class="resume-page__role-header">
+            <p class="resume-page__role-company">
+              {role.company} — {role.title}
+            </p>
+            <p class="resume-page__role-dates">{role.dates}</p>
+          </div>
+          {role.projects.map((project) => (
+            <div class="resume-page__project">
+              {project.title && (
+                <p class="resume-page__project-title">{project.title}</p>
+              )}
+              <ul class="resume-page__bullets">
+                {project.bullets.map((bullet) => (
+                  <li>{bullet.text}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      ))}
+    </section>
+
+    <section class="resume-page__section" aria-labelledby="resume-education-heading">
+      <h2 class="resume-page__section-title" id="resume-education-heading">Education</h2>
+      {resumePage.education.map((entry) => (
+        <div class="resume-page__education-row">
+          <p class="resume-page__education-school">
+            {entry.school} — {entry.degree}
+          </p>
+          <p class="resume-page__education-year">{entry.year}</p>
+        </div>
+      ))}
+    </section>
+  </div>
+
+  <div class="resume-page__actions print-hide">
+    <a class="resume-page__download" href={assetPath("Jean-Dominique-Stepek-Resume.pdf")} download>
+      download pdf
+    </a>
+    <button class="resume-page__download" type="button" onclick="window.print()">
+      print / save as pdf
+    </button>
+  </div>
+</div>

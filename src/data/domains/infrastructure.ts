@@ -38,8 +38,8 @@ const infrastructure: DomainEntry = {
         "treated the repo as the source of truth for bootstrap plus ongoing platform evolution, not a pile of one-off console steps.",
       ],
       outcomes: [
-        "gave the team a repeatable cluster foundation instead of a one-time environment buildout.",
-        "made later platform work like argo cd, external secrets, ingress, and autoscaling easier to add on the same rail.",
+        "cluster creation became a repeatable operation instead of a fresh manual buildout every time.",
+        "later platform additions — argo cd, external secrets, ingress, autoscaling — landed on the same rail without renegotiating the foundation.",
         "turned infrastructure changes into reviewable code that matched the broader release workflow.",
       ],
       stack: [
@@ -77,8 +77,8 @@ const infrastructure: DomainEntry = {
         "kept application deploy concerns in the GitOps repo while app repos handled code and image builds.",
       ],
       outcomes: [
-        "made 'ship this service onto the cluster' a repeatable GitOps path instead of a bespoke platform request.",
-        "reduced deployment drift between environments by putting chart structure and values under the same repo conventions.",
+        "'ship this service onto the cluster' became a repeatable gitops path instead of a bespoke platform request.",
+        "deployment drift between environments dropped because chart structure and values lived under the same repo conventions.",
         "connected the platform foundation to day-to-day application delivery in a way teams could actually reuse.",
       ],
       stack: [
