@@ -108,6 +108,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 - `pnpm validate:site` now runs both Phase 1 and Phase 2 structural release gates after build.
 - The Phase 2 validator checks the emitted domain artifacts for canonical metadata, base-aware back-home wiring, supporting-work markers, rendered supporting entries, and outward proof-link presence.
 
+**Phase 3 sign-off:**
+- `pnpm validate:site` now runs Phase 1, Phase 2, and Phase 3 structural release gates after build.
+- The Phase 3 validator checks emitted homepage HTML for the hero marker, the five base-aware domain links, the GitHub/LinkedIn/email contact links, and the freshness marker without relying on remote network availability.
+
 ---
 *Requirements defined: 2026-03-09*
-*Last updated: 2026-03-10 after Phase 03 Plan 02 completion*
+*Last updated: 2026-03-10 after Phase 03 Plan 03 completion*

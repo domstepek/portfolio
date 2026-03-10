@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_to_execute
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-03-10T00:02:19Z"
-last_activity: 2026-03-10 — 03-02 sharpened the homepage framing, domain previews, and layout polish; 03-03 is next
+status: planning
+stopped_at: Completed 03-03-PLAN.md
+last_updated: "2026-03-10T00:14:16.587Z"
+last_activity: 2026-03-10 — Completed 03-03 with dist-first homepage validation and a shared site gate covering Phases 1 through 3
 progress:
   total_phases: 6
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
-  percent: 89
+  completed_plans: 9
+  percent: 100
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: `.planning/PROJECT.md` (updated 2026-03-09)
 
 **Core value:** Someone should be able to land on the site and quickly understand what kinds of complex systems Dom builds, then explore the domains that matter to them without getting buried in noise.
-**Current focus:** Phase 3 - Homepage Positioning
+**Current focus:** Phase 4 - Flagship Proof & Visuals
 
 ## Current Position
 
-Phase: 3 of 6 (Homepage Positioning)
-Plan: 2 of 3 complete (`03-03` next)
-Status: Phase 3 in progress; ready to execute `03-03`
-Last activity: 2026-03-10 — 03-02 sharpened the homepage framing, domain previews, and layout polish; 03-03 is next
+Phase: 4 of 6 (Flagship Proof & Visuals)
+Plan: TBD (Phase 4 not yet planned)
+Status: Phase 3 complete; ready to plan Phase 4
+Last activity: 2026-03-10 — Completed 03-03 with dist-first homepage validation and a shared site gate covering Phases 1 through 3
 
-Progress: [█████████░] 89%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: 6 min
-- Total execution time: 0.8 hours
+- Total execution time: 0.9 hours
 
 **By Phase:**
 
@@ -45,17 +45,18 @@ Progress: [█████████░] 89%
 |-------|-------|-------|----------|
 | 1 | 3 | 18 min | 6 min |
 | 2 | 3 | 18 min | 6 min |
-| 3 | 2 | 9 min | 5 min |
+| 3 | 3 | 13 min | 4 min |
 | 4 | 0 | - | - |
 | 5 | 0 | - | - |
 | 6 | 0 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (5 min), 02-02 (7 min), 02-03 (6 min), 03-01 (5 min), 03-02 (4 min)
-- Trend: The homepage framing and layout now read clearly, leaving only the dist-first homepage validator to finish Phase 3.
+- Last 5 plans: 02-02 (7 min), 02-03 (6 min), 03-01 (5 min), 03-02 (4 min), 03-03 (4 min)
+- Trend: Phase 3 now closes with a dist-first homepage validator wired into the shared site gate, so Phase 4 can deepen proof on top of a fully validated front door.
 
 *Updated after each plan completion*
 | Phase 03 P02 | 4 min | 3 tasks | 12 files |
+| Phase 03 P03 | 4 min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -96,6 +97,9 @@ Recent decisions affecting current work:
 - [Phase 03]: Keep the hero explicit about analytics, infrastructure, ai / ml, product, and developer experience so the first screen explains scope without extra narrative. — This keeps the homepage acting as an orientation layer instead of a vague personal statement.
 - [Phase 03]: Reuse the shared domain `summary` lines as homepage navigation copy instead of creating homepage-only blurbs. — This keeps the homepage and domain pages aligned as the content evolves.
 - [Phase 03]: Keep homepage layout styling in `src/styles/global.css`, with the domain list as the main navigation block and contact plus freshness as a lighter secondary cluster. — This preserves the minimal text-first baseline without inventing a second visual system.
+- [Phase 03]: Validate the homepage from built dist/index.html so the gate matches the artifact GitHub Pages will publish. — Keeps the homepage release check aligned with the emitted HTML instead of the source templates and catches deploy-time regressions before Pages publishes them.
+- [Phase 03]: Derive expected homepage domain hrefs from the emitted canonical URL so the validator stays base-path aware without importing source helpers. — Lets the validator follow the published base path automatically while remaining independent from application runtime code.
+- [Phase 03]: Extend the existing validate:site chain instead of creating a separate homepage CI path. — Preserves one release gate for the site and makes homepage regressions fail the same workflow already guarding Phases 1 and 2.
 
 ### Roadmap Evolution
 
@@ -108,11 +112,11 @@ None right now.
 
 ### Blockers/Concerns
 
-- No Phase 3 `CONTEXT.md` was captured, so `03-03` should keep following `03-RESEARCH.md` plus existing project constraints unless new guidance is added first.
-- Flagship highlights and deeper role/decision proof remain intentionally deferred to Phase 4.
+- Phase 4 is the next target, but it does not have a plan breakdown yet.
+- Flagship highlights, visuals, and deeper role/decision proof remain the next intentional gap after homepage completion.
 
 ## Session Continuity
 
-Last session: 2026-03-10T00:01:20.691Z
-Stopped at: Completed 03-02-PLAN.md
+Last session: 2026-03-10T00:14:16.582Z
+Stopped at: Completed 03-03-PLAN.md
 Resume file: None
