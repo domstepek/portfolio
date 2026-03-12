@@ -538,6 +538,19 @@ a:hover::after {
   color: var(--text);
 }
 
+/* ── visual reveal transition (protected routes, post-unlock) ── */
+
+[data-visual-state="revealing"] {
+  filter: blur(12px);
+  opacity: 0;
+  transition: filter 400ms ease, opacity 400ms ease;
+}
+
+[data-visual-state="revealed"] {
+  filter: none;
+  opacity: 1;
+}
+
 .domain-gate-shell {
   display: grid;
   gap: clamp(1.5rem, 4vw, 2.4rem);

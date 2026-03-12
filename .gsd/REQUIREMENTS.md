@@ -17,17 +17,6 @@ Use it to track what is actively in scope, what has been validated by completed 
 - Validation: mapped
 - Notes: Because the site is static on GitHub Pages, this is a lightweight deterrent rather than strong security.
 
-### R105 — Protected visuals are obscured until unlock and clear after unlock
-- Class: differentiator
-- Status: active
-- Description: Portfolio images or proof visuals on protected domain pages stay blurred or otherwise obscured before unlock and render normally after unlock.
-- Why it matters: The gate needs to protect the proof layer consistently, not just hide text behind a password field.
-- Source: user
-- Primary owning slice: M002/S03
-- Supporting slices: M002/S04
-- Validation: mapped
-- Notes: The exact treatment should work with the current static rendering and not degrade the public pages.
-
 ## Validated
 
 ### R103 — Protected routes explain how to request access
@@ -51,6 +40,17 @@ Use it to track what is actively in scope, what has been validated by completed 
 - Supporting slices: M002/S04
 - Validation: validated
 - Notes: Proven in S02 by real browser tests covering correct-passcode unlock, cross-route carryover in the same context (sessionStorage + localStorage bridge), and fresh-context relock.
+
+### R105 — Protected visuals are obscured until unlock and clear after unlock
+- Class: differentiator
+- Status: validated
+- Description: Portfolio images or proof visuals on protected domain pages stay blurred or otherwise obscured before unlock and render normally after unlock.
+- Why it matters: The gate needs to protect the proof layer consistently, not just hide text behind a password field.
+- Source: user
+- Primary owning slice: M002/S03
+- Supporting slices: M002/S04
+- Validation: validated
+- Notes: Proven in S03 by dist validator confirming no proof images/gallery markup in cold-load HTML, browser tests confirming `data-visual-state` transitions from absent (cold-load) through `revealing` to `revealed` after unlock, screenshot gallery rendering and JS initialization after dynamic mount, and public route isolation from visual-state markers.
 
 ### R101 - Public pages stay directly accessible
 - Class: primary-user-loop
@@ -229,7 +229,7 @@ Use it to track what is actively in scope, what has been validated by completed 
 | R102 | compliance/security | active | M002/S01 | M002/S02, M002/S03, M002/S04 | mapped |
 | R103 | primary-user-loop | validated | M002/S02 | M002/S04 | validated |
 | R104 | continuity | validated | M002/S02 | M002/S04 | validated |
-| R105 | differentiator | active | M002/S03 | M002/S04 | mapped |
+| R105 | differentiator | validated | M002/S03 | M002/S04 | validated |
 | R001 | primary-user-loop | validated | M001/S03 | none | validated |
 | R002 | core-capability | validated | M001/S02 | M001/S03, M001/S04 | validated |
 | R003 | core-capability | validated | M001/S04 | M001/S02 | validated |
@@ -247,7 +247,7 @@ Use it to track what is actively in scope, what has been validated by completed 
 
 ## Coverage Summary
 
-- Active requirements: 2
-- Mapped to slices: 3
-- Validated: 10
+- Active requirements: 1
+- Mapped to slices: 2
+- Validated: 11
 - Unmapped active requirements: 0

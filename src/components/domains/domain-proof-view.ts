@@ -7,7 +7,7 @@
  * HTML in the initial cold load.
  */
 
-import type { DomainProofViewModel, ResolvedFlagship, ResolvedSupportingItem } from "../../data/domains/domain-view-model";
+import type { DomainProofViewModel, ResolvedFlagship, ResolvedScreenshot, ResolvedSupportingItem } from "../../data/domains/domain-view-model";
 
 /* ── tiny DOM helpers ──────────────────────────────── */
 
@@ -47,6 +47,96 @@ function proofLinksFragment(links: { label: string; href: string }[], linkAttr: 
 }
 
 /* ── section renderers ─────────────────────────────── */
+
+function renderScreenshotGallery(screenshots: ResolvedScreenshot[]): HTMLElement {
+  const figure = el("figure", { class: "screenshot-gallery", "data-screenshot-gallery": "" });
+
+  // Viewport with track and slides
+  const viewport = el("div", { class: "screenshot-gallery__viewport", "data-gallery-viewport": "" });
+  const track = el("ul", { class: "screenshot-gallery__track", "data-gallery-track": "" });
+
+  for (const shot of screenshots) {
+    const trigger = el("button", {
+      class: "screenshot-gallery__trigger",
+      type: "button",
+      "data-gallery-trigger": "",
+      "data-full-src": shot.src,
+      "data-full-alt": shot.alt,
+      "data-caption": shot.caption || shot.alt,
+    });
+    trigger.append(
+      el("img", {
+        class: "screenshot-gallery__image",
+        src: shot.src,
+        alt: shot.alt,
+        loading: "lazy",
+        decoding: "async",
+      }),
+    );
+
+    const slide = el("li", { class: "screenshot-gallery__slide" });
+    slide.append(trigger);
+    if (shot.caption) {
+      slide.append(el("span", { class: "screenshot-gallery__slide-caption" }, shot.caption));
+    }
+    track.append(slide);
+  }
+
+  viewport.append(track);
+  figure.append(viewport);
+
+  // Nav: prev arrow, dots, next arrow
+  const nav = el("nav", {
+    class: "screenshot-gallery__nav",
+    "data-gallery-nav": "",
+    "aria-label": "Screenshot navigation",
+  });
+
+  const prevBtn = el("button", {
+    class: "screenshot-gallery__arrow screenshot-gallery__arrow--prev",
+    type: "button",
+    "data-gallery-prev": "",
+    "aria-label": "Previous screenshots",
+    disabled: "",
+  });
+  prevBtn.innerHTML = "&larr;";
+
+  const dots = el("div", { class: "screenshot-gallery__dots", "data-gallery-dots": "" });
+
+  const nextBtn = el("button", {
+    class: "screenshot-gallery__arrow screenshot-gallery__arrow--next",
+    type: "button",
+    "data-gallery-next": "",
+    "aria-label": "Next screenshots",
+  });
+  nextBtn.innerHTML = "&rarr;";
+
+  nav.append(prevBtn, dots, nextBtn);
+  figure.append(nav);
+
+  // Lightbox dialog
+  const lightbox = el("dialog", {
+    class: "screenshot-gallery__lightbox",
+    "data-gallery-lightbox": "",
+  });
+
+  const closeBtn = el("button", {
+    class: "screenshot-gallery__lightbox-close",
+    type: "button",
+    "data-gallery-lightbox-close": "",
+    "aria-label": "Close lightbox",
+  });
+  closeBtn.innerHTML = "&times;";
+
+  lightbox.append(
+    closeBtn,
+    el("img", { class: "screenshot-gallery__lightbox-image", "data-gallery-lightbox-img": "", src: "", alt: "" }),
+    el("p", { class: "screenshot-gallery__lightbox-caption", "data-gallery-lightbox-caption": "" }),
+  );
+  figure.append(lightbox);
+
+  return figure;
+}
 
 function renderFlagship(f: ResolvedFlagship): HTMLElement {
   const article = el("article", {
@@ -112,6 +202,11 @@ function renderFlagship(f: ResolvedFlagship): HTMLElement {
       figure.append(el("figcaption", { class: "flagship__caption" }, f.visual.caption));
     }
     article.append(figure);
+  }
+
+  // screenshot gallery
+  if (f.screenshots.length > 0) {
+    article.append(renderScreenshotGallery(f.screenshots));
   }
 
   return article;

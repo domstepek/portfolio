@@ -84,6 +84,20 @@ export const protectedGateUiHtmlSnippets = {
   gateStatus: "data-gate-status",
 };
 
+export const visualStateSelectors = {
+  visualStateAttr: "[data-visual-state]",
+  visualStateRevealing: '[data-visual-state="revealing"]',
+  visualStateRevealed: '[data-visual-state="revealed"]',
+};
+
+export const screenshotGallerySelectors = {
+  screenshotGallery: "[data-screenshot-gallery]",
+  galleryNav: "[data-gallery-nav]",
+  galleryViewport: "[data-gallery-viewport]",
+  galleryDots: "[data-gallery-dots]",
+  galleryLightbox: "[data-gallery-lightbox]",
+};
+
 export const protectedProofSelectors = [
   "[data-flagship-highlights]",
   "[data-supporting-work]",

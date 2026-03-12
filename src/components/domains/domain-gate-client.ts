@@ -87,6 +87,17 @@ function mountProof(config: GateConfig, proof: DomainProofViewModel) {
     while (proofDOM.firstChild) {
       gateShell.appendChild(proofDOM.firstChild);
     }
+
+    // Visual reveal: start blurred, then transition to clear
+    gateShell.setAttribute("data-visual-state", "revealing");
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        gateShell.setAttribute("data-visual-state", "revealed");
+      }, 50);
+    });
+
+    // Trigger gallery JS initialization for dynamically mounted galleries
+    document.dispatchEvent(new Event("astro:page-load"));
   }
 }
 

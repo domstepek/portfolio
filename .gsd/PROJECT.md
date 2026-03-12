@@ -12,7 +12,7 @@ Someone should be able to land on the site, quickly understand what kinds of com
 
 M001 is shipped. The site runs as a static Astro site on GitHub Pages with a custom domain, a public homepage, public about and resume pages, a lightweight notes area, and five domain-based portfolio pages with flagship proof and supporting work.
 
-M002 is in progress. S01 and S02 are shipped: `/`, `/about/`, and `/resume/` remain explicitly public, while cold-load `/domains/*` routes render a locked retro gate shell with request-access messaging (canonical email and LinkedIn links), a passcode form with SHA-256 hash validation, and session-scoped unlock that carries across protected routes via a sessionStorage + localStorage bridge. The route boundary and unlock flow are enforced by dist validators, browser tests, and the deploy release gate. The remaining M002 work is protected-visual blur/reveal behavior (S03) and final milestone regression coverage (S04).
+M002 is in progress. S01, S02, and S03 are shipped: `/`, `/about/`, and `/resume/` remain explicitly public, while cold-load `/domains/*` routes render a locked retro gate shell with request-access messaging (canonical email and LinkedIn links), a passcode form with SHA-256 hash validation, session-scoped unlock that carries across protected routes via a sessionStorage + localStorage bridge, and a CSS-driven blur-to-clear visual reveal with screenshot gallery rendering after unlock. The route boundary, unlock flow, and visual protection are enforced by dist validators, browser tests, and the deploy release gate (`pnpm validate:site` covers S01 + S02 + S03). The remaining M002 work is final milestone regression coverage and UAT sign-off (S04).
 
 ## Architecture / Key Patterns
 
@@ -29,4 +29,4 @@ See `.gsd/REQUIREMENTS.md` for the explicit capability contract, requirement sta
 ## Milestone Sequence
 
 - [x] M001: Public portfolio foundation — Ship the domain-first personal site with homepage, domain hubs, flagship proof, about/resume, notes, and custom domain.
-- [ ] M002: Portfolio access gate — In progress. S01 shipped the public/protected route boundary; remaining work is passcode entry, session unlock persistence, protected-visual reveal, and final regression coverage.
+- [ ] M002: Portfolio access gate — In progress. S01–S03 shipped; remaining work is final regression coverage and UAT sign-off (S04).

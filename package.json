@@ -14,7 +14,9 @@
     "validate:route-boundary": "node scripts/validate-m002-s01.mjs",
     "validate:m002:s01": "pnpm validate:route-boundary && pnpm test:route-boundary:browser",
     "validate:m002:s02": "node scripts/validate-m002-s02.mjs && pnpm test:route-unlock:browser",
-    "validate:site": "pnpm validate:m002:s01 && pnpm validate:m002:s02"
+    "validate:site": "pnpm validate:m002:s01 && pnpm validate:m002:s02 && pnpm validate:m002:s03",
+    "test:visual-reveal:browser": "node --test tests/visual-reveal.browser.test.mjs",
+    "validate:m002:s03": "node scripts/validate-m002-s03.mjs && pnpm test:visual-reveal:browser"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
