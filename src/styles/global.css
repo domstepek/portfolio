@@ -651,6 +651,7 @@ a:hover::after {
 .domain-gate-shell__grid {
   display: grid;
   gap: 1rem;
+  align-items: start;
 }
 
 .domain-gate-shell__card {
@@ -659,6 +660,7 @@ a:hover::after {
   border: 1px solid var(--border);
   border-radius: 0.65rem;
   background: rgba(10, 10, 10, 0.55);
+  align-content: start;
 }
 
 .domain-gate-shell__list {
