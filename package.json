@@ -10,15 +10,15 @@
     "test": "node --test",
     "test:route-boundary:static": "node --test tests/route-boundary.static.test.mjs",
     "test:route-boundary:browser": "node --test tests/route-boundary.browser.test.mjs",
-    "test:route-unlock:browser": "node --env-file=.env --test tests/route-unlock.browser.test.mjs",
+    "test:route-unlock:browser": "node --env-file-if-exists=.env --test tests/route-unlock.browser.test.mjs",
     "validate:route-boundary": "node scripts/validate-m002-s01.mjs",
     "validate:m002:s01": "pnpm validate:route-boundary && pnpm test:route-boundary:browser",
     "validate:m002:s02": "node scripts/validate-m002-s02.mjs && pnpm test:route-unlock:browser",
-    "test:assembled-flow:browser": "node --env-file=.env --test tests/assembled-flow.browser.test.mjs",
+    "test:assembled-flow:browser": "node --env-file-if-exists=.env --test tests/assembled-flow.browser.test.mjs",
     "test:notes-isolation:browser": "node --test tests/notes-isolation.browser.test.mjs",
     "validate:m002:s04": "pnpm test:notes-isolation:browser && pnpm test:assembled-flow:browser",
     "validate:site": "pnpm validate:m002:s01 && pnpm validate:m002:s02 && pnpm validate:m002:s03 && pnpm validate:m002:s04",
-    "test:visual-reveal:browser": "node --env-file=.env --test tests/visual-reveal.browser.test.mjs",
+    "test:visual-reveal:browser": "node --env-file-if-exists=.env --test tests/visual-reveal.browser.test.mjs",
     "validate:m002:s03": "node scripts/validate-m002-s03.mjs && pnpm test:visual-reveal:browser"
   },
   "devDependencies": {
