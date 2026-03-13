@@ -7,7 +7,7 @@
  * Embeds the Bayer 8×8 matrix directly in WGSL for GPU-side dithering.
  */
 
-import type { Renderer, ShaderColors } from './types.js';
+import type { Renderer, ShaderColors } from './types';
 
 // ── WGSL shader source ─────────────────────────────────────────────
 

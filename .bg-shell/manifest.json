@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": "2ad1c756",
+    "label": "next-verify",
+    "command": "cd \"/Users/jstepek/Personal Repos/website\" && npx next start -p 3099 2>&1",
+    "cwd": "/Users/jstepek/Personal Repos/website",
+    "startedAt": 1773419894521,
+    "processType": "server",
+    "group": null,
+    "readyPattern": null,
+    "readyPort": 3099,
+    "pid": 55370
+  }
+]

@@ -11,10 +11,10 @@ import type {
   ShaderColors,
   ShaderInstance,
   ShaderOptions,
-} from './types.js';
-import { srgbToLinear } from './types.js';
-import { WebGPURenderer } from './webgpu-renderer.js';
-import { WebGL2Renderer } from './webgl2-renderer.js';
+} from './types';
+import { srgbToLinear } from './types';
+import { WebGPURenderer } from './webgpu-renderer';
+import { WebGL2Renderer } from './webgl2-renderer';
 
 // ── Color helpers ───────────────────────────────────────────────────
 

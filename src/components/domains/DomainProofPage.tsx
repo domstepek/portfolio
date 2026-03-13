@@ -1,5 +1,7 @@
 import type { DomainEntry } from '@/data/domains/types';
 import { buildDomainProofViewModel } from '@/data/domains/domain-view-model';
+import { ScreenshotGallery } from './ScreenshotGallery';
+import { MermaidDiagram } from '@/components/diagrams/MermaidDiagram';
 
 interface DomainProofPageProps {
   domain: DomainEntry;
@@ -17,7 +19,11 @@ interface DomainProofPageProps {
  *   data-supporting-work                     — supporting work list
  *   data-supporting-item                     — each supporting item
  *
- * No 'use client' — pure RSC. No client-side JS required for rendering.
+ * Client islands:
+ *   <ScreenshotGallery> — 'use client', renders carousel + initializes JS
+ *   <MermaidDiagram>     — 'use client', dynamically imports mermaid + renders SVG
+ *
+ * No 'use client' on this file — pure RSC. Client components are imported as islands.
  * D033: Gate + proof render at same URL; auth check in parent page.tsx.
  * D035: Server-render model supersedes M002 blur animation (no animation here).
  */
@@ -57,6 +63,42 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
 
             <p className="text-[var(--muted)] max-w-prose text-sm">{flagship.summary}</p>
 
+            {/* Problem statement */}
+            {flagship.problem && (
+              <div className="flex flex-col gap-1">
+                <p className="text-[var(--text)] text-xs uppercase tracking-wider">Problem</p>
+                <p className="text-[var(--muted)] max-w-prose text-sm">{flagship.problem}</p>
+              </div>
+            )}
+
+            {/* Constraints */}
+            {flagship.constraints.length > 0 && (
+              <div className="flex flex-col gap-1">
+                <p className="text-[var(--text)] text-xs uppercase tracking-wider">Constraints</p>
+                <ul className="flex flex-col gap-1 pl-4">
+                  {flagship.constraints.map((constraint, i) => (
+                    <li key={i} className="text-[var(--muted)] text-sm">
+                      {constraint}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Decisions */}
+            {flagship.decisions.length > 0 && (
+              <div className="flex flex-col gap-1">
+                <p className="text-[var(--text)] text-xs uppercase tracking-wider">Decisions</p>
+                <ul className="flex flex-col gap-1 pl-4">
+                  {flagship.decisions.map((decision, i) => (
+                    <li key={i} className="text-[var(--muted)] text-sm">
+                      {decision}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {flagship.outcomes.length > 0 && (
               <div className="flex flex-col gap-1">
                 <p className="text-[var(--text)] text-xs uppercase tracking-wider">Outcomes</p>
@@ -91,6 +133,36 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
                   </a>
                 ))}
               </div>
+            )}
+
+            {/* Visual: Mermaid diagram or static image */}
+            {flagship.visual?.mermaid && (
+              <MermaidDiagram
+                definition={flagship.visual.mermaid}
+                alt={flagship.visual.alt}
+                caption={flagship.visual.caption}
+              />
+            )}
+            {flagship.visual && !flagship.visual.mermaid && flagship.visual.src && (
+              <figure className="flagship__figure" data-flagship-visual>
+                <img
+                  className="flagship__image"
+                  src={flagship.visual.src}
+                  alt={flagship.visual.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+                {flagship.visual.caption && (
+                  <figcaption className="flagship__caption">
+                    {flagship.visual.caption}
+                  </figcaption>
+                )}
+              </figure>
+            )}
+
+            {/* Screenshot gallery */}
+            {flagship.screenshots.length > 0 && (
+              <ScreenshotGallery screenshots={flagship.screenshots} />
             )}
           </article>
         ))}

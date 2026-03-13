@@ -61,7 +61,7 @@ This milestone is complete only when all are true:
   > After this: a visitor can open `/domains/product` unauthenticated and see a server-rendered gate page (zero proof in HTML), enter the passcode, get a cookie, and see the full proof page — proven by Playwright tests against `next dev`
 - [x] **S02: Public pages and notes pipeline** `risk:medium` `depends:[S01]`
   > After this: a visitor can browse `/`, `/about`, `/resume`, `/notes`, and `/notes/[slug]` with correct content, retro styling, and no gate — all running on Next.js alongside the working gate from S01
-- [ ] **S03: Shader and interactive client components** `risk:medium` `depends:[S01]`
+- [x] **S03: Shader and interactive client components** `risk:medium` `depends:[S01]`
   > After this: the WebGPU/WebGL2 shader background renders on all pages, screenshot galleries work on domain proof pages, and Mermaid diagrams render — proven by `data-shader-renderer` attribute and Playwright assertions
 - [ ] **S04: Vercel deployment, CI, and final integration** `risk:low` `depends:[S01,S02,S03]`
   > After this: the complete site is live on Vercel, GitHub Actions CI runs the full Playwright suite and blocks deploys on failure, and the live deployment is verified end-to-end

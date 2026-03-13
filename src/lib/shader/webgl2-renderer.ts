@@ -6,7 +6,7 @@
  * webgpu-renderer.ts — identical Bayer 8×8 matrix, gradient field, ripples, and palette mapping.
  */
 
-import type { Renderer, ShaderColors } from './types.js';
+import type { Renderer, ShaderColors } from './types';
 
 // ── Constants ───────────────────────────────────────────────────────
 

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import ShaderBackground from '@/components/shader/ShaderBackground';
 import { siteConfig } from '@/data/site';
 import './globals.css';
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="site-shell">
+        <ShaderBackground />
         <a className="skip-link" href="#main-content">skip to content</a>
         <header className="site-header">
           <div className="shell site-header__inner">

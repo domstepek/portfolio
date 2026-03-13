@@ -10,11 +10,11 @@ Someone should be able to land on the site, quickly understand what kinds of com
 
 ## Current State
 
-M001–M004 complete on the Astro/GitHub Pages stack. M005 (Next.js migration) is underway — S01 and S02 complete.
+M001–M004 complete on the Astro/GitHub Pages stack. M005 (Next.js migration) is underway — S01, S02, and S03 complete; S04 (deployment + CI) remains.
 
-The project is now a Next.js 16 App Router project (`src/app/`) with Tailwind v4 retro design tokens. The portfolio gate has been upgraded to real server-side auth: Next.js middleware (`proxy.ts`) observes all `/domains/*` requests; the RSC domain route reads an HttpOnly `portfolio-gate` cookie and conditionally renders either the gate page (zero proof content) or the full proof page — proven by Playwright tests and zero-leakage curl assertions. R301 (server-side access control) is validated.
+The project is a Next.js 16 App Router project (`src/app/`) with Tailwind v4 retro design tokens. The portfolio gate uses real server-side auth: Next.js proxy (`proxy.ts`) observes all `/domains/*` requests; the RSC domain route reads an HttpOnly `portfolio-gate` cookie and conditionally renders either the gate page (zero proof content) or the full proof page. All five public routes (`/`, `/about/`, `/resume/`, `/notes/`, `/notes/[slug]/`) are ported with full site shell, notes markdown pipeline, custom 404, and SEO metadata.
 
-All five public routes (`/`, `/about/`, `/resume/`, `/notes/`, `/notes/[slug]/`) are ported to Next.js server components with full site shell (header, footer, CRT overlay), notes markdown pipeline (gray-matter + unified), custom 404, generateMetadata SEO, and 8 Playwright tests — proven alongside the 5 existing gate tests (13 total passing).
+The WebGPU/WebGL2 shader background renders on all pages via a `'use client'` `ShaderBackground` component mounted in the root layout. Screenshot galleries and Mermaid diagrams render on authenticated domain proof pages as client islands. 18 Playwright tests pass (5 gate + 8 public + 3 shader + 2 gallery/mermaid).
 
 Astro source files remain on disk until S04 cleanup. `typescript.ignoreBuildErrors: true` is set in `next.config.ts` during the coexistence phase.
 
@@ -27,7 +27,9 @@ All 20 requirements are validated; 0 active requirements remain.
 - Domain-first information architecture with route helpers in `src/lib/paths.ts`
 - Thin route files with shared data modules and shared presentational components
 - **Gate auth:** Server-side enforcement via RSC cookie check (`await cookies()`) — HttpOnly `portfolio-gate` cookie; server action (`submitPasscode`) with Node `crypto.createHash` hash compare; zero proof content in unauthenticated responses
-- DOM marker contract: `data-route-visibility`, `data-gate-state`, `data-protected-gate`, `data-protected-proof-state`, `data-visual-state`, `data-flagship-highlights`, `data-supporting-work` — stable across M002→M005
+- **Shader:** `ShaderBackground` `'use client'` component with dynamic import of `initDitherShader` inside `useEffect`; AbortController cleanup; `data-shader-renderer` observability attribute
+- **Client islands:** ScreenshotGallery, MermaidDiagram, and ShaderBackground are `'use client'` wrappers imported into server components — all use dynamic import inside `useEffect` to avoid SSR crashes
+- DOM marker contract: `data-route-visibility`, `data-gate-state`, `data-protected-gate`, `data-protected-proof-state`, `data-visual-state`, `data-flagship-highlights`, `data-supporting-work`, `data-shader-renderer`, `data-screenshot-gallery`, `data-gallery-init`, `data-mermaid-definition`
 - Playwright tests in `tests/e2e/` replace former Puppeteer tests
 - Public site surfaces remain lightweight and text-forward
 - Sentence case convention for all visitor-facing copy (D031)
