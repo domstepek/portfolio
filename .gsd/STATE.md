@@ -1,10 +1,10 @@
 # GSD State
 
-**Active Milestone:** M006 — UI Polish — Domain Pages & Typography
-**Last Completed Milestone:** M005 — Next.js Migration
-**Phase:** S01 complete — slice done, pending merge
+**Active Milestone:** None
+**Last Completed Milestone:** M006 — UI Polish — Domain Pages & Typography
+**Phase:** Idle — all milestones complete
 
-## M006 Status
+## M006 Status (complete)
 - [x] S01 — Title case, stack tag reorder, and flagship card readability `complete`
   - [x] T01 — Title-case all project names in domain data files
   - [x] T02 — Restructure flagship card layout and add `.flagship-list` CSS
