@@ -1,26 +1,25 @@
 # GSD State
 
-**Active Milestone:** M005 — Next.js Migration (COMPLETE — all slices done)
-**Last Completed Slice:** S04 — Vercel deployment, CI, and final integration
-**Phase:** Milestone complete — ready for milestone-level ceremony (audit, summary, archive)
+**Active Milestone:** None — all milestones complete
+**Last Completed Milestone:** M005 — Next.js Migration
+**Phase:** Idle — ready for next milestone
 
-## Slice Progress
-- [x] S01 — Server-side portfolio gate on Next.js (COMPLETE)
-- [x] S02 — Public pages and notes pipeline (COMPLETE)
-- [x] S03 — Shader and interactive client components (COMPLETE)
-- [x] S04 — Vercel deployment, CI, and final integration (COMPLETE)
+## M005 Final Status
+- [x] S01 — Server-side portfolio gate on Next.js
+- [x] S02 — Public pages and notes pipeline
+- [x] S03 — Shader and interactive client components
+- [x] S04 — Vercel deployment, CI, and final integration
+- [x] M005-SUMMARY.md written
 
-## Verification Status (Final S04)
-- ✅ `tsc --noEmit` → exits 0 (full src/ tree coverage)
+## Verification
+- ✅ `tsc --noEmit` → exits 0
 - ✅ `npm run build` → exits 0 (8 routes)
-- ✅ `npx playwright test --reporter=list` → 18/18 pass against `next start`
-- ✅ `.github/workflows/ci.yml` exists with correct structure
-- ✅ `AGENTS.md` reflects Next.js + Tailwind v4 + Vercel + Playwright stack
-- ✅ `CLAUDE.md` symlink intact
-- ✅ Zero `.astro` files, zero old Puppeteer tests
-- ✅ `ignoreBuildErrors` removed from next.config.ts
+- ✅ 18/18 Playwright tests pass against `next start`
+- ✅ All 20 requirements validated, 0 active
+- ✅ GitHub Actions CI workflow in place
+- ✅ AGENTS.md reflects Next.js stack
 
-## Remaining for Live Deployment
-- Set `GATE_HASH` env var in Vercel project dashboard (manual, outside agent scope)
-- Update DNS from GitHub Pages to Vercel for custom domain (manual, outside agent scope)
+## Pending Manual Steps (Outside Agent Scope)
+- Set `GATE_HASH` env var in Vercel project dashboard
 - Set `GATE_HASH` and `GATE_TEST_PASSCODE` as GitHub repository secrets for CI
+- Update DNS from GitHub Pages to Vercel for custom domain
