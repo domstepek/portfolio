@@ -1,14 +1,1 @@
-[
-  {
-    "id": "3f90af00",
-    "label": "astro-dev",
-    "command": "cd \"/Users/jstepek/Personal Repos/website/.gsd/worktrees/readability\" && pnpm dev",
-    "cwd": "/Users/jstepek/Personal Repos/website",
-    "startedAt": 1773409550504,
-    "processType": "server",
-    "group": null,
-    "readyPattern": null,
-    "readyPort": 4321,
-    "pid": 42473
-  }
-]
+[]
