@@ -1,6 +1,7 @@
 ---
 import { resumePage } from "../../data/resume";
 import { homePath, assetPath } from "../../lib/paths";
+import TerminalPanel from "../layout/TerminalPanel.astro";
 ---
 
 <div class="resume-page" data-resume-page data-route-visibility="public" data-gate-state="open">
@@ -8,6 +9,7 @@ import { homePath, assetPath } from "../../lib/paths";
     <a class="resume-page__back-link" href={homePath}>back home</a>
   </p>
 
+  <TerminalPanel>
   <div class="resume-page__sheet">
     <header class="resume-page__header">
       <h1 class="resume-page__name">{resumePage.name}</h1>
@@ -96,6 +98,7 @@ import { homePath, assetPath } from "../../lib/paths";
       print / save as pdf
     </button>
   </div>
+  </TerminalPanel>
 </div>
 
 <script>

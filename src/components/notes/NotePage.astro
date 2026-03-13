@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { notesPath } from "../../lib/paths";
+import TerminalPanel from "../layout/TerminalPanel.astro";
 
 interface Props {
   note: CollectionEntry<"notes">;
@@ -24,17 +25,19 @@ const formatDate = (value: Date) =>
     <a class="note-page__back-link" href={notesPath}>back to notes</a>
   </p>
 
-  <section class="note-page__intro">
-    <h1 data-note-title>{note.data.title}</h1>
-    <p class="note-page__meta">
-      <time data-note-date datetime={note.data.published.toISOString()}>
-        {formatDate(note.data.published)}
-      </time>
-    </p>
-    <p class="note-page__summary">{note.data.summary}</p>
-  </section>
+  <TerminalPanel>
+    <section class="note-page__intro">
+      <h1 data-note-title>{note.data.title}</h1>
+      <p class="note-page__meta">
+        <time data-note-date datetime={note.data.published.toISOString()}>
+          {formatDate(note.data.published)}
+        </time>
+      </p>
+      <p class="note-page__summary">{note.data.summary}</p>
+    </section>
 
-  <article class="note-page__body" data-note-body>
-    <slot />
-  </article>
+    <article class="note-page__body" data-note-body>
+      <slot />
+    </article>
+  </TerminalPanel>
 </div>

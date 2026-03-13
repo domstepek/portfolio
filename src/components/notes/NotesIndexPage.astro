@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { homePath, notePath } from "../../lib/paths";
+import TerminalPanel from "../layout/TerminalPanel.astro";
 
 interface Props {
   notes: CollectionEntry<"notes">[];
@@ -24,31 +25,33 @@ const formatDate = (value: Date) =>
     <a class="notes-index__back-link" href={homePath}>back home</a>
   </p>
 
-  <section class="notes-index__intro">
-    <h1>notes</h1>
-    <p>
-      short field notes on system shape, product decisions, and the small implementation details
-      that either clarify a workflow or quietly make it worse.
-    </p>
-  </section>
+  <TerminalPanel>
+    <section class="notes-index__intro">
+      <h1>notes</h1>
+      <p>
+        short field notes on system shape, product decisions, and the small implementation details
+        that either clarify a workflow or quietly make it worse.
+      </p>
+    </section>
 
-  <div class="notes-index__list">
-    {
-      notes.map((note) => (
-        <article class="notes-index__item" data-note-item>
-          <div class="notes-index__meta">
-            <time data-note-date datetime={note.data.published.toISOString()}>
-              {formatDate(note.data.published)}
-            </time>
-          </div>
-          <h2 class="notes-index__title" data-note-title>
-            <a data-note-link href={notePath(note.slug)}>
-              {note.data.title}
-            </a>
-          </h2>
-          <p data-note-summary>{note.data.summary}</p>
-        </article>
-      ))
-    }
-  </div>
+    <div class="notes-index__list">
+      {
+        notes.map((note) => (
+          <article class="notes-index__item" data-note-item>
+            <div class="notes-index__meta">
+              <time data-note-date datetime={note.data.published.toISOString()}>
+                {formatDate(note.data.published)}
+              </time>
+            </div>
+            <h2 class="notes-index__title" data-note-title>
+              <a data-note-link href={notePath(note.slug)}>
+                {note.data.title}
+              </a>
+            </h2>
+            <p data-note-summary>{note.data.summary}</p>
+          </article>
+        ))
+      }
+    </div>
+  </TerminalPanel>
 </div>

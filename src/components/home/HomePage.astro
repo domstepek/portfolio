@@ -2,6 +2,7 @@
 import { homePage } from "../../data/home";
 import { domains } from "../../data/domains";
 import { aboutPath, domainPath, resumePath } from "../../lib/paths";
+import TerminalPanel from "../layout/TerminalPanel.astro";
 
 const homeDomains = domains.map((domain) => ({
   ...domain,
@@ -28,77 +29,79 @@ const isExternalHttpLink = (href: string) => href.startsWith("https://");
     <p class="home-page__lead">{homePage.lead}</p>
   </section>
 
-  <nav
-    class="home-page__section home-page__domains"
-    aria-labelledby="home-domain-nav-title"
-    data-home-domain-nav
-  >
-    <div class="home-page__section-copy">
-      <h2 id="home-domain-nav-title">pick a domain</h2>
-      <p class="home-page__domain-intro">{homePage.domainIntro}</p>
-    </div>
-    <ul class="home-page__domain-list">
-      {
-        homeDomains.map((domain) => (
-          <li class="home-page__domain-item">
-            <a class="home-page__domain-link" data-home-domain-link href={domain.href}>
-              {domain.title}
-            </a>
-            <p class="home-page__domain-summary">{domain.summary}</p>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
-
-  <section
-    class="home-page__section home-page__personal"
-    aria-labelledby="home-personal-title"
-    data-home-personal-teaser
-  >
-    <div class="home-page__section-copy">
-      <h2 id="home-personal-title">{homePage.personalTeaser.heading}</h2>
-      <p>{homePage.personalTeaser.body}</p>
-    </div>
-    <div class="home-page__personal-links">
-      <a data-home-personal-link href={aboutPath}>
-        {homePage.personalTeaser.aboutLabel}
-      </a>
-      <a data-home-resume-link href={resumePath}>
-        {homePage.personalTeaser.resumeLabel}
-      </a>
-    </div>
-  </section>
-
-  <div class="home-page__meta">
-    <section class="home-page__section home-page__contact" aria-labelledby="home-contact-title">
-      <h2 id="home-contact-title">{homePage.contactHeading}</h2>
-      <ul class="home-page__contact-list" data-home-contact-links>
+  <TerminalPanel>
+    <nav
+      class="home-page__section home-page__domains"
+      aria-labelledby="home-domain-nav-title"
+      data-home-domain-nav
+    >
+      <div class="home-page__section-copy">
+        <h2 id="home-domain-nav-title">pick a domain</h2>
+        <p class="home-page__domain-intro">{homePage.domainIntro}</p>
+      </div>
+      <ul class="home-page__domain-list">
         {
-          homePage.contactLinks.map((link) => (
-            <li>
-              <a
-                data-home-contact-link
-                href={link.href}
-                rel={isExternalHttpLink(link.href) ? "noreferrer" : undefined}
-              >
-                {link.label}
+          homeDomains.map((domain) => (
+            <li class="home-page__domain-item">
+              <a class="home-page__domain-link" data-home-domain-link href={domain.href}>
+                {domain.title}
               </a>
+              <p class="home-page__domain-summary">{domain.summary}</p>
             </li>
           ))
         }
       </ul>
-    </section>
+    </nav>
 
     <section
-      class="home-page__section home-page__freshness"
-      aria-labelledby="home-freshness-title"
+      class="home-page__section home-page__personal"
+      aria-labelledby="home-personal-title"
+      data-home-personal-teaser
     >
-      <h2 id="home-freshness-title">{homePage.freshness.label}</h2>
-      <p class="home-page__freshness-copy" data-home-freshness>
-        {homePage.freshness.value}
-        <span class="home-page__freshness-note"> {homePage.freshness.note}</span>
-      </p>
+      <div class="home-page__section-copy">
+        <h2 id="home-personal-title">{homePage.personalTeaser.heading}</h2>
+        <p>{homePage.personalTeaser.body}</p>
+      </div>
+      <div class="home-page__personal-links">
+        <a data-home-personal-link href={aboutPath}>
+          {homePage.personalTeaser.aboutLabel}
+        </a>
+        <a data-home-resume-link href={resumePath}>
+          {homePage.personalTeaser.resumeLabel}
+        </a>
+      </div>
     </section>
-  </div>
+
+    <div class="home-page__meta">
+      <section class="home-page__section home-page__contact" aria-labelledby="home-contact-title">
+        <h2 id="home-contact-title">{homePage.contactHeading}</h2>
+        <ul class="home-page__contact-list" data-home-contact-links>
+          {
+            homePage.contactLinks.map((link) => (
+              <li>
+                <a
+                  data-home-contact-link
+                  href={link.href}
+                  rel={isExternalHttpLink(link.href) ? "noreferrer" : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section
+        class="home-page__section home-page__freshness"
+        aria-labelledby="home-freshness-title"
+      >
+        <h2 id="home-freshness-title">{homePage.freshness.label}</h2>
+        <p class="home-page__freshness-copy" data-home-freshness>
+          {homePage.freshness.value}
+          <span class="home-page__freshness-note"> {homePage.freshness.note}</span>
+        </p>
+      </section>
+    </div>
+  </TerminalPanel>
 </div>

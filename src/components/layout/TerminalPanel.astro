@@ -1,0 +1,16 @@
+---
+// Reusable terminal window panel — green-tinted dark background
+// with macOS traffic light dots. Wraps page content for readability
+// over the dithered shader background.
+---
+
+<div class="terminal-panel">
+  <div class="terminal-panel__bar" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="terminal-panel__body">
+    <slot />
+  </div>
+</div>

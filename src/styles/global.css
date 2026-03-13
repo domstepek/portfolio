@@ -1214,6 +1214,40 @@ label[for], [onclick], [tabindex]:not([tabindex="-1"]) {
   }
 }
 
+/* --- Shared terminal panel (readability over shader background) --- */
+
+.terminal-panel {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  border-radius: 0.8rem;
+  background:
+    linear-gradient(180deg, rgba(127, 212, 143, 0.08), rgba(127, 212, 143, 0.02)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+    var(--bg-elevated);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.terminal-panel__bar {
+  display: flex;
+  gap: 0.45rem;
+  margin-bottom: 1.5rem;
+}
+
+.terminal-panel__bar span {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 999px;
+}
+
+.terminal-panel__bar span:nth-child(1) { background: #dc7f6e; }
+.terminal-panel__bar span:nth-child(2) { background: #d6b36d; }
+.terminal-panel__bar span:nth-child(3) { background: var(--accent); }
+
+.terminal-panel__body {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 2.75rem);
+}
+
 /* --- Resume page --- */
 
 .resume-page {
