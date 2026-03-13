@@ -29,8 +29,9 @@
 
   const canvas = document.getElementById("shader-bg") as HTMLCanvasElement;
   if (canvas) {
-    const instance = await initDitherShader(canvas);
-    if (instance) {
+    const result = await initDitherShader(canvas);
+    if (result) {
+      const instance = result;
       (window as any).__shaderInstance = instance;
 
       // ── Cursor tracking ───────────────────────────────────────
@@ -60,7 +61,6 @@
         if (document.hidden) {
           instance.pause();
         } else if (!motionQuery.matches) {
-          // Only resume if reduced-motion isn't active
           instance.resume();
         }
       });
