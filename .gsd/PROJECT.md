@@ -10,11 +10,11 @@ Someone should be able to land on the site, quickly understand what kinds of com
 
 ## Current State
 
-M001–M005 complete. The project is a Next.js 16 App Router site (`src/app/`) with Tailwind v4 retro design tokens, deployed via Vercel.
+M001–M006 complete. The project is a Next.js 16 App Router site (`src/app/`) with Tailwind v4 retro design tokens, deployed via Vercel.
 
 The portfolio gate uses real server-side auth: the RSC domain route reads an HttpOnly `portfolio-gate` cookie and conditionally renders either the gate page (zero proof content) or the full proof page. `proxy.ts` adds an observability header on `/domains/*` requests. All five public routes (`/`, `/about/`, `/resume/`, `/notes/`, `/notes/[slug]/`) render as server components with full site shell, notes markdown pipeline, custom 404, and SEO metadata.
 
-The WebGPU/WebGL2 shader background renders on all pages via a `'use client'` `ShaderBackground` component mounted in the root layout. Screenshot galleries and Mermaid diagrams render on authenticated domain proof pages as client islands. 18 Playwright tests pass against production build (5 gate + 8 public + 3 shader + 2 gallery/mermaid). GitHub Actions CI workflow gates push/PR to main with build + full Playwright suite.
+The WebGPU/WebGL2 shader background renders on all pages via a `'use client'` `ShaderBackground` component mounted in the root layout. Screenshot galleries and Mermaid diagrams render on authenticated domain proof pages as client islands. Domain proof flagship cards use title-cased project names, stack tags surfaced directly under titles, accent-bordered section labels, ›-prefixed list items via `.flagship-list` CSS, and header/body separators for scannable layout. 18 Playwright tests pass against production build (5 gate + 8 public + 3 shader + 2 gallery/mermaid). GitHub Actions CI workflow gates push/PR to main with build + full Playwright suite.
 
 All 20 requirements are validated; 0 active requirements remain. Vercel deployment requires manual env var setup (`GATE_HASH`) and DNS migration from GitHub Pages.
 
@@ -31,7 +31,8 @@ All 20 requirements are validated; 0 active requirements remain. Vercel deployme
 - Playwright tests in `tests/e2e/` (18 tests: gate, public, shader, gallery/mermaid)
 - GitHub Actions CI on push/PR to main: `next build` + full Playwright suite
 - Public site surfaces remain lightweight and text-forward
-- Sentence case convention for all visitor-facing copy (D031)
+- Sentence case convention for all visitor-facing copy (D031); title case for project names (D053)
+- **Flagship card styling:** Title-case convention (D053), `.flagship-list` CSS class for ›-prefixed lists, accent-bordered section labels, header/body separator — all in `DomainProofPage.tsx` + `globals.css`
 
 ## Capability Contract
 
@@ -44,4 +45,4 @@ See `.gsd/REQUIREMENTS.md` for the explicit capability contract, requirement sta
 - [x] M003: GPU shader background — Custom faded dither shader (WebGPU + WebGL2 fallback) as ambient cursor-reactive background across all pages with per-page opt-out.
 - [x] M004: Sentence case audit — Convert all visitor-facing copy from all-lowercase to sentence case with standard "I" capitalization, preserving casual tone.
 - [x] M005: Next.js migration — Migrated from Astro/GitHub Pages to Next.js App Router on Vercel, with the portfolio gate upgraded from client-side SHA-256 to server-side HttpOnly cookie auth. 18 Playwright tests, GitHub Actions CI, zero Astro remnants.
-- [ ] M006: UI polish — Domain pages & typography — Title case all project titles, surface stack tags under the project title on domain proof pages, and fix flagship card readability (list markers, section spacing, visual separators). S01 complete.
+- [x] M006: UI polish — Domain pages & typography — Title-cased all project names, surfaced stack tags under titles, and restructured flagship cards with visual separators, accent-bordered section labels, and ›-prefixed list items.
