@@ -58,24 +58,36 @@ fn vs(@builtin(vertex_index) vi: u32) -> VertexOutput {
 }
 
 // Generate animated gradient field with isolated bright regions.
-// Uses radial gradients and sweep functions that are zero over most of the canvas.
+// Blob centers are gravitationally attracted toward the cursor.
 fn blob_field(uv: vec2f, t: f32) -> f32 {
   let slow = t * 0.06;
   let drift = t * 0.09;
 
-  // Animated center positions for gradient blobs.
-  let c1 = vec2f(
+  // Base animated center positions for gradient blobs.
+  var c1 = vec2f(
     0.3 + 0.3 * sin(slow * 0.7),
     0.4 + 0.25 * cos(slow * 0.5)
   );
-  let c2 = vec2f(
+  var c2 = vec2f(
     0.7 + 0.25 * cos(drift * 0.8),
     0.6 + 0.3 * sin(drift * 0.6)
   );
-  let c3 = vec2f(
+  var c3 = vec2f(
     0.5 + 0.35 * sin(slow * 0.4 + 1.5),
     0.3 + 0.3 * cos(drift * 0.7 + 2.0)
   );
+
+  // Gravitational drift: gently pull blob centers toward cursor.
+  // Strength falls off with distance so only nearby blobs are affected.
+  if (u.pointer.x >= 0.0) {
+    let pull = 0.15; // max displacement toward cursor
+    let attract1 = pull * smoothstep(0.8, 0.0, distance(c1, u.pointer));
+    let attract2 = pull * smoothstep(0.8, 0.0, distance(c2, u.pointer));
+    let attract3 = pull * smoothstep(0.8, 0.0, distance(c3, u.pointer));
+    c1 = mix(c1, u.pointer, attract1);
+    c2 = mix(c2, u.pointer, attract2);
+    c3 = mix(c3, u.pointer, attract3);
+  }
 
   // Radial falloff from each center — wide, soft gradients.
   let d1 = 1.0 - smoothstep(0.0, 0.5, distance(uv, c1));
@@ -92,12 +104,6 @@ fn blob_field(uv: vec2f, t: f32) -> f32 {
 
   // Scale down: keep max brightness low so dither creates subtle gradient.
   v *= 0.56;
-
-  // Pointer influence — gentle radial brightening near cursor.
-  if (u.pointer.x >= 0.0) {
-    let d = distance(uv, u.pointer);
-    v += 0.1 * smoothstep(0.2, 0.0, d);
-  }
 
   return clamp(v, 0.0, 1.0);
 }

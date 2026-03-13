@@ -48,12 +48,12 @@ const float bayer8x8[64] = float[64](
 );
 
 // Generate animated gradient field with isolated bright regions.
-// Identical math to the WGSL blob_field function.
+// Blob centers are gravitationally attracted toward the cursor.
 float blob_field(vec2 uv, float t) {
   float slow = t * 0.06;
   float drift = t * 0.09;
 
-  // Animated center positions for gradient blobs.
+  // Base animated center positions for gradient blobs.
   vec2 c1 = vec2(
     0.3 + 0.3 * sin(slow * 0.7),
     0.4 + 0.25 * cos(slow * 0.5)
@@ -67,27 +67,31 @@ float blob_field(vec2 uv, float t) {
     0.3 + 0.3 * cos(drift * 0.7 + 2.0)
   );
 
+  // Gravitational drift: gently pull blob centers toward cursor.
+  if (u_pointer.x >= 0.0) {
+    float pull = 0.15;
+    float attract1 = pull * smoothstep(0.8, 0.0, distance(c1, u_pointer));
+    float attract2 = pull * smoothstep(0.8, 0.0, distance(c2, u_pointer));
+    float attract3 = pull * smoothstep(0.8, 0.0, distance(c3, u_pointer));
+    c1 = mix(c1, u_pointer, attract1);
+    c2 = mix(c2, u_pointer, attract2);
+    c3 = mix(c3, u_pointer, attract3);
+  }
+
   // Radial falloff from each center — wide, soft gradients.
   float d1 = 1.0 - smoothstep(0.0, 0.5, distance(uv, c1));
   float d2 = 1.0 - smoothstep(0.0, 0.45, distance(uv, c2));
   float d3 = 1.0 - smoothstep(0.0, 0.55, distance(uv, c3));
 
-  // Combine: max keeps isolated shapes, slight additive overlap.
+  // Combine: max keeps isolated shapes.
   float v = max(max(d1, d2), d3);
-  v = v * v; // Square for sharper falloff.
+  v = v * v;
 
   // Diagonal sweep for organic variation.
   float sweep = 0.5 + 0.5 * sin(uv.x * 1.5 - uv.y * 2.0 + slow * 1.2);
   v *= 0.3 + 0.7 * sweep;
 
-  // Scale down.
   v *= 0.56;
-
-  // Pointer influence.
-  if (u_pointer.x >= 0.0) {
-    float d = distance(uv, u_pointer);
-    v += 0.1 * smoothstep(0.2, 0.0, d);
-  }
 
   return clamp(v, 0.0, 1.0);
 }
