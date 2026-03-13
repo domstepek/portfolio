@@ -57,63 +57,71 @@ fn vs(@builtin(vertex_index) vi: u32) -> VertexOutput {
   return out;
 }
 
-// Sweeping directional gradient — a wide beam that slowly rotates like a tail.
-// No radial falloff — the gradient spans the full canvas like the reference.
+// Animated radial gradient — center orbits slowly, wide soft falloff.
+// This is the luminance source that the Bayer dither thresholds against.
 fn gradient_field(uv: vec2f, t: f32) -> f32 {
-  let slow = t * 0.05;
+  let slow = t * 0.03;
 
-  // Pivot near center with gentle drift.
-  let pivot = vec2f(0.5 + 0.05 * sin(slow * 0.3), 0.5 + 0.05 * cos(slow * 0.4));
+  // Aspect ratio correction for circular gradients.
+  let aspect = u.resolution.x / u.resolution.y;
 
-  // Primary sweep: slowly rotating directional gradient across the full canvas.
-  let angle1 = slow * 0.7;
-  let dir1 = vec2f(cos(angle1), sin(angle1));
-  let proj1 = dot(uv - pivot, dir1);
-  // Wide gradient: from fully dark on one side to fully bright on the other.
-  // The smoothstep range spans most of the canvas diagonal (~0.7 units).
-  let grad1 = smoothstep(-0.3, 0.5, proj1);
+  // Primary gradient center: orbits along canvas edge slowly.
+  let c1 = vec2f(
+    0.5 + 0.45 * cos(slow * 0.6),
+    0.5 + 0.45 * sin(slow * 0.4)
+  );
 
-  // Secondary sweep for layered complexity — different angle, slower.
-  let angle2 = slow * 0.45 + 2.1;
-  let dir2 = vec2f(cos(angle2), sin(angle2));
-  let proj2 = dot(uv - pivot, dir2);
-  let grad2 = smoothstep(-0.2, 0.45, proj2);
+  // Aspect-corrected distance for circular shape on screen.
+  let d1 = distance(vec2f(uv.x * aspect, uv.y), vec2f(c1.x * aspect, c1.y));
+  let g1 = smoothstep(1.1, 0.0, d1);
 
-  // Combine: primary dominant, secondary adds variation.
-  var v = grad1 * 0.65 + grad2 * 0.35;
+  // Secondary gradient: slower orbit, offset phase, adds depth.
+  let c2 = vec2f(
+    0.5 + 0.35 * cos(slow * 0.35 + 2.5),
+    0.5 + 0.35 * sin(slow * 0.5 + 1.8)
+  );
+  let d2 = distance(vec2f(uv.x * aspect, uv.y), vec2f(c2.x * aspect, c2.y));
+  let g2 = smoothstep(0.9, 0.0, d2);
 
-  // No scaling down — let the gradient use its full range.
-  // The dither threshold naturally handles the bright-to-dark transition.
+  // Combine: primary dominant, secondary adds subtle complexity.
+  var v = max(g1 * 0.7, g2 * 0.35);
 
-  // Gravitational drift: gently bias the gradient toward cursor.
+  // Cursor: gently drift gradient center toward pointer.
   if (u.pointer.x >= 0.0) {
-    let cursor_dir = normalize(u.pointer - pivot);
-    let cursor_proj = dot(uv - pivot, cursor_dir);
-    let cursor_grad = smoothstep(-0.2, 0.5, cursor_proj);
-    let influence = 0.08 * smoothstep(0.6, 0.0, distance(pivot, u.pointer));
-    v = mix(v, max(v, cursor_grad), influence);
+    let pull = 0.12 * smoothstep(0.6, 0.0, distance(c1, u.pointer));
+    let pulled = mix(c1, u.pointer, pull);
+    let dp = distance(vec2f(uv.x * aspect, uv.y), vec2f(pulled.x * aspect, pulled.y));
+    let gp = smoothstep(1.1, 0.0, dp);
+    v = max(v, gp * 0.5);
   }
+
+  // Subtle base everywhere — prevents pure black, adds texture.
+  v = max(v, 0.035);
 
   return clamp(v, 0.0, 1.0);
 }
 
 @fragment
 fn fs(@builtin(position) frag_coord: vec4f) -> @location(0) vec4f {
-  let uv = frag_coord.xy / u.resolution;
+  // Snap to pixel grid (4×4 blocks) for chunky dither dots.
+  let pixel_size = 4.0;
+  let snapped = floor(frag_coord.xy / pixel_size);
+  let uv = (snapped + 0.5) * pixel_size / u.resolution;
 
   let lum = gradient_field(uv, u.time);
 
-  // Bayer 8×8 ordered dithering.
-  let bx = u32(frag_coord.x) % 8u;
-  let by = u32(frag_coord.y) % 8u;
+  // Bayer 8×8 ordered dithering on the snapped grid.
+  let bx = u32(snapped.x) % 8u;
+  let by = u32(snapped.y) % 8u;
   let threshold = bayer8x8[by * 8u + bx];
 
   if (lum < threshold) {
-    return vec4f(u.color_bg, 1.0);
+    // Off-pixels: very subtle lift above pure black.
+    return vec4f(u.color_bg + vec3f(0.008, 0.008, 0.008), 1.0);
   }
 
-  // Dot color: charcoal gray — clearly visible against the dark bg.
-  let dot_color = u.color_bg + vec3f(0.22, 0.22, 0.22);
+  // Dot color: restrained charcoal gray.
+  let dot_color = u.color_bg + vec3f(0.12, 0.12, 0.12);
   return vec4f(dot_color, 1.0);
 }
 `;

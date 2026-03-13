@@ -1057,6 +1057,16 @@ label[for], [onclick], [tabindex]:not([tabindex="-1"]) {
   margin-block-end: 1.5rem;
 }
 
+/* Isolate avatar from shader canvas so mix-blend-mode doesn't pick up dither dots. */
+.home-avatar-wrap {
+  isolation: isolate;
+  background: var(--bg);
+  display: inline-block;
+  line-height: 0;
+  width: 160px;
+  height: 160px;
+}
+
 @media (min-width: 42rem) {
   .home-page__domain-item {
     grid-template-columns: max-content auto;

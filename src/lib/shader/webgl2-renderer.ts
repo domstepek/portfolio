@@ -47,54 +47,58 @@ const float bayer8x8[64] = float[64](
   0.992188, 0.492188, 0.867188, 0.367188, 0.960938, 0.460938, 0.835938, 0.335938
 );
 
-// Sweeping directional gradient — full-canvas, no radial falloff.
+// Animated radial gradient — center orbits slowly, wide soft falloff.
 float gradient_field(vec2 uv, float t) {
-  float slow = t * 0.05;
+  float slow = t * 0.03;
+  float aspect = u_resolution.x / u_resolution.y;
 
-  vec2 pivot = vec2(0.5 + 0.05 * sin(slow * 0.3), 0.5 + 0.05 * cos(slow * 0.4));
+  vec2 c1 = vec2(
+    0.5 + 0.45 * cos(slow * 0.6),
+    0.5 + 0.45 * sin(slow * 0.4)
+  );
+  float d1 = distance(vec2(uv.x * aspect, uv.y), vec2(c1.x * aspect, c1.y));
+  float g1 = smoothstep(1.1, 0.0, d1);
 
-  // Primary sweep.
-  float angle1 = slow * 0.7;
-  vec2 dir1 = vec2(cos(angle1), sin(angle1));
-  float proj1 = dot(uv - pivot, dir1);
-  float grad1 = smoothstep(-0.3, 0.5, proj1);
+  vec2 c2 = vec2(
+    0.5 + 0.35 * cos(slow * 0.35 + 2.5),
+    0.5 + 0.35 * sin(slow * 0.5 + 1.8)
+  );
+  float d2 = distance(vec2(uv.x * aspect, uv.y), vec2(c2.x * aspect, c2.y));
+  float g2 = smoothstep(0.9, 0.0, d2);
 
-  // Secondary sweep.
-  float angle2 = slow * 0.45 + 2.1;
-  vec2 dir2 = vec2(cos(angle2), sin(angle2));
-  float proj2 = dot(uv - pivot, dir2);
-  float grad2 = smoothstep(-0.2, 0.45, proj2);
+  float v = max(g1 * 0.7, g2 * 0.35);
 
-  float v = grad1 * 0.65 + grad2 * 0.35;
-
-  // Gravitational drift toward cursor.
   if (u_pointer.x >= 0.0) {
-    vec2 cursor_dir = normalize(u_pointer - pivot);
-    float cursor_proj = dot(uv - pivot, cursor_dir);
-    float cursor_grad = smoothstep(-0.2, 0.5, cursor_proj);
-    float influence = 0.08 * smoothstep(0.6, 0.0, distance(pivot, u_pointer));
-    v = mix(v, max(v, cursor_grad), influence);
+    float pull = 0.12 * smoothstep(0.6, 0.0, distance(c1, u_pointer));
+    vec2 pulled = mix(c1, u_pointer, pull);
+    float dp = distance(vec2(uv.x * aspect, uv.y), vec2(pulled.x * aspect, pulled.y));
+    float gp = smoothstep(1.1, 0.0, dp);
+    v = max(v, gp * 0.5);
   }
+
+  v = max(v, 0.035);
 
   return clamp(v, 0.0, 1.0);
 }
 
 void main() {
-  vec2 uv = gl_FragCoord.xy / u_resolution;
+  // Snap to pixel grid (4×4 blocks) for chunky dither dots.
+  float pixel_size = 4.0;
+  vec2 snapped = floor(gl_FragCoord.xy / pixel_size);
+  vec2 uv = (snapped + 0.5) * pixel_size / u_resolution;
 
   float lum = gradient_field(uv, u_time);
 
-  int bx = int(gl_FragCoord.x) % 8;
-  int by = int(gl_FragCoord.y) % 8;
+  int bx = int(snapped.x) % 8;
+  int by = int(snapped.y) % 8;
   float threshold = bayer8x8[by * 8 + bx];
 
   if (lum < threshold) {
-    fragColor = vec4(u_color_bg, 1.0);
+    fragColor = vec4(u_color_bg + vec3(0.008, 0.008, 0.008), 1.0);
     return;
   }
 
-  // Dot color: charcoal gray — clearly visible.
-  vec3 dot_color = u_color_bg + vec3(0.22, 0.22, 0.22);
+  vec3 dot_color = u_color_bg + vec3(0.12, 0.12, 0.12);
   fragColor = vec4(dot_color, 1.0);
 }
 `;

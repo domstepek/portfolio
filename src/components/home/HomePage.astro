@@ -14,13 +14,15 @@ const isExternalHttpLink = (href: string) => href.startsWith("https://");
 
 <div class="home-page" data-home-page data-route-visibility="public" data-gate-state="open">
   <section class="home-page__hero" data-home-hero>
-    <img
-      src={home.avatar}
-      alt="dom"
-      class="home-avatar"
-      width="160"
-      height="160"
-    />
+    <div class="home-avatar-wrap">
+      <img
+        src={home.avatar}
+        alt="dom"
+        class="home-avatar"
+        width="160"
+        height="160"
+      />
+    </div>
     <p class="home-page__eyebrow">{homePage.eyebrow}</p>
     <h1>{homePage.title}</h1>
     <p class="home-page__lead">{homePage.lead}</p>
