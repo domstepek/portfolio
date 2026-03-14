@@ -1,21 +1,24 @@
 # GSD State
 
 **Active Milestone:** M007 — Engineering Journal
-**Active Slice:** S03 — Domain page markdown enrichment (next)
-**Active Task:** none
-**Phase:** Planning
+**Active Slice:** S03 — Domain page markdown enrichment
+**Phase:** planning
+**Requirements Status:** 0 active · 20 validated · 0 deferred · 1 out of scope
+
+## Milestone Registry
+- ✅ **M001:** MVP (Phases 1-6) — SHIPPED 2026-03-10
+- ✅ **M002:** Portfolio Access Gate
+- ✅ **M003:** GPU Shader Background
+- ✅ **M004:** Sentence Case Audit
+- ✅ **M005:** Next.js Migration
+- ✅ **M006:** UI Polish — Domain Pages & Typography
+- 🔄 **M007:** Engineering Journal
 
 ## Recent Decisions
-- D054: Global skill at ~/.agents/skills/engineering-journal/ symlinked to GSD skills
-- D057: Media in public/notes/<slug>/ with evidence TODO markers
-- D058: Casual first-person engineering voice matching D031
-- D059: S01 verification via build + 18 Playwright tests + Shiki class inspection + visual UAT
-- D060: Tag filter as `'use client'` island with serialized data
-- D061: Shiki theme background via transparent CSS override
-- D062: remark-gfm added for GFM table support
+- None recorded
 
 ## Blockers
 - None
 
 ## Next Action
-S02 complete. Next: plan and execute S03 (domain page markdown enrichment).
+Plan slice S03 (Domain page markdown enrichment).
