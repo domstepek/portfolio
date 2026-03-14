@@ -4,7 +4,7 @@ const resolveSiteUrl = (value: string | undefined) => new URL(value ?? DEFAULT_S
 
 export const siteConfig = {
   name: "Dom",
-  defaultTitle: "Dom | Systems, products, and tooling",
+  defaultTitle: "Dom | Systems, Products, and Tooling",
   defaultDescription:
     "Dom builds product systems, analytics & AI tooling, and developer experience infrastructure.",
   siteUrl: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),

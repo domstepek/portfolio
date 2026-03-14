@@ -36,7 +36,7 @@ export interface HomePageData {
 
 export const homePage = {
   avatar: "/images/avatar.png",
-  eyebrow: "Dom Stepek / Systems, products, and tooling",
+  eyebrow: "Dom Stepek / Systems, Products, and Tooling",
   title:
     "I work across product, analytics & AI, and developer experience.",
   lead:
@@ -76,7 +76,7 @@ export const homePage = {
     note: "Last updated March 2026.",
   },
   seo: {
-    title: "Systems, products, and tooling",
+    title: "Systems, Products, and Tooling",
     description:
       "Homepage for Dom's work across product systems, analytics & AI tooling, and developer experience.",
   },
