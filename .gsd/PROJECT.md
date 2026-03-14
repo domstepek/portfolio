@@ -10,7 +10,9 @@ Someone should be able to land on the site, quickly understand what kinds of com
 
 ## Current State
 
-M001–M006 complete. The project is a Next.js 16 App Router site (`src/app/`) with Tailwind v4 retro design tokens, deployed via Vercel.
+M001–M006 complete. M007 in progress — engineering journal skill and enhanced markdown rendering.
+
+The project is a Next.js 16 App Router site (`src/app/`) with Tailwind v4 retro design tokens, deployed via Vercel.
 
 The portfolio gate uses real server-side auth: the RSC domain route reads an HttpOnly `portfolio-gate` cookie and conditionally renders either the gate page (zero proof content) or the full proof page. `proxy.ts` adds an observability header on `/domains/*` requests. All five public routes (`/`, `/about/`, `/resume/`, `/notes/`, `/notes/[slug]/`) render as server components with full site shell, notes markdown pipeline, custom 404, and SEO metadata.
 
@@ -46,3 +48,4 @@ See `.gsd/REQUIREMENTS.md` for the explicit capability contract, requirement sta
 - [x] M004: Sentence case audit — Convert all visitor-facing copy from all-lowercase to sentence case with standard "I" capitalization, preserving casual tone.
 - [x] M005: Next.js migration — Migrated from Astro/GitHub Pages to Next.js App Router on Vercel, with the portfolio gate upgraded from client-side SHA-256 to server-side HttpOnly cookie auth. 18 Playwright tests, GitHub Actions CI, zero Astro remnants.
 - [x] M006: UI polish — Domain pages & typography — Title-cased all project names, surfaced stack tags under titles, and restructured flagship cards with visual separators, accent-bordered section labels, and ›-prefixed list items.
+- [ ] M007: Engineering journal — Global agent skill for writing engineering journal entries from conversation context, plus enhanced markdown rendering (Shiki syntax highlighting, tag filtering, images) in the notes section.

@@ -6,7 +6,115 @@ Use it to track what is actively in scope, what has been validated by completed 
 
 ## Active
 
-(No active requirements remain.)
+### R501 — Global agent skill generates engineering journal entries from conversation context
+- Class: core-capability
+- Status: active
+- Description: A SKILL.md file at `~/.agents/skills/engineering-journal/` (symlinked to GSD skills) reviews the current conversation context and generates a markdown journal entry in `src/content/notes/` with expanded frontmatter. The skill prompts the user for supporting evidence (screenshots, diagrams, video links).
+- Why it matters: This is the primary deliverable — an agent skill that turns work sessions into publishable engineering journal articles without manual writing.
+- Source: user
+- Primary owning slice: M007/S02
+- Supporting slices: none
+- Validation: unmapped
+- Notes: Skill must reference this repo's notes directory, frontmatter schema, and tone conventions.
+
+### R502 — Expanded frontmatter schema for notes
+- Class: core-capability
+- Status: active
+- Description: Notes frontmatter supports `title`, `summary`, `published`, `updated`, `tags[]`, `type` (note | journal), and `readTime` (auto-calculated). Existing notes migrated to the new schema with `type: 'note'`.
+- Why it matters: Tags and type enable filtering and differentiation between short opinion notes and longer technical journal entries.
+- Source: user
+- Primary owning slice: M007/S01
+- Supporting slices: M007/S02
+- Validation: unmapped
+- Notes: readTime calculated from word count at build time.
+
+### R503 — Tag filtering on notes index page
+- Class: core-capability
+- Status: active
+- Description: The `/notes` index page displays tags on each entry and supports client-side filtering by tag. Tags are clickable to filter the list.
+- Why it matters: As journal entries accumulate, filtering by topic (e.g. #webgpu, #debugging, #nextjs) keeps the page navigable.
+- Source: user
+- Primary owning slice: M007/S01
+- Supporting slices: none
+- Validation: unmapped
+- Notes: Client-side filtering via a small `'use client'` component; no server round-trip needed.
+
+### R504 — Shiki syntax highlighting for code blocks in notes
+- Class: quality-attribute
+- Status: active
+- Description: Code blocks in markdown notes render with Shiki syntax highlighting using a dark theme that matches the site's retro terminal aesthetic.
+- Why it matters: Journal entries will contain code snippets; unformatted code blocks are unreadable on a dark background.
+- Source: user
+- Primary owning slice: M007/S01
+- Supporting slices: none
+- Validation: unmapped
+- Notes: Use `@shikijs/rehype` plugin in the existing unified pipeline. Theme should complement the green-on-dark palette.
+
+### R505 — Rich markdown rendering for journal content
+- Class: quality-attribute
+- Status: active
+- Description: Notes/journal markdown renders images (with alt text and captions), blockquotes, inline code, tables, and horizontal rules with styling consistent with the site's retro terminal theme.
+- Why it matters: Journal entries need richer content than the current short opinion notes — code, screenshots, diagrams.
+- Source: user
+- Primary owning slice: M007/S01
+- Supporting slices: none
+- Validation: unmapped
+- Notes: Images stored in `public/notes/<slug>/` and referenced via relative markdown paths.
+
+### R506 — Local media storage for journal supporting evidence
+- Class: core-capability
+- Status: active
+- Description: Supporting evidence (screenshots, diagrams, photos) is stored in `public/notes/<slug>/` and referenced from markdown via standard image syntax. The skill creates the directory and instructs the user where to place files.
+- Why it matters: Evidence makes journal entries credible and useful as reference material.
+- Source: user
+- Primary owning slice: M007/S02
+- Supporting slices: M007/S01
+- Validation: unmapped
+- Notes: Video can be embedded via external links (YouTube, etc.) — not stored locally.
+
+### R507 — Existing notes migrated to expanded schema
+- Class: continuity
+- Status: active
+- Description: The two existing notes (`keep-the-path-explicit`, `systems-over-abstractions`) are updated with `type: 'note'` and appropriate tags, and continue to render correctly.
+- Why it matters: Schema migration must not break existing content.
+- Source: inferred
+- Primary owning slice: M007/S01
+- Supporting slices: none
+- Validation: unmapped
+- Notes: Existing Playwright tests for notes must continue to pass.
+
+### R508 — Skill writes markdown file directly into repo
+- Class: core-capability
+- Status: active
+- Description: The skill writes the generated journal entry as a `.md` file in `src/content/notes/` and tells the user to review it before committing.
+- Why it matters: Reduces friction — the user reviews and edits, not creates from scratch.
+- Source: user
+- Primary owning slice: M007/S02
+- Supporting slices: none
+- Validation: unmapped
+- Notes: Skill also creates `public/notes/<slug>/` directory for media if evidence is provided.
+
+### R509 — Casual first-person engineering journal tone
+- Class: quality-attribute
+- Status: active
+- Description: Journal entries use a casual first-person voice ("I ran into X, tried Y, here's what worked") consistent with the site's established tone (D031).
+- Why it matters: The journal should feel authentic and match the existing site personality.
+- Source: user
+- Primary owning slice: M007/S02
+- Supporting slices: none
+- Validation: unmapped
+- Notes: Inspired by engineering journal best practices from Stack Overflow Blog, reconfigured.io, and The Pragmatic Programmer.
+
+### R510 — Existing Playwright tests continue to pass
+- Class: continuity
+- Status: active
+- Description: All 18 existing Playwright tests pass after M007 changes.
+- Why it matters: Enhanced rendering and schema changes must not break existing site functionality.
+- Source: inferred
+- Primary owning slice: M007/S01
+- Supporting slices: none
+- Validation: unmapped
+- Notes: Tests cover gate, public pages, shader, and gallery/mermaid.
 
 ## Validated
 
@@ -267,14 +375,14 @@ Use it to track what is actively in scope, what has been validated by completed 
 
 ### R204 - Notes taxonomy and browsing by tag or theme
 - Class: differentiator
-- Status: deferred
+- Status: validated
 - Description: Visitors can browse notes by theme or tag as the writing library grows.
 - Why it matters: Useful later if the notes surface expands materially.
 - Source: user
-- Primary owning slice: none
+- Primary owning slice: M007/S01
 - Supporting slices: none
 - Validation: validated
-- Notes: Migrated from legacy deferred scope.
+- Notes: Originally deferred; now delivered by M007/S01 tag filtering.
 
 ## Out of Scope
 
@@ -337,15 +445,25 @@ Use it to track what is actively in scope, what has been validated by completed 
 | R201 | differentiator | deferred | none | none | unmapped |
 | R202 | differentiator | deferred | none | none | unmapped |
 | R203 | core-capability | deferred | none | none | unmapped |
-| R204 | differentiator | deferred | none | none | unmapped |
+| R204 | differentiator | validated | M007/S01 | none | validated |
 | R301 | compliance/security | validated | M005/S01 | none | validated |
 | R302 | anti-feature | out-of-scope | none | none | n/a |
 | R303 | anti-feature | out-of-scope | none | none | n/a |
 | R304 | anti-feature | out-of-scope | none | none | n/a |
+| R501 | core-capability | active | M007/S02 | none | unmapped |
+| R502 | core-capability | active | M007/S01 | M007/S02 | unmapped |
+| R503 | core-capability | active | M007/S01 | none | unmapped |
+| R504 | quality-attribute | active | M007/S01 | none | unmapped |
+| R505 | quality-attribute | active | M007/S01 | none | unmapped |
+| R506 | core-capability | active | M007/S02 | M007/S01 | unmapped |
+| R507 | continuity | active | M007/S01 | none | unmapped |
+| R508 | core-capability | active | M007/S02 | none | unmapped |
+| R509 | quality-attribute | active | M007/S02 | none | unmapped |
+| R510 | continuity | active | M007/S01 | none | unmapped |
 
 ## Coverage Summary
 
-- Active requirements: 0
-- Mapped to slices: 0
-- Validated: 20
+- Active requirements: 10
+- Mapped to slices: 10
+- Validated: 21
 - Unmapped active requirements: 0

@@ -1,21 +1,19 @@
 # GSD State
 
-**Active Milestone:** None
-**Last Completed Milestone:** M006 — UI Polish — Domain Pages & Typography
-**Phase:** Idle — all milestones complete
+**Active Milestone:** M007 — Engineering Journal
+**Active Slice:** None — roadmap written, ready to plan S01
+**Active Task:** None
+**Phase:** Planning
 
-## M006 Status (complete)
-- [x] S01 — Title case, stack tag reorder, and flagship card readability `complete`
-  - [x] T01 — Title-case all project names in domain data files
-  - [x] T02 — Restructure flagship card layout and add `.flagship-list` CSS
+## Recent Decisions
+- D054: Global skill at `~/.agents/skills/engineering-journal/` symlinked to GSD skills
+- D055: Notes and journal entries coexist in `/notes` with `type` field and tag filtering
+- D056: Shiki via `@shikijs/rehype` for syntax highlighting
+- D057: Media in `public/notes/<slug>/`, referenced from markdown
+- D058: Casual first-person journal tone matching D031
 
-## Verification
-- ✅ `pnpm build` → exits 0 (8 routes)
-- ✅ 18/18 Playwright tests pass against production build
-- ✅ All 20 requirements validated, 0 active
-- ✅ Visual inspection confirms all 3 domain pages render correctly at desktop and mobile
+## Blockers
+- None
 
-## Pending Manual Steps (Outside Agent Scope)
-- Set `GATE_HASH` env var in Vercel project dashboard
-- Set `GATE_HASH` and `GATE_TEST_PASSCODE` as GitHub repository secrets for CI
-- Update DNS from GitHub Pages to Vercel for custom domain
+## Next Action
+Plan S01: Enhanced markdown rendering and tag system — decompose into tasks with must-haves.
