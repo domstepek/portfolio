@@ -2,6 +2,8 @@
 title: Keep the path explicit
 summary: A surprising amount of delivery friction comes from pretending the route is obvious when it is not.
 published: 2026-03-09
+type: note
+tags: [opinion, engineering]
 ---
 
 When a system touches multiple environments, teams, or delivery steps, I would rather make the path explicit than elegant.

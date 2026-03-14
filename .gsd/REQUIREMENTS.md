@@ -17,50 +17,6 @@ Use it to track what is actively in scope, what has been validated by completed 
 - Validation: unmapped
 - Notes: Skill must reference this repo's notes directory, frontmatter schema, and tone conventions.
 
-### R502 — Expanded frontmatter schema for notes
-- Class: core-capability
-- Status: active
-- Description: Notes frontmatter supports `title`, `summary`, `published`, `updated`, `tags[]`, `type` (note | journal), and `readTime` (auto-calculated). Existing notes migrated to the new schema with `type: 'note'`.
-- Why it matters: Tags and type enable filtering and differentiation between short opinion notes and longer technical journal entries.
-- Source: user
-- Primary owning slice: M007/S01
-- Supporting slices: M007/S02
-- Validation: unmapped
-- Notes: readTime calculated from word count at build time.
-
-### R503 — Tag filtering on notes index page
-- Class: core-capability
-- Status: active
-- Description: The `/notes` index page displays tags on each entry and supports client-side filtering by tag. Tags are clickable to filter the list.
-- Why it matters: As journal entries accumulate, filtering by topic (e.g. #webgpu, #debugging, #nextjs) keeps the page navigable.
-- Source: user
-- Primary owning slice: M007/S01
-- Supporting slices: none
-- Validation: unmapped
-- Notes: Client-side filtering via a small `'use client'` component; no server round-trip needed.
-
-### R504 — Shiki syntax highlighting for code blocks in notes
-- Class: quality-attribute
-- Status: active
-- Description: Code blocks in markdown notes render with Shiki syntax highlighting using a dark theme that matches the site's retro terminal aesthetic.
-- Why it matters: Journal entries will contain code snippets; unformatted code blocks are unreadable on a dark background.
-- Source: user
-- Primary owning slice: M007/S01
-- Supporting slices: none
-- Validation: unmapped
-- Notes: Use `@shikijs/rehype` plugin in the existing unified pipeline. Theme should complement the green-on-dark palette.
-
-### R505 — Rich markdown rendering for journal content
-- Class: quality-attribute
-- Status: active
-- Description: Notes/journal markdown renders images (with alt text and captions), blockquotes, inline code, tables, and horizontal rules with styling consistent with the site's retro terminal theme.
-- Why it matters: Journal entries need richer content than the current short opinion notes — code, screenshots, diagrams.
-- Source: user
-- Primary owning slice: M007/S01
-- Supporting slices: none
-- Validation: unmapped
-- Notes: Images stored in `public/notes/<slug>/` and referenced via relative markdown paths.
-
 ### R506 — Local media storage for journal supporting evidence
 - Class: core-capability
 - Status: active
@@ -71,17 +27,6 @@ Use it to track what is actively in scope, what has been validated by completed 
 - Supporting slices: M007/S01
 - Validation: unmapped
 - Notes: Video can be embedded via external links (YouTube, etc.) — not stored locally.
-
-### R507 — Existing notes migrated to expanded schema
-- Class: continuity
-- Status: active
-- Description: The two existing notes (`keep-the-path-explicit`, `systems-over-abstractions`) are updated with `type: 'note'` and appropriate tags, and continue to render correctly.
-- Why it matters: Schema migration must not break existing content.
-- Source: inferred
-- Primary owning slice: M007/S01
-- Supporting slices: none
-- Validation: unmapped
-- Notes: Existing Playwright tests for notes must continue to pass.
 
 ### R508 — Skill writes markdown file directly into repo
 - Class: core-capability
@@ -105,18 +50,73 @@ Use it to track what is actively in scope, what has been validated by completed 
 - Validation: unmapped
 - Notes: Inspired by engineering journal best practices from Stack Overflow Blog, reconfigured.io, and The Pragmatic Programmer.
 
+## Validated
+
+### R502 — Expanded frontmatter schema for notes
+- Class: core-capability
+- Status: validated
+- Description: Notes frontmatter supports `title`, `summary`, `published`, `updated`, `tags[]`, `type` (note | journal), and `readTime` (auto-calculated). Existing notes migrated to the new schema with `type: 'note'`.
+- Why it matters: Tags and type enable filtering and differentiation between short opinion notes and longer technical journal entries.
+- Source: user
+- Primary owning slice: M007/S01
+- Supporting slices: M007/S02
+- Validation: validated
+- Notes: readTime calculated from word count at build time. Proven by build + type checking + rendered output with tags/type/readTime on note detail pages.
+
+### R503 — Tag filtering on notes index page
+- Class: core-capability
+- Status: validated
+- Description: The `/notes` index page displays tags on each entry and supports client-side filtering by tag. Tags are clickable to filter the list.
+- Why it matters: As journal entries accumulate, filtering by topic (e.g. #webgpu, #debugging, #nextjs) keeps the page navigable.
+- Source: user
+- Primary owning slice: M007/S01
+- Supporting slices: none
+- Validation: validated
+- Notes: Client-side filtering via a small `'use client'` component; no server round-trip needed. Proven by browser verification — click filters list, second click restores.
+
+### R504 — Shiki syntax highlighting for code blocks in notes
+- Class: quality-attribute
+- Status: validated
+- Description: Code blocks in markdown notes render with Shiki syntax highlighting using a dark theme that matches the site's retro terminal aesthetic.
+- Why it matters: Journal entries will contain code snippets; unformatted code blocks are unreadable on a dark background.
+- Source: user
+- Primary owning slice: M007/S01
+- Supporting slices: none
+- Validation: validated
+- Notes: Use `@shikijs/rehype` plugin in the existing unified pipeline. Theme should complement the green-on-dark palette. Proven by `class="shiki tokyo-night"` in rendered HTML + visual code block coloring.
+
+### R505 — Rich markdown rendering for journal content
+- Class: quality-attribute
+- Status: validated
+- Description: Notes/journal markdown renders images (with alt text and captions), blockquotes, inline code, tables, and horizontal rules with styling consistent with the site's retro terminal theme.
+- Why it matters: Journal entries need richer content than the current short opinion notes — code, screenshots, diagrams.
+- Source: user
+- Primary owning slice: M007/S01
+- Supporting slices: none
+- Validation: validated
+- Notes: Images stored in `public/notes/<slug>/` and referenced via relative markdown paths. Proven by test note rendering all element types with retro styling.
+
+### R507 — Existing notes migrated to expanded schema
+- Class: continuity
+- Status: validated
+- Description: The two existing notes (`keep-the-path-explicit`, `systems-over-abstractions`) are updated with `type: 'note'` and appropriate tags, and continue to render correctly.
+- Why it matters: Schema migration must not break existing content.
+- Source: inferred
+- Primary owning slice: M007/S01
+- Supporting slices: none
+- Validation: validated
+- Notes: Existing Playwright tests for notes must continue to pass. Proven by both notes building and rendering correctly with new schema, all 18 tests passing.
+
 ### R510 — Existing Playwright tests continue to pass
 - Class: continuity
-- Status: active
+- Status: validated
 - Description: All 18 existing Playwright tests pass after M007 changes.
 - Why it matters: Enhanced rendering and schema changes must not break existing site functionality.
 - Source: inferred
 - Primary owning slice: M007/S01
 - Supporting slices: none
-- Validation: unmapped
-- Notes: Tests cover gate, public pages, shader, and gallery/mermaid.
-
-## Validated
+- Validation: validated
+- Notes: Tests cover gate, public pages, shader, and gallery/mermaid. Proven by `pnpm test` — 18/18 pass against production build.
 
 ### R401 — Custom faded dither GPU shader renders as ambient page background
 - Class: differentiator
@@ -451,19 +451,19 @@ Use it to track what is actively in scope, what has been validated by completed 
 | R303 | anti-feature | out-of-scope | none | none | n/a |
 | R304 | anti-feature | out-of-scope | none | none | n/a |
 | R501 | core-capability | active | M007/S02 | none | unmapped |
-| R502 | core-capability | active | M007/S01 | M007/S02 | unmapped |
-| R503 | core-capability | active | M007/S01 | none | unmapped |
-| R504 | quality-attribute | active | M007/S01 | none | unmapped |
-| R505 | quality-attribute | active | M007/S01 | none | unmapped |
+| R502 | core-capability | validated | M007/S01 | M007/S02 | validated |
+| R503 | core-capability | validated | M007/S01 | none | validated |
+| R504 | quality-attribute | validated | M007/S01 | none | validated |
+| R505 | quality-attribute | validated | M007/S01 | none | validated |
 | R506 | core-capability | active | M007/S02 | M007/S01 | unmapped |
-| R507 | continuity | active | M007/S01 | none | unmapped |
+| R507 | continuity | validated | M007/S01 | none | validated |
 | R508 | core-capability | active | M007/S02 | none | unmapped |
 | R509 | quality-attribute | active | M007/S02 | none | unmapped |
-| R510 | continuity | active | M007/S01 | none | unmapped |
+| R510 | continuity | validated | M007/S01 | none | validated |
 
 ## Coverage Summary
 
-- Active requirements: 10
-- Mapped to slices: 10
-- Validated: 21
+- Active requirements: 4
+- Mapped to slices: 4
+- Validated: 27
 - Unmapped active requirements: 0

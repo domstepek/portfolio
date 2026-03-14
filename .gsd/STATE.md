@@ -1,19 +1,18 @@
 # GSD State
 
 **Active Milestone:** M007 — Engineering Journal
-**Active Slice:** None — roadmap written, ready to plan S01
-**Active Task:** None
-**Phase:** Planning
+**Active Slice:** S01 complete — ready for S02
+**Active Task:** none
+**Phase:** Planning (next slice)
 
 ## Recent Decisions
-- D054: Global skill at `~/.agents/skills/engineering-journal/` symlinked to GSD skills
-- D055: Notes and journal entries coexist in `/notes` with `type` field and tag filtering
-- D056: Shiki via `@shikijs/rehype` for syntax highlighting
-- D057: Media in `public/notes/<slug>/`, referenced from markdown
-- D058: Casual first-person journal tone matching D031
+- D059: S01 verification via build + 18 Playwright tests + Shiki class inspection + visual UAT
+- D060: Tag filter as `'use client'` island with serialized data
+- D061: Shiki theme background via transparent CSS override
+- D062: remark-gfm added for GFM table support
 
 ## Blockers
 - None
 
 ## Next Action
-Plan S01: Enhanced markdown rendering and tag system — decompose into tasks with must-haves.
+Plan and execute S02 (Engineering journal agent skill) or S03 (Domain page markdown enrichment)

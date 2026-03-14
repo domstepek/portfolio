@@ -1,20 +1,22 @@
 import Link from "next/link";
 import { TerminalPanel } from "@/components/layout/TerminalPanel";
-import { getAllNotes } from "@/lib/notes";
-import { homePath, notePath } from "@/lib/paths";
-
-const formatDate = (value: Date) =>
-  new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  })
-    .format(value)
-    .toLowerCase();
+import { getAllNotes, getAllTags } from "@/lib/notes";
+import { homePath } from "@/lib/paths";
+import { TagFilter, type SerializedNoteEntry } from "./TagFilter";
 
 export function NotesIndexPage() {
   const notes = getAllNotes();
+  const allTags = getAllTags();
+
+  // Serialize notes for the client boundary (Date → ISO string)
+  const serializedNotes: SerializedNoteEntry[] = notes.map((note) => ({
+    slug: note.slug,
+    frontmatter: {
+      ...note.frontmatter,
+      published: note.frontmatter.published.toISOString(),
+      updated: note.frontmatter.updated?.toISOString(),
+    },
+  }));
 
   return (
     <div className="notes-index" data-notes-index>
@@ -34,30 +36,7 @@ export function NotesIndexPage() {
           </p>
         </section>
 
-        <div className="notes-index__list">
-          {notes.map((note) => (
-            <article
-              key={note.slug}
-              className="notes-index__item"
-              data-note-item
-            >
-              <div className="notes-index__meta">
-                <time
-                  data-note-date
-                  dateTime={note.frontmatter.published.toISOString()}
-                >
-                  {formatDate(note.frontmatter.published)}
-                </time>
-              </div>
-              <h2 className="notes-index__title" data-note-title>
-                <Link data-note-link href={notePath(note.slug)}>
-                  {note.frontmatter.title}
-                </Link>
-              </h2>
-              <p data-note-summary>{note.frontmatter.summary}</p>
-            </article>
-          ))}
-        </div>
+        <TagFilter notes={serializedNotes} allTags={allTags} />
       </TerminalPanel>
     </div>
   );

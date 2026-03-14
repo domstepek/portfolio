@@ -15,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const note = getNoteBySlug(slug);
+  const note = await getNoteBySlug(slug);
 
   if (!note) {
     return { title: "Not Found" };
@@ -33,7 +33,7 @@ export default async function NoteRoute({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const note = getNoteBySlug(slug);
+  const note = await getNoteBySlug(slug);
 
   if (!note) {
     notFound();

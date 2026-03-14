@@ -18,6 +18,8 @@ interface NotePageProps {
 }
 
 export function NotePage({ note }: NotePageProps) {
+  const { tags, readTime } = note.frontmatter;
+
   return (
     <div className="note-page" data-note-page>
       <p className="note-page__back">
@@ -36,7 +38,19 @@ export function NotePage({ note }: NotePageProps) {
             >
               {formatDate(note.frontmatter.published)}
             </time>
+            <span className="note-page__read-time" data-note-read-time>
+              {readTime} min read
+            </span>
           </p>
+          {tags.length > 0 && (
+            <div className="note-page__tags" data-note-tags>
+              {tags.map((tag) => (
+                <span key={tag} className="note-page__tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
           <p className="note-page__summary">{note.frontmatter.summary}</p>
         </section>
 

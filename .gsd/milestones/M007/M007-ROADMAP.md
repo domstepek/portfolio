@@ -50,11 +50,14 @@ This milestone is complete only when all are true:
 
 ## Slices
 
-- [ ] **S01: Enhanced markdown rendering and tag system** `risk:medium` `depends:[]`
+- [x] **S01: Enhanced markdown rendering and tag system** `risk:medium` `depends:[]`
   > After this: Notes render with Shiki syntax-highlighted code blocks, images with proper styling, and the index page supports clickable tag filtering. Existing notes are migrated and all 18 Playwright tests pass.
 
 - [ ] **S02: Engineering journal agent skill** `risk:low` `depends:[S01]`
   > After this: User can invoke the global skill to generate a journal entry from conversation context, with evidence prompts, written directly to `src/content/notes/` with correct frontmatter. The generated entry renders correctly on the website.
+
+- [ ] **S03: Domain page markdown enrichment** `risk:low` `depends:[S01]`
+  > After this: The three domain proof pages render markdown in flagship problem, constraints, decisions, and outcomes fields — inline code, bold/emphasis, and code blocks where they add signal. Content is selectively rewritten to take advantage of the formatting. All 18 Playwright tests pass.
 
 ## Boundary Map
 
@@ -80,3 +83,15 @@ Consumes from S01:
 - Frontmatter schema contract (field names, types, valid values)
 - Media directory convention (`public/notes/<slug>/`)
 - `src/content/notes/` as the target directory for generated files
+
+### S03
+
+Produces:
+- `src/lib/markdown.ts` → shared `renderMarkdown(content: string): Promise<string>` helper
+- `src/components/domains/DomainProofPage.tsx` → `problem`, `constraints[]`, `decisions[]`, `outcomes[]` rendered as HTML via shared markdown pipeline
+- `src/data/domains/*.ts` → selectively enriched content with inline code, bold/emphasis, and block elements where the audit finds value
+- `src/app/globals.css` → any CSS scopes needed for inline code and block markdown inside domain cards
+
+Consumes from S01:
+- Unified markdown pipeline (gray-matter + unified + rehype) — reused, not duplicated
+- `globals.css` markdown styles — extended or scoped for domain card context

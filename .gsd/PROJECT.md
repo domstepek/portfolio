@@ -10,15 +10,17 @@ Someone should be able to land on the site, quickly understand what kinds of com
 
 ## Current State
 
-M001–M006 complete. M007 in progress — engineering journal skill and enhanced markdown rendering.
+M001–M006 complete. M007 in progress — S01 (enhanced markdown rendering and tag system) complete; S02 (engineering journal skill) and S03 (domain page markdown enrichment) remain.
 
 The project is a Next.js 16 App Router site (`src/app/`) with Tailwind v4 retro design tokens, deployed via Vercel.
 
 The portfolio gate uses real server-side auth: the RSC domain route reads an HttpOnly `portfolio-gate` cookie and conditionally renders either the gate page (zero proof content) or the full proof page. `proxy.ts` adds an observability header on `/domains/*` requests. All five public routes (`/`, `/about/`, `/resume/`, `/notes/`, `/notes/[slug]/`) render as server components with full site shell, notes markdown pipeline, custom 404, and SEO metadata.
 
+The notes markdown pipeline uses async unified processing with `@shikijs/rehype` (tokyo-night theme) for syntax-highlighted code blocks, `remark-gfm` for GFM tables, and rich CSS for images, tables, blockquotes, inline code, and horizontal rules. Notes have expanded frontmatter (`tags`, `type`, `readTime`) and the index page supports client-side tag filtering via a `TagFilter` client island.
+
 The WebGPU/WebGL2 shader background renders on all pages via a `'use client'` `ShaderBackground` component mounted in the root layout. Screenshot galleries and Mermaid diagrams render on authenticated domain proof pages as client islands. Domain proof flagship cards use title-cased project names, stack tags surfaced directly under titles, accent-bordered section labels, ›-prefixed list items via `.flagship-list` CSS, and header/body separators for scannable layout. 18 Playwright tests pass against production build (5 gate + 8 public + 3 shader + 2 gallery/mermaid). GitHub Actions CI workflow gates push/PR to main with build + full Playwright suite.
 
-All 20 requirements are validated; 0 active requirements remain. Vercel deployment requires manual env var setup (`GATE_HASH`) and DNS migration from GitHub Pages.
+All 27 requirements validated; 4 active requirements remain (all S02 scope). Vercel deployment requires manual env var setup (`GATE_HASH`) and DNS migration from GitHub Pages.
 
 ## Architecture / Key Patterns
 
