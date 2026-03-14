@@ -11,6 +11,7 @@ export interface HomePersonalTeaser {
   body: string;
   aboutLabel: string;
   resumeLabel: string;
+  notesLabel: string;
 }
 
 export interface HomePageData {
@@ -45,9 +46,10 @@ export const homePage = {
   personalTeaser: {
     heading: "Personal context",
     body:
-      "If you want the shorter version of how I work, what kinds of teams I fit best, and where the compact resume lives, start here.",
+      "How I work, what kinds of teams I fit best, and where the compact resume lives. I also keep an engineering journal with notes on what I'm building and how.",
     aboutLabel: "About",
     resumeLabel: "Resume",
+    notesLabel: "Notes",
   },
   contactHeading: "Contact",
   contactLinks: [

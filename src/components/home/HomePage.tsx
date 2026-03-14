@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { homePage } from '@/data/home';
 import { domains } from '@/data/domains';
-import { aboutPath, domainPath, resumePath } from '@/lib/paths';
+import { aboutPath, domainPath, notesPath, resumePath } from '@/lib/paths';
 import { TerminalPanel } from '@/components/layout/TerminalPanel';
 
 const isExternalHttpLink = (href: string) => href.startsWith('https://');
@@ -66,6 +66,9 @@ export function HomePage() {
             </Link>
             <Link data-home-resume-link href={resumePath}>
               {homePage.personalTeaser.resumeLabel}
+            </Link>
+            <Link data-home-notes-link href={notesPath}>
+              {homePage.personalTeaser.notesLabel}
             </Link>
           </div>
         </section>

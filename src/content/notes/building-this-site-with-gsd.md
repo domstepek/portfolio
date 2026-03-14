@@ -84,3 +84,5 @@ Sixty-four architectural decisions are recorded in `DECISIONS.md`. Some of them 
 The journal you're reading is M007's final deliverable. The engineering journal skill that wrote it is a reusable agent tool — it scans conversation context, generates frontmatter matching the site's parser contract, and writes directly to `src/content/notes/`. The site has no active requirements left. Everything from here is new capability.
 
 The interesting meta-observation: this entry was written by the same agent system that built the site. It read the milestone summaries, pulled real code from the codebase, and followed a four-phase authoring skill. The quality bar is "would I publish this under my name" — not "did an AI generate it." If you can't tell the difference, that's the point.
+
+The full source is at [github.com/domstepek/website](https://github.com/domstepek/website).
