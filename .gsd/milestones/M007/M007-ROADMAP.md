@@ -59,7 +59,7 @@ This milestone is complete only when all are true:
 - [x] **S03: Domain page markdown enrichment** `risk:low` `depends:[S01]`
   > After this: The three domain proof pages render markdown in flagship problem, constraints, decisions, and outcomes fields — inline code, bold/emphasis, and code blocks where they add signal. Content is selectively rewritten to take advantage of the formatting. All 18 Playwright tests pass.
 
-- [ ] **S04: First journal entries** `risk:low` `depends:[S01,S02]`
+- [x] **S04: First journal entries** `risk:low` `depends:[S01,S02]`
   > After this: Two journal entries written using the S02 skill — one on building the automatic training material writer for sample tracking (agent workflow, multi-source context, MCP vision), one on building this site with GSD v2 (seven milestones, Next.js migration, agent-driven development). Both render correctly on the website.
 
 ## Boundary Map

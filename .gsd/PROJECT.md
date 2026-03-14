@@ -10,7 +10,7 @@ Someone should be able to land on the site, quickly understand what kinds of com
 
 ## Current State
 
-M001–M006 complete. M007 in progress — S01 (enhanced markdown rendering and tag system), S02 (engineering journal agent skill), and S03 (domain page markdown enrichment) complete; S04 (first journal entries) remains.
+M001–M006 complete. M007 complete — S01 (enhanced markdown rendering and tag system), S02 (engineering journal agent skill), S03 (domain page markdown enrichment), and S04 (first journal entries) all shipped.
 
 The project is a Next.js 16 App Router site (`src/app/`) with Tailwind v4 retro design tokens, deployed via Vercel.
 
@@ -54,4 +54,4 @@ See `.gsd/REQUIREMENTS.md` for the explicit capability contract, requirement sta
 - [x] M004: Sentence case audit — Convert all visitor-facing copy from all-lowercase to sentence case with standard "I" capitalization, preserving casual tone.
 - [x] M005: Next.js migration — Migrated from Astro/GitHub Pages to Next.js App Router on Vercel, with the portfolio gate upgraded from client-side SHA-256 to server-side HttpOnly cookie auth. 18 Playwright tests, GitHub Actions CI, zero Astro remnants.
 - [x] M006: UI polish — Domain pages & typography — Title-cased all project names, surfaced stack tags under titles, and restructured flagship cards with visual separators, accent-bordered section labels, and ›-prefixed list items.
-- [ ] M007: Engineering journal — Global agent skill for writing engineering journal entries from conversation context, plus enhanced markdown rendering (Shiki syntax highlighting, tag filtering, images) in the notes section.
+- [x] M007: Engineering journal — Global agent skill for writing engineering journal entries from conversation context, plus enhanced markdown rendering (Shiki syntax highlighting, tag filtering, images) in the notes section. Two journal entries published.
