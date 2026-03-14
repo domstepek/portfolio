@@ -24,7 +24,7 @@ const developerExperience: DomainEntry = {
       summary:
         "A pnpm-workspace monorepo foundation with shared configs, CI pipelines, and deployment conventions so new projects start from a proven baseline instead of from scratch.",
       problem:
-        "Every new project started with the same setup chores — linting, TypeScript config, CI pipelines, deploy scripts — and each team solved them slightly differently, creating drift.",
+        "Every new project started with the same setup chores — linting, `TypeScript` config, CI pipelines, deploy scripts — and each team solved them slightly differently, creating drift.",
       role:
         "I built the monorepo template as the shared starting point for new projects, encoding the conventions the team had already agreed on into a reusable foundation.",
       constraints: [
@@ -33,8 +33,8 @@ const developerExperience: DomainEntry = {
         "The foundation had to stay maintainable by the team, not just by the person who set it up.",
       ],
       decisions: [
-        "Used pnpm workspaces for monorepo orchestration so builds, linting, and testing could run across packages with shared dependencies.",
-        "Encoded shared configs (tsconfig, eslint, prettier) as workspace packages so conventions stayed consistent without copy-pasting.",
+        "Used `pnpm` workspaces for monorepo orchestration so builds, linting, and testing could run across packages with shared dependencies.",
+        "Encoded shared configs (`tsconfig`, `eslint`, `prettier`) as workspace packages so conventions stayed consistent without copy-pasting.",
         "Included CI pipeline templates and deploy conventions so new projects inherited a working release path from day one.",
       ],
       outcomes: [
@@ -82,7 +82,7 @@ const developerExperience: DomainEntry = {
       decisions: [
         "Kept the system as a dedicated library rather than copying component code between apps.",
         "Focused on reusable exports and a documented publish path so the system could behave like a real product dependency.",
-        "Used a standard React and TypeScript library workflow so adoption did not require special tooling.",
+        "Used a standard `React` and `TypeScript` library workflow so adoption did not require special tooling.",
       ],
       outcomes: [
         "Product teams got a shared UI baseline instead of repeated component drift.",
@@ -108,7 +108,7 @@ const developerExperience: DomainEntry = {
     {
       title: "Product Team CLI",
       context:
-        "An internal CLI for environment setup, config edits, and feature toggles so recurring team tasks became scripted instead of tribal knowledge.",
+        "An internal `CLI` for environment setup, config edits, and feature toggles so recurring team tasks became scripted instead of tribal knowledge.",
     },
     {
       title: "Product Migration Scripts",
@@ -118,22 +118,22 @@ const developerExperience: DomainEntry = {
     {
       title: "CDK-EKS Contributions",
       context:
-        "Contributed AWS permissions and access patterns to the shared EKS platform foundation — the core CDK stacks and cluster setup were led by another engineer.",
+        "Contributed AWS permissions and access patterns to the shared `EKS` platform foundation — the core `CDK` stacks and cluster setup were led by another engineer.",
     },
     {
       title: "Stargazer Applications",
       context:
-        "Tweaked Helm chart templates and environment values in the GitOps repo for service deployments on the shared EKS cluster — the ArgoCD and ApplicationSet setup was led by another engineer.",
+        "Tweaked `Helm` chart templates and environment values in the GitOps repo for service deployments on the shared `EKS` cluster — the `ArgoCD` and ApplicationSet setup was led by another engineer.",
     },
     {
       title: "Private CDN",
       context:
-        "An internal CDN and proxy layer for caching assets and controlling delivery paths in one place.",
+        "An internal `CDN` and proxy layer for caching assets and controlling delivery paths in one place.",
     },
     {
       title: "SSO Reverse Proxy",
       context:
-        "A reusable auth sidecar that put SSO in front of ECS and EKS services without rebuilding the same edge logic per app.",
+        "A reusable auth sidecar that put `SSO` in front of `ECS` and `EKS` services without rebuilding the same edge logic per app.",
     },
   ],
   relatedDomains: ["product", "analytics-ai"],

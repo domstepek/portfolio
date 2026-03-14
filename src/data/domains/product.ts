@@ -37,7 +37,7 @@ const product: DomainEntry = {
         "Treated tracking, exports, and subscription-style reporting as one connected workflow instead of separate utilities.",
         "Designed around day-to-day operator questions and exceptions rather than a schema-first admin panel.",
         "Kept the product shaped like an operational tool, with reporting nearby but not taking over the primary workflow.",
-        "Paired WebdriverIO and Cucumber BDD tests with targeted API checks around the flows worth protecting most.",
+        "Paired `WebdriverIO` and `Cucumber` `BDD` tests with targeted API checks around the flows worth protecting most.",
       ],
       outcomes: [
         "Sample movement and status tracking lived in one operational home instead of scattered across update threads.",
@@ -96,16 +96,16 @@ const product: DomainEntry = {
         "I spearheaded full-stack development of the forecasting interface and backend, designing the experience around fiscal season targets and receipt predictions so planners could work directly in the tool.",
       constraints: [
         "The interface had to make forecast adjustments feel natural alongside fiscal targets and receipt data.",
-        "The backend needed to coordinate across Snowflake, GraphQL, and real-time state without becoming a black box.",
+        "The backend needed to coordinate across `Snowflake`, `GraphQL`, and real-time state without becoming a black box.",
         "The tool had to replace spreadsheet workflows entirely — partial adoption would not have solved the coordination problem.",
       ],
       decisions: [
         "Designed the forecasting interface around fiscal season structure so planners saw targets and predictions together.",
-        "Used GraphQL and Snowflake to keep forecast data queryable and auditable across the planning cycle.",
+        "Used `GraphQL` and `Snowflake` to keep forecast data queryable and auditable across the planning cycle.",
         "Built the full stack as one product surface so forecast inputs, model outputs, and team decisions stayed connected.",
       ],
       outcomes: [
-        "Reduced inventory waste by $30M/year by enabling planners to act on forecast data directly instead of through spreadsheet intermediaries.",
+        "Reduced inventory waste by **$30M/year** by enabling planners to act on forecast data directly instead of through spreadsheet intermediaries.",
         "Inventory planners could adjust forecasts without falling back to spreadsheet workflows.",
         "Showed how product work and data work overlap when the interface has to carry real operational decisions.",
       ],
@@ -141,8 +141,8 @@ const product: DomainEntry = {
       ],
       decisions: [
         "Built unified customer profiles across platforms so engagement patterns could be compared and tracked over time.",
-        "Used Go and AWS Lambda for data ingestion from social APIs to DGraph, keeping the pipeline lightweight and scalable.",
-        "Owned the full infrastructure: Dockerized services, CI/CD with AWS CodePipeline, EC2 and Lambda compute.",
+        "Used `Go` and `AWS Lambda` for data ingestion from social APIs to `DGraph`, keeping the pipeline lightweight and scalable.",
+        "Owned the full infrastructure: Dockerized services, CI/CD with `AWS CodePipeline`, EC2 and Lambda compute.",
       ],
       outcomes: [
         "Shipped a working social analytics product with unified cross-platform engagement tracking.",
@@ -181,7 +181,7 @@ const product: DomainEntry = {
     {
       title: "CMS",
       context:
-        "A multi-tenant Payload CMS for shared content and admin workflows rather than a one-off marketing site.",
+        "A multi-tenant `Payload CMS` for shared content and admin workflows rather than a one-off marketing site.",
     },
   ],
   relatedDomains: ["analytics-ai", "developer-experience"],

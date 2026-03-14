@@ -29,22 +29,22 @@ const analyticsAi: DomainEntry = {
         "I shaped the reporting workflow and built key frontend features — the configurable curation table, real-time collaboration via Legend State sync engine, and the PowerPoint-style presentation builder — while also architecting the API backend that brought conventional API work and AI-assisted behavior into one service boundary.",
       constraints: [
         "The portal had to support quick checks, deeper investigation, real-time multi-user collaboration, and presentation building without collapsing into a generic dashboard shell.",
-        "The API needed to handle both conventional GraphQL queries and AI-specific behavior (retrieval, generation, agent tools) in the same service boundary.",
-        "Node and Python concerns needed to cooperate without exposing the Python surface directly — FastAPI sat behind a reverse-proxied secondary service.",
+        "The API needed to handle both conventional `GraphQL` queries and AI-specific behavior (retrieval, generation, agent tools) in the same service boundary.",
+        "Node and Python concerns needed to cooperate without exposing the Python surface directly — `FastAPI` sat behind a reverse-proxied secondary service.",
         "The system needed real auth, validation, and data plumbing because the goal was production use, not a prototype.",
       ],
       decisions: [
         "Centered the portal on operator workflows instead of a chart-first dashboard layout, with filter and drill-down paths tied to follow-up actions.",
         "Built the curation table with configurable column types (multiselects, dates, tags) so analysts could filter and organize product data without falling back to spreadsheets.",
-        "Used Legend State for real-time sync and collaboration instead of Redux, enabling multiple users to work on the same view simultaneously.",
-        "Paired Express and Apollo for the main API surface while keeping FastAPI behind a reverse proxy for Python-heavy AI work.",
-        "Used Prisma, Redis pub/sub, and Cognito-backed middleware so the AI exploration lived inside normal backend discipline.",
+        "Used `Legend State` for real-time sync and collaboration instead of Redux, enabling multiple users to work on the same view simultaneously.",
+        "Paired `Express` and `Apollo` for the main API surface while keeping `FastAPI` behind a reverse proxy for Python-heavy AI work.",
+        "Used `Prisma`, `Redis` pub/sub, and `Cognito`-backed middleware so the AI exploration lived inside normal backend discipline.",
       ],
       outcomes: [
         "One reporting and curation surface for product data, filters, real-time collaboration, presentations, and AI-assisted answers — instead of stitching context together across tools.",
         "The PowerPoint-style builder let teams create and export presentations directly from the platform with drag-and-drop, keyboard navigation, and PDF export.",
-        "The AI chatbot using AWS Bedrock and RAG retrieval cut support tickets by 50% by answering platform-related user queries directly.",
-        "The API architecture proved more capable for AI-assisted curation than the existing AppSync path alone.",
+        "The AI chatbot using `AWS Bedrock` and `RAG` retrieval cut support tickets by **50%** by answering platform-related user queries directly.",
+        "The API architecture proved more capable for AI-assisted curation than the existing `AppSync` path alone.",
       ],
       stack: [
         "React",
@@ -124,17 +124,17 @@ const analyticsAi: DomainEntry = {
     {
       title: "MCP Tools & Agent Demo",
       context:
-        "Wrote MCP tool definitions for the analytics platform and built a demo surface showing user-driven vs agent-driven actions — giving stakeholders a concrete example of model-driven tool use.",
+        "Wrote `MCP` tool definitions for the analytics platform and built a demo surface showing user-driven vs agent-driven actions — giving stakeholders a concrete example of model-driven tool use.",
     },
     {
       title: "Bedrock Utilities in Datalabs API",
       context:
-        "Bedrock-backed retrieve, converse, and knowledge-base helpers wired into a larger production API surface.",
+        "`Bedrock`-backed retrieve, converse, and knowledge-base helpers wired into a larger production API surface.",
     },
     {
       title: "Superset on Stargazer",
       context:
-        "Mapped the existing EKS cluster and release rails into a repeatable deployment path for Apache Superset so teams could publish dashboards without a separate platform project.",
+        "Mapped the existing `EKS` cluster and release rails into a repeatable deployment path for `Apache Superset` so teams could publish dashboards without a separate platform project.",
     },
     {
       title: "Umami",

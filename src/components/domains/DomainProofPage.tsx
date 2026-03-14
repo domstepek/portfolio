@@ -1,5 +1,6 @@
 import type { DomainEntry } from '@/data/domains/types';
 import { buildDomainProofViewModel } from '@/data/domains/domain-view-model';
+import { renderInlineMarkdown } from '@/lib/markdown';
 import { ScreenshotGallery } from './ScreenshotGallery';
 import { MermaidDiagram } from '@/components/diagrams/MermaidDiagram';
 
@@ -84,7 +85,7 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
             {flagship.problem && (
               <div className="flex flex-col gap-1">
                 <p className="text-[var(--text)] text-xs uppercase tracking-wider border-l-2 border-[var(--accent)] pl-2">Problem</p>
-                <p className="text-[var(--muted)] max-w-prose text-sm">{flagship.problem}</p>
+                <p className="text-[var(--muted)] max-w-prose text-sm" dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(flagship.problem) }} />
               </div>
             )}
 
@@ -94,9 +95,7 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
                 <p className="text-[var(--text)] text-xs uppercase tracking-wider border-l-2 border-[var(--accent)] pl-2">Constraints</p>
                 <ul className="flagship-list flex flex-col pl-4">
                   {flagship.constraints.map((constraint, i) => (
-                    <li key={i} className="text-[var(--muted)] text-sm">
-                      {constraint}
-                    </li>
+                    <li key={i} className="text-[var(--muted)] text-sm" dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(constraint) }} />
                   ))}
                 </ul>
               </div>
@@ -108,9 +107,7 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
                 <p className="text-[var(--text)] text-xs uppercase tracking-wider border-l-2 border-[var(--accent)] pl-2">Decisions</p>
                 <ul className="flagship-list flex flex-col pl-4">
                   {flagship.decisions.map((decision, i) => (
-                    <li key={i} className="text-[var(--muted)] text-sm">
-                      {decision}
-                    </li>
+                    <li key={i} className="text-[var(--muted)] text-sm" dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(decision) }} />
                   ))}
                 </ul>
               </div>
@@ -121,9 +118,7 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
                 <p className="text-[var(--text)] text-xs uppercase tracking-wider border-l-2 border-[var(--accent)] pl-2">Outcomes</p>
                 <ul className="flagship-list flex flex-col pl-4">
                   {flagship.outcomes.map((outcome, i) => (
-                    <li key={i} className="text-[var(--muted)] text-sm">
-                      {outcome}
-                    </li>
+                    <li key={i} className="text-[var(--muted)] text-sm" dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(outcome) }} />
                   ))}
                 </ul>
               </div>
@@ -185,7 +180,7 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
                 className="border border-[var(--border)] bg-[var(--bg-elevated)] p-4 flex flex-col gap-2"
               >
                 <p className="text-[var(--text)] font-semibold text-sm">{item.title}</p>
-                <p className="text-[var(--muted)] text-sm">{item.context}</p>
+                <p className="text-[var(--muted)] text-sm" dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(item.context) }} />
 
                 {item.proofLinks.length > 0 && (
                   <div className="flex gap-4">

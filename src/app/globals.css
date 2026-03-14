@@ -1322,6 +1322,14 @@ label[for], [onclick], [tabindex]:not([tabindex="-1"]) {
   color: var(--accent);
 }
 
+/* ── Flagship inline code (domain proof pages) ── */
+[data-flagship] code {
+  background: var(--bg-elevated);
+  padding: 0.15em 0.35em;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}
+
 /* ── Mermaid diagram ── */
 .mermaid-diagram {
   overflow-x: auto;

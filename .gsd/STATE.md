@@ -2,8 +2,7 @@
 
 **Active Milestone:** M007 — Engineering Journal
 **Active Slice:** S03 — Domain page markdown enrichment
-**Phase:** planning
-**Requirements Status:** 0 active · 20 validated · 0 deferred · 1 out of scope
+**Phase:** complete
 
 ## Milestone Registry
 - ✅ **M001:** MVP (Phases 1-6) — SHIPPED 2026-03-10
@@ -15,10 +14,11 @@
 - 🔄 **M007:** Engineering Journal
 
 ## Recent Decisions
-- None recorded
+- D063: Sync inline markdown helper for domain proof fields (processSync, no Shiki, strips `<p>` wrapper)
+- D064: CSS scoping for domain proof inline code via `[data-flagship] code`
 
 ## Blockers
 - None
 
 ## Next Action
-Plan slice S03 (Domain page markdown enrichment).
+S03 complete. Next: plan and execute S04 (first journal entries).

@@ -56,11 +56,11 @@ This milestone is complete only when all are true:
 - [x] **S02: Engineering journal agent skill** `risk:low` `depends:[S01]`
   > After this: User can invoke the global skill to generate a journal entry from conversation context, with evidence prompts, written directly to `src/content/notes/` with correct frontmatter. The generated entry renders correctly on the website.
 
-- [ ] **S03: Domain page markdown enrichment** `risk:low` `depends:[S01]`
+- [x] **S03: Domain page markdown enrichment** `risk:low` `depends:[S01]`
   > After this: The three domain proof pages render markdown in flagship problem, constraints, decisions, and outcomes fields — inline code, bold/emphasis, and code blocks where they add signal. Content is selectively rewritten to take advantage of the formatting. All 18 Playwright tests pass.
 
-- [ ] **S04: First journal entries — training material writer** `risk:low` `depends:[S01,S02]`
-  > After this: One substantive journal entry about building the automatic training material writer system for sample tracking — the agent workflow, multi-source context gathering, and the future MCP/chat agent vision — written using the S02 skill and rendering correctly on the website.
+- [ ] **S04: First journal entries** `risk:low` `depends:[S01,S02]`
+  > After this: Two journal entries written using the S02 skill — one on building the automatic training material writer for sample tracking (agent workflow, multi-source context, MCP vision), one on building this site with GSD v2 (seven milestones, Next.js migration, agent-driven development). Both render correctly on the website.
 
 ## Boundary Map
 
