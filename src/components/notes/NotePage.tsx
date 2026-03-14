@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TerminalPanel } from "@/components/layout/TerminalPanel";
+import { MermaidRunner } from "@/components/notes/MermaidRunner";
 import type { NoteWithContent } from "@/lib/notes";
 import { notesPath } from "@/lib/paths";
 
@@ -59,6 +60,7 @@ export function NotePage({ note }: NotePageProps) {
           data-note-body
           dangerouslySetInnerHTML={{ __html: note.contentHtml }}
         />
+        {note.hasMermaid && <MermaidRunner />}
       </TerminalPanel>
     </div>
   );

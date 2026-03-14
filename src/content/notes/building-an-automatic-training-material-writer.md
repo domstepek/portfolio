@@ -19,16 +19,24 @@ The skill itself is a Cursor agent skill (a markdown instruction file that shape
 
 The core insight was that no single source tells you how a feature actually works in practice. The codebase tells you what's possible; Jira tells you what was intended; Slack tells you what confused people; E2E tests tell you what the expected workflows look like. So the agent reads all of them:
 
-```yaml
-# Sources the training-material-writer reads
-context_sources:
-  - e2e_tests: "cypress/e2e/**/*.cy.ts"     # actual user workflows
-  - page_objects: "cypress/pages/**/*.ts"     # UI structure and selectors
-  - components: "src/components/**/*.tsx"      # feature implementation
-  - jira_tickets: "via Atlassian MCP"         # requirements and intent
-  - confluence_docs: "via Atlassian MCP"      # existing (often stale) docs
-  - slack_messages: "via Slack MCP"           # user questions and confusion
-  - pr_history: "via GitHub MCP"              # recent changes and decisions
+```mermaid
+flowchart TD
+    A[Agent skill invoked] --> B[Read context sources]
+    B --> C[E2E tests\ncypress/e2e/**]
+    B --> D[Page objects\ncypress/pages/**]
+    B --> E[Components\nsrc/components/**]
+    B --> F[Jira tickets\nAtlassian MCP]
+    B --> G[Confluence docs\nAtlassian MCP]
+    B --> H[Slack messages\nSlack MCP]
+    B --> I[PR history\nGitHub MCP]
+    C --> J[Generate MDX training docs]
+    D --> J
+    E --> J
+    F --> J
+    G --> J
+    H --> J
+    I --> J
+    J --> K[Fumadocs site]
 ```
 
 E2E tests turned out to be the most valuable source. A Cypress test that walks through creating a sample, assigning it to a tracking group, and validating the status update is essentially a user workflow written in code. The agent restructures that into prose with screenshots placeholders and callouts for the parts users typically get wrong — which it learns from Slack messages asking about those exact steps.
@@ -66,6 +74,26 @@ async function onPROpen(pr: PullRequest) {
 
 This means documentation drift — the thing that kills every internal docs site — gets caught at the PR level. A developer changes how sample assignment works, and the training material for "How to assign samples" gets flagged for regeneration in the same PR review cycle.
 
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant PR as Pull Request
+    participant Agent as Training writer
+    participant Docs as MDX docs
+
+    Dev->>PR: Opens PR with code changes
+    PR->>Agent: Triggers skill
+    Agent->>PR: Reads changed files
+    Agent->>Docs: Finds related training docs
+    Agent->>Agent: Checks staleness
+    alt Existing doc is stale
+        Agent->>Docs: Regenerates doc
+    else No doc exists for affected feature
+        Agent->>PR: Flags new doc needed
+    end
+    Agent->>PR: Posts summary comment
+```
+
 ## What actually worked
 
 **E2E tests as documentation source material.** Page objects give you the UI vocabulary (what buttons exist, what forms are present), and the test flows give you the user journey. Converting `cy.get('[data-testid="assign-btn"]').click()` into "Click the Assign button in the sample detail panel" is mechanical — exactly the kind of transformation agents handle well.
@@ -81,6 +109,13 @@ The Fumadocs site is the first consumer, but the training materials are structur
 > The best documentation system is one where no human has to remember to update docs. The agent reads the PR, reads the existing docs, and either updates them or asks for help. Documentation becomes a side effect of shipping code.
 
 There's also a guided walkthrough layer on the roadmap — interactive tutorials embedded in the platform itself, generated from the same underlying content. The training materials become the single source that powers static docs, chat agent context, and in-app guidance. Three surfaces, one authoring pipeline, zero manual maintenance.
+
+```mermaid
+flowchart LR
+    A[Training materials\nsingle source] --> B[Fumadocs site\nstatic docs]
+    A --> C[Chat agent\nLLM context]
+    A --> D[In-app guidance\ninteractive tutorials]
+```
 
 ## What I'd do differently
 

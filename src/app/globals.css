@@ -188,6 +188,7 @@ a:hover::after {
 }
 
 .site-main code {
+  display: inline;
   font-family: var(--font-mono);
   font-size: 0.94em;
 }
@@ -1353,6 +1354,7 @@ label[for], [onclick], [tabindex]:not([tabindex="-1"]) {
 /* ── Flagship inline code (domain proof pages) ── */
 [data-flagship] code,
 [data-supporting-item] code {
+  display: inline;
   background: rgba(92, 107, 94, 0.15);
   padding: 0.15em 0.35em;
   border-radius: 0.25rem;
@@ -1380,6 +1382,28 @@ label[for], [onclick], [tabindex]:not([tabindex="-1"]) {
   font-family: var(--font-mono);
   font-size: 0.9rem;
   color: var(--muted);
+}
+
+/* ── Mermaid in notes ── */
+.note-page__body .mermaid-block {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  padding: 1.5rem 1rem;
+  margin-block: 1.5rem;
+}
+
+.note-page__body .mermaid-block .mermaid {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.note-page__body .mermaid-block svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
 }
 
 /* ── Screenshot gallery carousel ── */

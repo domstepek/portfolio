@@ -9,8 +9,59 @@ import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
 // ---------------------------------------------------------------------------
-// Types
+// Rehype plugin: transform mermaid fenced code blocks before Shiki sees them.
+// Converts <pre><code class="language-mermaid">…</code></pre>
+// into     <div class="mermaid-block"><pre class="mermaid">…</pre></div>
+// so Shiki skips them and the client-side mermaid runner can pick them up.
 // ---------------------------------------------------------------------------
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type HastNode = any;
+
+function rehypeMermaidBlocks() {
+  return (tree: HastNode) => {
+    walk(tree);
+  };
+
+  function walk(node: HastNode) {
+    if (!Array.isArray(node.children)) return;
+    for (let i = 0; i < node.children.length; i++) {
+      const child = node.children[i];
+      if (isMermaidPre(child)) {
+        const code = child.children[0];
+        const text = (code.children as HastNode[])
+          .filter((c: HastNode) => c.type === "text")
+          .map((c: HastNode) => c.value as string)
+          .join("");
+        node.children[i] = {
+          type: "element",
+          tagName: "div",
+          properties: { className: ["mermaid-block"] },
+          children: [
+            {
+              type: "element",
+              tagName: "pre",
+              properties: { className: ["mermaid"] },
+              children: [{ type: "text", value: text }],
+            },
+          ],
+        };
+      } else {
+        walk(child);
+      }
+    }
+  }
+}
+
+function isMermaidPre(node: HastNode): boolean {
+  if (node.type !== "element" || node.tagName !== "pre") return false;
+  if (node.children?.length !== 1) return false;
+  const code = node.children[0];
+  if (code.type !== "element" || code.tagName !== "code") return false;
+  const classes = code.properties?.className;
+  return Array.isArray(classes) && classes.includes("language-mermaid");
+}
+
 
 export interface NoteFrontmatter {
   title: string;
@@ -29,6 +80,7 @@ export interface NoteEntry {
 
 export interface NoteWithContent extends NoteEntry {
   contentHtml: string;
+  hasMermaid: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -113,6 +165,7 @@ export async function getNoteBySlug(
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype)
+    .use(rehypeMermaidBlocks)
     .use(rehypeShiki, { theme: "tokyo-night" })
     .use(rehypeStringify)
     .process(content);
@@ -121,6 +174,7 @@ export async function getNoteBySlug(
     slug,
     frontmatter: parseFrontmatter(data, content),
     contentHtml: String(result),
+    hasMermaid: String(result).includes('class="mermaid"'),
   };
 }
 
