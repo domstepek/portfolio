@@ -10,7 +10,7 @@ Someone should be able to land on the site, quickly understand what kinds of com
 
 ## Current State
 
-M001–M006 complete. M007 in progress — S01 (enhanced markdown rendering and tag system) complete; S02 (engineering journal skill) and S03 (domain page markdown enrichment) remain.
+M001–M006 complete. M007 in progress — S01 (enhanced markdown rendering and tag system) and S02 (engineering journal agent skill) complete; S03 (domain page markdown enrichment) and S04 (first journal entries) remain.
 
 The project is a Next.js 16 App Router site (`src/app/`) with Tailwind v4 retro design tokens, deployed via Vercel.
 
@@ -20,7 +20,9 @@ The notes markdown pipeline uses async unified processing with `@shikijs/rehype`
 
 The WebGPU/WebGL2 shader background renders on all pages via a `'use client'` `ShaderBackground` component mounted in the root layout. Screenshot galleries and Mermaid diagrams render on authenticated domain proof pages as client islands. Domain proof flagship cards use title-cased project names, stack tags surfaced directly under titles, accent-bordered section labels, ›-prefixed list items via `.flagship-list` CSS, and header/body separators for scannable layout. 18 Playwright tests pass against production build (5 gate + 8 public + 3 shader + 2 gallery/mermaid). GitHub Actions CI workflow gates push/PR to main with build + full Playwright suite.
 
-All 27 requirements validated; 4 active requirements remain (all S02 scope). Vercel deployment requires manual env var setup (`GATE_HASH`) and DNS migration from GitHub Pages.
+All 31 requirements validated; 0 active requirements remain. Vercel deployment requires manual env var setup (`GATE_HASH`) and DNS migration from GitHub Pages.
+
+A global engineering journal agent skill at `~/.agents/skills/engineering-journal/` generates journal entries from conversation context, writing directly to `src/content/notes/` with correct frontmatter. The skill is symlinked to GSD for pi auto-discovery.
 
 ## Architecture / Key Patterns
 

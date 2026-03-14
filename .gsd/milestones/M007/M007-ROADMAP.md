@@ -53,11 +53,14 @@ This milestone is complete only when all are true:
 - [x] **S01: Enhanced markdown rendering and tag system** `risk:medium` `depends:[]`
   > After this: Notes render with Shiki syntax-highlighted code blocks, images with proper styling, and the index page supports clickable tag filtering. Existing notes are migrated and all 18 Playwright tests pass.
 
-- [ ] **S02: Engineering journal agent skill** `risk:low` `depends:[S01]`
+- [x] **S02: Engineering journal agent skill** `risk:low` `depends:[S01]`
   > After this: User can invoke the global skill to generate a journal entry from conversation context, with evidence prompts, written directly to `src/content/notes/` with correct frontmatter. The generated entry renders correctly on the website.
 
 - [ ] **S03: Domain page markdown enrichment** `risk:low` `depends:[S01]`
   > After this: The three domain proof pages render markdown in flagship problem, constraints, decisions, and outcomes fields — inline code, bold/emphasis, and code blocks where they add signal. Content is selectively rewritten to take advantage of the formatting. All 18 Playwright tests pass.
+
+- [ ] **S04: First journal entries — training material writer** `risk:low` `depends:[S01,S02]`
+  > After this: One substantive journal entry about building the automatic training material writer system for sample tracking — the agent workflow, multi-source context gathering, and the future MCP/chat agent vision — written using the S02 skill and rendering correctly on the website.
 
 ## Boundary Map
 
@@ -95,3 +98,15 @@ Produces:
 Consumes from S01:
 - Unified markdown pipeline (gray-matter + unified + rehype) — reused, not duplicated
 - `globals.css` markdown styles — extended or scoped for domain card context
+
+### S04
+
+Produces:
+- `src/content/notes/<slug>.md` → journal entry about the training material writer system
+
+Consumes from S01:
+- Notes markdown pipeline with Shiki highlighting — renders the entry on the website
+- Frontmatter schema (`title`, `summary`, `published`, `tags[]`, `type`, `readTime`)
+
+Consumes from S02:
+- `~/.agents/skills/engineering-journal/SKILL.md` → skill invoked to generate the entry
