@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { morphText } from '@/lib/motion/morph-text';
 
 interface CopyChipProps {
   copyText: string;
@@ -11,6 +12,13 @@ interface CopyChipProps {
 export function CopyChip({ copyText, label, printText }: CopyChipProps) {
   const [state, setState] = useState<'idle' | 'hovered' | 'copied'>('idle');
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = labelRef.current;
+    if (!el) return;
+    morphText(el, state === 'copied' ? 'copied' : state === 'hovered' ? 'click to cp' : label);
+  }, [state, label]);
 
   const handleMouseEnter = useCallback(() => {
     if (state !== 'copied') setState('hovered');
@@ -49,9 +57,9 @@ export function CopyChip({ copyText, label, printText }: CopyChipProps) {
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
-      <span className="resume-page__chip-label">{label}</span>
-      <span className="resume-page__chip-hover">click to cp</span>
-      <span className="resume-page__chip-done">copied</span>
+      <span ref={labelRef} className="resume-page__chip-label t-morph" aria-live="polite">
+        {label}
+      </span>
     </button>
   );
 }

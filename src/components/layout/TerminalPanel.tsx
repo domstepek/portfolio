@@ -1,3 +1,5 @@
+import { TerminalTitle } from './TerminalTitle';
+
 /**
  * TerminalPanel — server component
  *
@@ -17,7 +19,7 @@ export function TerminalPanel({
         <span></span>
         <span></span>
         <span></span>
-        <code className="terminal-panel__title">dom@portfolio: {path}</code>
+        <TerminalTitle path={path} />
       </div>
       <div className="terminal-panel__body">
         {children}

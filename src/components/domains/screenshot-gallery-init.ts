@@ -5,6 +5,7 @@
  * Shared between ScreenshotGallery.astro (static render) and
  * domain-gate-client.ts (dynamic mount after unlock).
  */
+import { cssTime } from "@/lib/motion/css-time";
 
 export function initGalleries() {
   document.querySelectorAll<HTMLElement>("[data-screenshot-gallery]").forEach((gallery) => {
@@ -116,13 +117,29 @@ export function initGalleries() {
       lightboxImg.alt = trigger.dataset.fullAlt || "";
       lightboxCaption.textContent = trigger.dataset.caption || "";
       document.documentElement.style.overflow = "hidden";
+      lightbox.classList.remove("is-closing");
       lightbox.showModal();
+      requestAnimationFrame(() => lightbox.classList.add("is-open"));
     }
 
+    const closeMs = cssTime("--modal-close-dur", 150);
+
     function closeLightbox() {
-      lightbox.close();
-      document.documentElement.style.overflow = "";
+      if (!lightbox.open || lightbox.classList.contains("is-closing")) return;
+      lightbox.classList.remove("is-open");
+      lightbox.classList.add("is-closing");
+      window.setTimeout(() => {
+        lightbox.close();
+        lightbox.classList.remove("is-closing");
+        document.documentElement.style.overflow = "";
+      }, closeMs);
     }
+
+    // Esc: animate out instead of the dialog's instant close.
+    lightbox.addEventListener("cancel", (e) => {
+      e.preventDefault();
+      closeLightbox();
+    });
 
     triggers.forEach((trigger) => {
       trigger.addEventListener("click", () => openLightbox(trigger));
