@@ -9,9 +9,9 @@ const product: DomainEntry = {
   seoDescription:
     "Product domain page for workflow-heavy internal software and operational systems Dom builds.",
   thesis:
-    "I like product work when the software has to hold together a messy real-world process, not just present a clean screen.",
+    "I like product work where the software has to hold a messy real-world process together: approvals, exceptions, and handoffs between teams.",
   scope:
-    "This is the workflow-heavy application side — shaping states, decisions, and handoffs into tools operators actually use day to day.",
+    "Apps that operators use every day, where the states and handoffs matter as much as the screens.",
   belongsHere: [
     "Building operator-facing apps that carry real daily process, approvals, and exception handling",
     "Turning messy business workflows into software where the design matters as much as the data model",

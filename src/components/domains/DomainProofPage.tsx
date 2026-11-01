@@ -3,6 +3,7 @@ import { buildDomainProofViewModel } from '@/data/domains/domain-view-model';
 import { renderInlineMarkdown } from '@/lib/markdown';
 import { ScreenshotGallery } from './ScreenshotGallery';
 import { MermaidDiagram } from '@/components/diagrams/MermaidDiagram';
+import { TerminalPanel } from '@/components/layout/TerminalPanel';
 
 interface DomainProofPageProps {
   domain: DomainEntry;
@@ -37,35 +38,37 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
 
   return (
     <div
+      className="domain-page"
       data-route-visibility="protected"
       data-protected-proof-state="revealed"
       data-visual-state="revealed"
     >
-      {/* Domain header */}
-      <header className="flex flex-col gap-2 mb-8">
-        <h1 className="text-[var(--text)]">{vm.title}</h1>
-        <p className="text-[var(--muted)] max-w-prose">{vm.thesis}</p>
+      <TerminalPanel path={`~/work/${domain.slug}`}>
+      <header className="domain-page__header">
+        <h1>{vm.title}</h1>
+        <p className="domain-page__thesis">{vm.thesis}</p>
       </header>
 
       {/* Flagship highlights */}
-      <section data-flagship-highlights="" className="flex flex-col gap-8 mb-10">
-        <h2 className="text-[var(--text)]">Flagship work</h2>
+      <section data-flagship-highlights="" className="domain-page__section">
+        <h2>Main projects</h2>
 
         {vm.flagships.map((flagship) => (
           <article
             key={flagship.slug}
             data-flagship=""
-            className="border border-[var(--border)] bg-[var(--bg-elevated)] p-6 flex flex-col gap-4"
+            className="flagship"
           >
-            <header className="flex flex-col gap-1">
-              <h3 className="text-[var(--text)] text-[var(--step-1)]">{flagship.title}</h3>
+            <header className="flagship__header">
+              <h3 className="flagship__title">{flagship.title}</h3>
+              <p className="flagship__role">{flagship.role}</p>
 
               {flagship.stack.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-3 mb-2">
+                <div className="flagship__stack">
                   {flagship.stack.map((tag) => (
                     <span
                       key={tag}
-                      className="border border-[var(--border)] px-2 py-0.5 text-xs text-[var(--muted)]"
+                      className="flagship__tag"
                     >
                       {tag}
                     </span>
@@ -73,29 +76,25 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
                 </div>
               )}
 
-              <p className="text-[var(--muted)] text-sm">{flagship.role}</p>
             </header>
 
-            {/* Header / body separator */}
-            <div className="border-t border-[var(--border)]" />
-
-            <p className="text-[var(--muted)] max-w-prose text-sm">{flagship.summary}</p>
+            <p className="flagship__summary">{flagship.summary}</p>
 
             {/* Problem statement */}
             {flagship.problem && (
-              <div className="flex flex-col gap-1">
-                <p className="text-[var(--text)] text-xs uppercase tracking-wider border-l-2 border-[var(--accent)] pl-2">Problem</p>
-                <p className="text-[var(--muted)] max-w-prose text-sm"><span dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(flagship.problem) }} /></p>
+              <div className="flagship__block">
+                <h4 className="flagship__label">Problem</h4>
+                <p className="flagship__text"><span dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(flagship.problem) }} /></p>
               </div>
             )}
 
             {/* Constraints */}
             {flagship.constraints.length > 0 && (
-              <div className="flex flex-col gap-1">
-                <p className="text-[var(--text)] text-xs uppercase tracking-wider border-l-2 border-[var(--accent)] pl-2">Constraints</p>
-                <ul className="flagship-list flex flex-col pl-4">
+              <div className="flagship__block">
+                <h4 className="flagship__label">Constraints</h4>
+                <ul className="flagship-list">
                   {flagship.constraints.map((constraint, i) => (
-                    <li key={i} className="text-[var(--muted)] text-sm">
+                    <li key={i}>
                       <span dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(constraint) }} />
                     </li>
                   ))}
@@ -105,11 +104,11 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
 
             {/* Decisions */}
             {flagship.decisions.length > 0 && (
-              <div className="flex flex-col gap-1">
-                <p className="text-[var(--text)] text-xs uppercase tracking-wider border-l-2 border-[var(--accent)] pl-2">Decisions</p>
-                <ul className="flagship-list flex flex-col pl-4">
+              <div className="flagship__block">
+                <h4 className="flagship__label">Decisions</h4>
+                <ul className="flagship-list">
                   {flagship.decisions.map((decision, i) => (
-                    <li key={i} className="text-[var(--muted)] text-sm">
+                    <li key={i}>
                       <span dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(decision) }} />
                     </li>
                   ))}
@@ -118,11 +117,11 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
             )}
 
             {flagship.outcomes.length > 0 && (
-              <div className="flex flex-col gap-1">
-                <p className="text-[var(--text)] text-xs uppercase tracking-wider border-l-2 border-[var(--accent)] pl-2">Outcomes</p>
-                <ul className="flagship-list flex flex-col pl-4">
+              <div className="flagship__block">
+                <h4 className="flagship__label">Outcomes</h4>
+                <ul className="flagship-list">
                   {flagship.outcomes.map((outcome, i) => (
-                    <li key={i} className="text-[var(--muted)] text-sm">
+                    <li key={i}>
                       <span dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(outcome) }} />
                     </li>
                   ))}
@@ -131,7 +130,7 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
             )}
 
             {flagship.proofLinks.length > 0 && (
-              <div className="flex gap-4 mt-1">
+              <div className="flagship__links">
                 {flagship.proofLinks.map((link) => (
                   <a key={link.href} href={link.href} className="text-sm">
                     {link.label}
@@ -175,21 +174,21 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
 
       {/* Supporting work */}
       {vm.supportingItems.length > 0 && (
-        <section className="flex flex-col gap-4">
-          <h2 className="text-[var(--text)]">Supporting work</h2>
+        <section className="domain-page__section">
+          <h2>Also worked on</h2>
 
-          <ul data-supporting-work="" className="flex flex-col gap-4 list-none pl-0">
+          <ul data-supporting-work="" className="supporting">
             {vm.supportingItems.map((item, i) => (
               <li
                 key={i}
                 data-supporting-item=""
-                className="border border-[var(--border)] bg-[var(--bg-elevated)] p-4 flex flex-col gap-2"
+                className="supporting__item"
               >
-                <p className="text-[var(--text)] font-semibold text-sm">{item.title}</p>
-                <p className="text-[var(--muted)] text-sm"><span dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(item.context) }} /></p>
+                <p className="supporting__title">{item.title}</p>
+                <p className="supporting__context"><span dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(item.context) }} /></p>
 
                 {item.proofLinks.length > 0 && (
-                  <div className="flex gap-4">
+                  <div className="supporting__links">
                     {item.proofLinks.map((link) => (
                       <a key={link.href} href={link.href} className="text-sm">
                         {link.label}
@@ -205,9 +204,9 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
 
       {/* Related domains */}
       {vm.relatedDomains.length > 0 && (
-        <section className="mt-8 flex flex-col gap-2">
-          <p className="text-[var(--muted)] text-sm">Related domains:</p>
-          <div className="flex gap-4">
+        <section className="domain-page__related">
+          <h2>More case studies</h2>
+          <div className="domain-page__related-links">
             {vm.relatedDomains.map((related) => (
               <a key={related.slug} href={related.href} className="text-sm">
                 {related.title}
@@ -216,6 +215,7 @@ export function DomainProofPage({ domain }: DomainProofPageProps) {
           </div>
         </section>
       )}
+      </TerminalPanel>
     </div>
   );
 }

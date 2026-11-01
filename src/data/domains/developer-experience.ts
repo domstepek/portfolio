@@ -5,13 +5,13 @@ const developerExperience: DomainEntry = {
   order: 3,
   title: "Developer Experience",
   summary:
-    "Design systems, shared components, and tooling that help engineers ship faster and repeat less setup.",
+    "Design systems, shared components, and tooling that stop engineers from repeating the same setup.",
   seoDescription:
     "Developer experience domain page for monorepo tooling, design systems, and team automation Dom builds.",
   thesis:
     "I invest in developer experience when the team keeps burning time on the same setup, regression, or UI tax.",
   scope:
-    "This is the internal tooling and automation layer — everything aimed at helping engineers ship faster, catch regressions sooner, and stop repeating the same setup work.",
+    "Internal tooling and automation that help engineers catch regressions sooner and skip repeated setup.",
   belongsHere: [
     "Building shared tooling that replaces repeated setup, config edits, and release chores",
     "Creating reusable UI or workflow primitives so teams stop rebuilding the same patterns from scratch",

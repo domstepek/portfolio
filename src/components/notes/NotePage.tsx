@@ -29,7 +29,7 @@ export function NotePage({ note }: NotePageProps) {
         </Link>
       </p>
 
-      <TerminalPanel>
+      <TerminalPanel path={`~/notes/${note.slug}`}>
         <section className="note-page__intro">
           <h1 data-note-title>{note.frontmatter.title}</h1>
           <p className="note-page__meta">

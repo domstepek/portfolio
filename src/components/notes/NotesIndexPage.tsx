@@ -26,7 +26,7 @@ export function NotesIndexPage() {
         </Link>
       </p>
 
-      <TerminalPanel>
+      <TerminalPanel path="~/notes">
         <section className="notes-index__intro">
           <h1>Notes</h1>
           <p>

@@ -86,13 +86,13 @@ export const personalPage = {
   resume: {
     title: "Resume",
     summary:
-      "Short version: I've spent most of my time building operational tools, data-heavy products, and the glue between product intent and real delivery constraints.",
+      "Short version: financial research and trading interfaces at Gödel, and before that four years of analytics and operations tools at Tapestry.",
     highlights: [
       "Product surfaces, operational tools, and workflow-heavy internal software",
       "Real-time and data-heavy interfaces, including financial research and trading tools",
-      "Developer tooling, shared systems, and team-facing enablement work",
+      "Design systems, shared components, and developer tooling",
     ],
-    note: "The domain pages have full project walkthroughs with stack details, decisions, and outcomes.",
+    note: "The case studies have full walkthroughs with stack details, decisions, and outcomes.",
   },
   notes: {
     intro:

@@ -11,7 +11,7 @@ export function ResumePage() {
         <Link className="resume-page__back-link" href={homePath}>Back home</Link>
       </p>
 
-      <TerminalPanel>
+      <TerminalPanel path="~/resume">
         <div className="resume-page__sheet">
           <header className="resume-page__header">
             <h1 className="resume-page__name">{resumePage.name}</h1>

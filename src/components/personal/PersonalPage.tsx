@@ -12,7 +12,7 @@ export function PersonalPage() {
         <Link className="personal-page__back-link" href={homePath}>Back home</Link>
       </p>
 
-      <TerminalPanel>
+      <TerminalPanel path="~/about">
         <section className="personal-page__intro">
           <h1 className="personal-page__title">{personalPage.title}</h1>
           <p className="personal-page__lead">{personalPage.lead}</p>
@@ -54,7 +54,7 @@ export function PersonalPage() {
 
           <div className="personal-page__groups">
             <section className="personal-page__group">
-              <h3 className="personal-page__group-title">Role modes</h3>
+              <h3 className="personal-page__group-title">Roles</h3>
               <ul className="personal-page__list">
                 {personalPage.openTo.roles.map((role) => (
                   <li key={role}>{role}</li>
@@ -63,7 +63,7 @@ export function PersonalPage() {
             </section>
 
             <section className="personal-page__group">
-              <h3 className="personal-page__group-title">Best-fit problems</h3>
+              <h3 className="personal-page__group-title">Problems I like</h3>
               <ul className="personal-page__list">
                 {personalPage.openTo.problemSpaces.map((ps) => (
                   <li key={ps}>{ps}</li>
@@ -73,7 +73,7 @@ export function PersonalPage() {
           </div>
 
           <section className="personal-page__group">
-            <h3 className="personal-page__group-title">Boundaries</h3>
+            <h3 className="personal-page__group-title">How I choose</h3>
             <ul className="personal-page__list">
               {personalPage.openTo.boundaries.map((b) => (
                 <li key={b}>{b}</li>

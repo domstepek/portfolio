@@ -5,13 +5,13 @@ const analyticsAi: DomainEntry = {
   order: 2,
   title: "Analytics & data",
   summary:
-    "Reporting surfaces and data-heavy interfaces that help teams trust and act on their numbers, plus the AI-assisted tooling around them.",
+    "Reporting tools and data-heavy interfaces built for planners and analysts at Tapestry.",
   seoDescription:
     "Analytics & AI domain page for reporting surfaces, AI-assisted curation, and data tooling Dom builds.",
   thesis:
-    "I build analytics and AI systems when the real bottleneck is understanding the business or making model-backed workflows actually useful — not collecting one more table or adding a chatbot veneer.",
+    "I build analytics tools when the real bottleneck is understanding the business. Model-backed features earn their place when they make a specific task faster.",
   scope:
-    "This covers the reporting, measurement, AI-assisted curation, and data-trust side of products — the work where the main challenge is making the numbers useful and the model behavior practical.",
+    "Reporting, measurement, and AI-assisted curation, where the hard part is making the numbers trustworthy enough to act on.",
   belongsHere: [
     "Building dashboards, reports, and operator-facing analytics surfaces teams actually use every morning",
     "Wiring retrieval, generation, and agent-style flows into concrete operator or analyst tasks",

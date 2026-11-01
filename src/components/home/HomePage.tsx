@@ -27,32 +27,46 @@ export function HomePage() {
         <p className="home-page__eyebrow">{homePage.eyebrow}</p>
         <h1>{homePage.title}</h1>
         <p className="home-page__lead">{homePage.lead}</p>
+        <div className="home-page__actions">
+          <a className="button button--primary" href="#home-current-title">See what I'm building</a>
+          <Link className="button" href={resumePath}>Read my resume</Link>
+        </div>
       </section>
 
       <TerminalPanel>
+        <section className="home-page__section home-page__current" aria-labelledby="home-current-title" data-home-current>
+          <div className="home-page__section-copy">
+            <h2 id="home-current-title">{homePage.current.company}</h2>
+            <p className="home-page__current-meta">{homePage.current.meta}</p>
+            <p>{homePage.current.intro}</p>
+          </div>
+          <ul className="home-page__current-list">
+            {homePage.current.highlights.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <p className="home-page__current-link">
+            <a href={homePage.current.link.href} rel="noreferrer">{homePage.current.link.label}</a>
+          </p>
+        </section>
+
         <nav
           className="home-page__section home-page__domains"
           aria-labelledby="home-domain-nav-title"
+          id="work"
           data-home-domain-nav
         >
           <div className="home-page__section-copy">
-            <p className="home-page__label" aria-hidden="true">// case studies</p>
-            <h2 id="home-domain-nav-title">Selected work</h2>
+            <h2 id="home-domain-nav-title">{homePage.workHeading}</h2>
             <p className="home-page__domain-intro">{homePage.domainIntro}</p>
           </div>
           <ul className="home-page__domain-list">
-            {homeDomains.map((domain, index) => (
+            {homeDomains.map((domain) => (
               <li key={domain.slug} className="home-page__domain-item">
-                <span className="home-page__domain-index" aria-hidden="true">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <div className="home-page__domain-body">
-                  <Link className="home-page__domain-link" data-home-domain-link href={domain.href}>
-                    {domain.title}
-                  </Link>
-                  <p className="home-page__domain-summary">{domain.summary}</p>
-                </div>
-                <span className="home-page__domain-arrow" aria-hidden="true">→</span>
+                <Link className="home-page__domain-link" data-home-domain-link href={domain.href}>
+                  {domain.title}
+                </Link>
+                <p className="home-page__domain-summary">{domain.summary}</p>
               </li>
             ))}
           </ul>
@@ -64,7 +78,6 @@ export function HomePage() {
           data-home-personal-teaser
         >
           <div className="home-page__section-copy">
-            <p className="home-page__label" aria-hidden="true">// about</p>
             <h2 id="home-personal-title">{homePage.personalTeaser.heading}</h2>
             <p>{homePage.personalTeaser.body}</p>
           </div>
