@@ -12,6 +12,7 @@ export function TerminalPanel({ children }: { children: React.ReactNode }) {
         <span></span>
         <span></span>
         <span></span>
+        <code className="terminal-panel__title">dom@portfolio: ~</code>
       </div>
       <div className="terminal-panel__body">
         {children}

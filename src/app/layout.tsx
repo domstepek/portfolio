@@ -2,8 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import ShaderBackground from '@/components/shader/ShaderBackground';
 import { siteConfig } from '@/data/site';
+import { aboutPath, notesPath, resumePath } from '@/lib/paths';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -20,13 +23,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="site-shell">
         <ShaderBackground />
         <a className="skip-link" href="#main-content">skip to content</a>
         <header className="site-header">
           <div className="shell site-header__inner">
-            <Link className="site-title" href="/">{siteConfig.name}</Link>
+            <Link className="site-title" href="/">
+              <span className="site-title__prompt" aria-hidden="true">~/</span>{siteConfig.name}
+            </Link>
+            <nav className="site-nav" aria-label="Primary">
+              <Link href={aboutPath}>about</Link>
+              <Link href={notesPath}>notes</Link>
+              <Link href={resumePath}>resume</Link>
+            </nav>
           </div>
         </header>
         <main id="main-content" className="site-main shell">

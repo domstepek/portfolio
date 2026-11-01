@@ -36,16 +36,23 @@ export function HomePage() {
           data-home-domain-nav
         >
           <div className="home-page__section-copy">
+            <p className="home-page__label" aria-hidden="true">// selected work</p>
             <h2 id="home-domain-nav-title">Pick a Domain</h2>
             <p className="home-page__domain-intro">{homePage.domainIntro}</p>
           </div>
           <ul className="home-page__domain-list">
-            {homeDomains.map((domain) => (
+            {homeDomains.map((domain, index) => (
               <li key={domain.slug} className="home-page__domain-item">
-                <Link className="home-page__domain-link" data-home-domain-link href={domain.href}>
-                  {domain.title}
-                </Link>
-                <p className="home-page__domain-summary">{domain.summary}</p>
+                <span className="home-page__domain-index" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div className="home-page__domain-body">
+                  <Link className="home-page__domain-link" data-home-domain-link href={domain.href}>
+                    {domain.title}
+                  </Link>
+                  <p className="home-page__domain-summary">{domain.summary}</p>
+                </div>
+                <span className="home-page__domain-arrow" aria-hidden="true">→</span>
               </li>
             ))}
           </ul>
@@ -57,6 +64,7 @@ export function HomePage() {
           data-home-personal-teaser
         >
           <div className="home-page__section-copy">
+            <p className="home-page__label" aria-hidden="true">// about</p>
             <h2 id="home-personal-title">{homePage.personalTeaser.heading}</h2>
             <p>{homePage.personalTeaser.body}</p>
           </div>

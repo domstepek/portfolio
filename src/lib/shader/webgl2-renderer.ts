@@ -114,7 +114,12 @@ void main() {
 
   float base_lum = gradient_field(uv, u_time);
   float ripple_lum = ripple_field(uv, u_time);
-  float lum = clamp(base_lum + ripple_lum * 0.35, 0.0, 1.0);
+  // Reading zone: recede the field behind the centered content column.
+  float aspect = u_resolution.x / u_resolution.y;
+  float column = abs(uv.x - 0.5) * min(aspect, 1.6);
+  float reading_floor = mix(0.72, 0.42, smoothstep(0.8, 1.4, aspect));
+  float reading = mix(reading_floor, 1.0, smoothstep(0.24, 0.62, column));
+  float lum = clamp(base_lum * reading + ripple_lum * 0.4, 0.0, 1.0);
 
   int bx = int(snapped.x) % 8;
   int by = int(snapped.y) % 8;
@@ -125,7 +130,10 @@ void main() {
     return;
   }
 
-  vec3 dot_color = u_color_bg + vec3(0.12);
+  // Dot color: charcoal with a faint phosphor tint; ripples glow toward the accent.
+  vec3 charcoal = u_color_bg + vec3(0.085, 0.10, 0.09);
+  float glow = clamp(ripple_lum * 1.6, 0.0, 1.0);
+  vec3 dot_color = mix(charcoal, u_color_accent * 0.55, 0.18 + 0.6 * glow);
   fragColor = vec4(dot_color, 1.0);
 }
 `;

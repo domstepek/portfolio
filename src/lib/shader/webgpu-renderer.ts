@@ -149,7 +149,12 @@ fn fs(@builtin(position) frag_coord: vec4f) -> @location(0) vec4f {
   // Compose: gradient + ripples BEFORE dither threshold.
   let base_lum = gradient_field(uv, u.time);
   let ripple_lum = ripple_field(uv, u.time);
-  let lum = clamp(base_lum + ripple_lum * 0.35, 0.0, 1.0);
+  // Reading zone: recede the field behind the centered content column.
+  let aspect = u.resolution.x / u.resolution.y;
+  let column = abs(uv.x - 0.5) * min(aspect, 1.6);
+  let reading_floor = mix(0.72, 0.42, smoothstep(0.8, 1.4, aspect));
+  let reading = mix(reading_floor, 1.0, smoothstep(0.24, 0.62, column));
+  let lum = clamp(base_lum * reading + ripple_lum * 0.4, 0.0, 1.0);
 
   // Bayer 8×8 ordered dithering on the snapped grid.
   let bx = u32(snapped.x) % 8u;
@@ -162,7 +167,10 @@ fn fs(@builtin(position) frag_coord: vec4f) -> @location(0) vec4f {
   }
 
   // Dot color: restrained charcoal gray.
-  let dot_color = u.color_bg.xyz + vec3f(0.12, 0.12, 0.12);
+  // Dot color: charcoal with a faint phosphor tint; ripples glow toward the accent.
+  let charcoal = u.color_bg.xyz + vec3f(0.085, 0.10, 0.09);
+  let glow = clamp(ripple_lum * 1.6, 0.0, 1.0);
+  let dot_color = mix(charcoal, u.color_accent.xyz * 0.55, 0.18 + 0.6 * glow);
   return vec4f(dot_color, 1.0);
 }
 `;

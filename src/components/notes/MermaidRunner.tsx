@@ -38,7 +38,7 @@ export function MermaidRunner() {
             clusterBorder: '#2a2a2a',
             titleColor: '#e0e0e0',
             edgeLabelBackground: '#141414',
-            fontFamily: '"Space Mono", ui-monospace, "SFMono-Regular", "SF Mono", Consolas, monospace',
+            fontFamily: '"Geist Mono", ui-monospace, "SFMono-Regular", "SF Mono", Consolas, monospace',
           },
         });
         mermaidInitialized = true;
