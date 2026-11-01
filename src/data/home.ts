@@ -36,17 +36,17 @@ export interface HomePageData {
 
 export const homePage = {
   avatar: "/images/avatar.png",
-  eyebrow: "Dom Stepek / Systems, Products, and Tooling",
+  eyebrow: "Dom Stepek / Software engineer",
   title:
-    "I work across product, analytics & AI, and developer experience.",
+    "I build interfaces for data-heavy and financial software.",
   lead:
-    "Most of what I build sits where data, platform, workflow, and internal tooling overlap — the kind of work that only makes sense when you see the full loop.",
+    "Right now that's Gödel Terminal: real-time research tools, a mobile trading app, and the shared components underneath them. Before that, four years building analytics and planning tools at Tapestry.",
   domainIntro:
-    "Pick the domain that matches the problem.",
+    "Case studies, grouped by the kind of problem they solved.",
   personalTeaser: {
-    heading: "Personal Context",
+    heading: "More about me",
     body:
-      "How I work, what kinds of teams I fit best, and where the compact resume lives. I also keep an engineering journal with notes on what I'm building and how.",
+      "How I work, the teams I fit best, and my resume. I also keep an engineering journal with notes on what I'm building and how.",
     aboutLabel: "About",
     resumeLabel: "Resume",
     notesLabel: "Notes",
@@ -72,12 +72,12 @@ export const homePage = {
   freshness: {
     label: "Currently",
     value:
-      "Exploring agent-style workflows and how model context protocol changes the shape of internal tooling.",
-    note: "Last updated March 2026.",
+      "Software engineer at Gödel Terminal, building the research terminal on web and mobile. Its supply-chain map, Atlas, is public at atlas.godelterminal.com.",
+    note: "Last updated November 2026.",
   },
   seo: {
-    title: "Systems, Products, and Tooling",
+    title: "Software engineer",
     description:
-      "Homepage for Dom's work across product systems, analytics & AI tooling, and developer experience.",
+      "Dom builds interfaces for data-heavy and financial software: real-time UIs, shared component systems, and the product work around them.",
   },
 } satisfies HomePageData;

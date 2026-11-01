@@ -3,9 +3,9 @@ import type { DomainEntry } from "./types";
 const analyticsAi: DomainEntry = {
   slug: "analytics-ai",
   order: 2,
-  title: "Analytics & AI",
+  title: "Analytics & data",
   summary:
-    "Reporting surfaces, measurement workflows, and AI-assisted tooling that help teams trust and act on the data in front of them.",
+    "Reporting surfaces and data-heavy interfaces that help teams trust and act on their numbers, plus the AI-assisted tooling around them.",
   seoDescription:
     "Analytics & AI domain page for reporting surfaces, AI-assisted curation, and data tooling Dom builds.",
   thesis:

@@ -4,9 +4,9 @@ const resolveSiteUrl = (value: string | undefined) => new URL(value ?? DEFAULT_S
 
 export const siteConfig = {
   name: "Dom",
-  defaultTitle: "Dom | Systems, Products, and Tooling",
+  defaultTitle: "Dom | Software engineer",
   defaultDescription:
-    "Dom builds product systems, analytics & AI tooling, and developer experience infrastructure.",
+    "Dom builds interfaces for data-heavy and financial software: real-time UIs, shared component systems, and the product work around them.",
   siteUrl: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
   // basePath is always "/" on Vercel — no dynamic configuration needed
   basePath: "/",

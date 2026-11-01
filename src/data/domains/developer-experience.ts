@@ -5,7 +5,7 @@ const developerExperience: DomainEntry = {
   order: 3,
   title: "Developer Experience",
   summary:
-    "Shared tooling and automation that help engineers ship faster and repeat less setup.",
+    "Design systems, shared components, and tooling that help engineers ship faster and repeat less setup.",
   seoDescription:
     "Developer experience domain page for monorepo tooling, design systems, and team automation Dom builds.",
   thesis:

@@ -68,13 +68,14 @@ export const personalPage = {
     intro:
       "I'm looking for full-time roles where I can own product problems end-to-end and work across the stack to ship them.",
     roles: [
+      "Product-minded frontend or full-stack roles on complex, data-heavy software",
       "Senior full-stack or product engineering roles",
       "Roles where product work touches deployment, data, or platform concerns",
       "Founding or early-team roles where scope is wide and ownership is real",
     ],
     problemSpaces: [
       "Internal tools and operational systems",
-      "Analytics, data, or AI-adjacent workflows",
+      "Real-time and data-heavy interfaces, including financial tools",
       "Teams that need stronger handoffs between product, platform, and delivery",
     ],
     boundaries: [
@@ -88,7 +89,7 @@ export const personalPage = {
       "Short version: I've spent most of my time building operational tools, data-heavy products, and the glue between product intent and real delivery constraints.",
     highlights: [
       "Product surfaces, operational tools, and workflow-heavy internal software",
-      "Analytics platforms, AI-assisted tooling, and data-driven interfaces",
+      "Real-time and data-heavy interfaces, including financial research and trading tools",
       "Developer tooling, shared systems, and team-facing enablement work",
     ],
     note: "The domain pages have full project walkthroughs with stack details, decisions, and outcomes.",

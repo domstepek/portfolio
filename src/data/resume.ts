@@ -46,8 +46,7 @@ export interface ResumePageData {
 
 export const resumePage: ResumePageData = {
   name: "Jean-Dominique Stepek",
-  headline:
-    "Full-Stack Engineer | Product, Analytics & AI, Developer Experience",
+  headline: "Software Engineer | React, TypeScript & Financial Applications",
   contact: {
     phone: "(916) 342-9303",
     email: "domstepek@gmail.com",
@@ -56,75 +55,41 @@ export const resumePage: ResumePageData = {
     linkedin: "linkedin.com/in/jean-dominique-stepek",
   },
   skills: [
-    { label: "Languages", items: "TypeScript, Python, SQL, GraphQL" },
-    {
-      label: "Frontend",
-      items: "React, Next.js, Vite, Legend State, Mantine, Tailwind CSS",
-    },
-    { label: "Backend", items: "Node.js, Express, Apollo GraphQL, Prisma" },
-    {
-      label: "Data",
-      items: "PostgreSQL, Snowflake, Redis, BullMQ, DynamoDB",
-    },
-    {
-      label: "Infrastructure",
-      items:
-        "AWS (CDK, Bedrock, Cognito, Lambda), Docker, Jenkins, GitHub Actions",
-    },
-    {
-      label: "AI / ML",
-      items: "AWS Bedrock, RAG Retrieval, MCP Tools, Agent Harnesses",
-    },
+    { label: "Frontend", items: "TypeScript, React, React Native, Next.js, Legend State, Three.js, Vite, Tailwind CSS" },
+    { label: "Testing & delivery", items: "Playwright, React Doctor, GitHub Actions, Jenkins, Docker" },
+    { label: "APIs & data", items: "Node.js, Express, GraphQL, WebSockets, SQL, PostgreSQL, Snowflake, Redis, AWS" },
   ],
   experience: [
     {
-      company: "Tapestry",
-      title: "Software Development Engineer (Full Stack)",
-      dates: "Jun 2022 – Present",
+      company: "Gödel Terminal",
+      title: "Software Engineer",
+      dates: "May 2026 – Present",
       projects: [
         {
-          title: "Collection Curator",
+          title: "",
           bullets: [
-            {
-              text: "Shaped the reporting workflow for an operator-facing analytics portal — filters, drill-downs, real-time collaboration via Legend State sync engine, and follow-up actions in one surface — replacing scattered tools and ad hoc data pulls.",
-            },
-            {
-              text: "Built a configurable table interface for seasonal collection curation with custom column types (multiselects, dates, tags), enabling analysts to filter and organize product data without ad hoc spreadsheet work.",
-            },
-            {
-              text: "Led frontend development of a PowerPoint-style presentation tool with React and Styled Components, including drag-and-drop, keyboard navigation, and export-to-PDF features.",
-            },
-            {
-              text: "Created an internal GenAI chatbot using AWS Bedrock and RAG retrieval for answering platform-related user queries — cutting support tickets by 50%.",
-            },
-            {
-              text: "Architected the production API backend pairing Express/Apollo with a reverse-proxied FastAPI service for AI workloads, using Prisma, Redis pub/sub, and Cognito-backed auth.",
-            },
-            {
-              text: "Wrote MCP tool definitions for the analytics platform and built a demo surface showing user-driven vs agent-driven actions for stakeholder evaluation.",
-            },
+            { text: "Built configurable financial data grids with sorting, filtering, row virtualization, and cell-level store subscriptions to live prices delivered through Kafka-backed WebSocket feeds." },
+            { text: "Introduced the terminal’s first shared UI component library, standardizing nearly all terminal table and shared-chart rendering." },
+            { text: "Owned React Native mobile development across two two-week iterations, from chat to financial research and brokerage-integrated order entry; adapted desktop commands into guided mobile workflows. Released on Android, with iOS in private beta." },
+            { text: "Built Gödel Atlas and all terminal supply-chain visualization views, including Three.js 3D views, for exploring a dataset of 15,184 companies and 56,340 relationships." },
+            { text: "Established linting, formatting, type checking, and React Doctor CI checks; validated workflows with automated tests, coverage reporting, Playwright E2E testing, and internal beta testing." },
+            { text: "Worked with engineering leadership and the CEO on trading-product requirements, using direct customer feedback to prioritize features and usability improvements." },
           ],
         },
+      ],
+    },
+    {
+      company: "Tapestry",
+      title: "Software Development Engineer (Full Stack)",
+      dates: "Jun 2022 – May 2026",
+      projects: [
         {
-          title: "Supply Chain Forecasting App",
+          title: "",
           bullets: [
-            {
-              text: "Spearheaded full-stack development of a predictive analytics platform with React, TypeScript, GraphQL, and Snowflake, reducing inventory waste by $30M/year.",
-            },
-            {
-              text: "Designed the forecasting interface around fiscal season targets and receipt predictions, enabling inventory planners to adjust forecasts without falling back to spreadsheet workflows.",
-            },
-          ],
-        },
-        {
-          title: "Sample Tracking",
-          bullets: [
-            {
-              text: "Built the operational app for sample shipment tracking, status management, exports, and recurring reporting — consolidating scattered update threads into one surface for 16 stakeholders.",
-            },
-            {
-              text: "Saved ~800 hours/year by replacing manual reconciliation of exports, shipment context, and recurring updates across separate tools.",
-            },
+            { text: "Built React and TypeScript analytics interfaces for Collection Curator, combining configurable data tables, custom column types, filtering, and real-time collaboration through Legend State." },
+            { text: "Led frontend development of a presentation editor with React and Styled Components, including drag-and-drop interactions, keyboard navigation, and PDF export." },
+            { text: "Led full-stack development of an inventory-forecasting platform using React, TypeScript, GraphQL, and Snowflake; the platform reduced inventory waste by $30M annually." },
+            { text: "Consolidated sample tracking, status management, exports, and reporting into one application for 16 stakeholders, saving approximately 800 hours annually." },
           ],
         },
       ],
@@ -137,32 +102,19 @@ export const resumePage: ResumePageData = {
         {
           title: "",
           bullets: [
-            {
-              text: "Co-founded and built a social analytics platform tracking community engagement patterns across social media APIs, with unified customer profiles and proprietary metrics.",
-            },
-            {
-              text: "Contributed to data ingestion pipelines from social media APIs to DGraph using Go and AWS Lambda, and owned infrastructure: Dockerized services, CI/CD with AWS CodePipeline, EC2 and Lambda compute.",
-            },
+            { text: "Co-founded and built a social analytics platform with unified customer profiles; contributed to Go/DGraph ingestion pipelines and owned Docker-based infrastructure and AWS CI/CD." },
           ],
         },
       ],
     },
   ],
   education: [
-    {
-      school: "Hack Reactor",
-      degree: "Advanced Software Engineering Immersive",
-      year: "2021",
-    },
-    {
-      school: "American River College",
-      degree: "A.S. Computer Science",
-      year: "2020",
-    },
+    { school: "Hack Reactor", degree: "Advanced Software Engineering Immersive", year: "2021" },
+    { school: "American River College", degree: "A.S. Computer Science", year: "2020" },
   ],
   seo: {
     title: "resume",
     description:
-      "resume for Jean-Dominique Stepek — full-stack engineer across product, analytics & ai, and developer experience.",
+      "resume for Jean-Dominique Stepek — software engineer building interfaces for data-heavy and financial software.",
   },
 };

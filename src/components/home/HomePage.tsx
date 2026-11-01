@@ -36,8 +36,8 @@ export function HomePage() {
           data-home-domain-nav
         >
           <div className="home-page__section-copy">
-            <p className="home-page__label" aria-hidden="true">// selected work</p>
-            <h2 id="home-domain-nav-title">Pick a Domain</h2>
+            <p className="home-page__label" aria-hidden="true">// case studies</p>
+            <h2 id="home-domain-nav-title">Selected work</h2>
             <p className="home-page__domain-intro">{homePage.domainIntro}</p>
           </div>
           <ul className="home-page__domain-list">
