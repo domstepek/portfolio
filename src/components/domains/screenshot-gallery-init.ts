@@ -27,8 +27,16 @@ export function initGalleries() {
 
     if (slides.length === 0) return;
 
-    const mobileQuery = window.matchMedia("(max-width: 40rem)");
-    let visibleCount = mobileQuery.matches ? 1 : 3;
+    // How many slides fit is read from the layout, not assumed: case-study
+    // galleries show one slide at a time even on desktop, so a hardcoded 3
+    // made each step skip two screenshots.
+    function measureVisible() {
+      const slideWidth = slides[0].getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      if (!slideWidth) return 1;
+      return Math.max(1, Math.round((viewport.clientWidth + gap) / (slideWidth + gap)));
+    }
+    let visibleCount = measureVisible();
 
     function getPageCount() {
       return Math.max(1, Math.ceil(slides.length / visibleCount));
@@ -105,11 +113,13 @@ export function initGalleries() {
     viewport.addEventListener("scroll", () => updateState(), { passive: true });
     viewport.addEventListener("scrollend", () => updateState(), { passive: true });
 
-    mobileQuery.addEventListener("change", (e) => {
-      visibleCount = e.matches ? 1 : 3;
+    new ResizeObserver(() => {
+      const next = measureVisible();
+      if (next === visibleCount) return;
+      visibleCount = next;
       buildDots();
       updateNavVisibility();
-    });
+    }).observe(viewport);
 
     // Lightbox
     function openLightbox(trigger: HTMLButtonElement) {
