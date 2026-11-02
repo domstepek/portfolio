@@ -37,7 +37,9 @@ export function PersonalPage() {
                 <Icon {...icon} />
                 <h3>{title}</h3>
                 <p>{body}</p>
-                {link && <Link className="craft__link" href={link.href}>{link.label} →</Link>}
+                {link && (link.href.startsWith('http')
+                  ? <a className="craft__link" href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>
+                  : <Link className="craft__link" href={link.href}>{link.label} →</Link>)}
               </section>
             ))}
           </div>

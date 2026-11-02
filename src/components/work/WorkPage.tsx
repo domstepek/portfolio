@@ -39,9 +39,12 @@ export function WorkPage() {
             );
           })}
         </ul>
-        <div>
+        <div className="button-row">
           <LinkButton href={current.link.href} target="_blank" rel="noreferrer" icon={<ArrowUpRight size={16} strokeWidth={1.75} aria-hidden="true" />}>
             {current.link.label}
+          </LinkButton>
+          <LinkButton href={current.secondaryLink.href} target="_blank" rel="noreferrer" icon={<ArrowUpRight size={16} strokeWidth={1.75} aria-hidden="true" />}>
+            {current.secondaryLink.label}
           </LinkButton>
         </div>
       </section>

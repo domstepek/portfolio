@@ -25,6 +25,7 @@ export interface HomeCurrentRole {
   intro: string;
   highlights: HomeHighlight[];
   link: { label: string; href: string };
+    secondaryLink: { label: string; href: string };
 }
 
 export interface HomePageData {
@@ -60,7 +61,7 @@ export const homePage = {
     "Right now that's Godel Terminal: real-time research tools, a mobile trading app, and the shared components underneath them. Before that, four years building analytics and planning tools at Tapestry.",
   paletteLead:
     "Dom Stepek, software engineer at Godel Terminal. Type a command or pick one below.",
-  now: "Now: financial data grids, the mobile app, and shared components at Godel.",
+  now: "Currently at Godel, building a financial terminal: live market data, the mobile app, and the shared components behind both.",
   current: {
     company: "Godel Terminal",
     meta: "May 2026 to now",
@@ -73,6 +74,7 @@ export const homePage = {
       { title: "Atlas", body: "Supply-chain views, including 3D in Three.js, across 15,184 companies and 56,340 relationships." },
     ],
     link: { label: "Open Atlas", href: "https://atlas.godelterminal.com/" },
+    secondaryLink: { label: "Supply chain for AAPL", href: "https://app.godelterminal.com/splc/AAPL.US" },
   },
   workHeading: "Earlier work",
   domainIntro:

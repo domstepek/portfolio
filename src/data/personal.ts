@@ -75,6 +75,7 @@ export const personalPage = {
         title: "Large datasets you can explore",
         body:
           "Godel Atlas and the supply-chain views, including Three.js 3D, for exploring 15,184 companies and 56,340 relationships between them.",
+        link: { label: "See Apple's supply chain", href: "https://app.godelterminal.com/splc/AAPL.US" },
       },
     },
   },
