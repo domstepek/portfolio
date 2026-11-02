@@ -42,7 +42,7 @@ export function buildCommands(notes: CommandNote[]): SiteCommand[] {
   const go: SiteCommand[] = [
     { id: 'go-home', shortcut: 'H', label: '/home', description: 'Back to the start', group: 'Go to', icon: 'home', keywords: ['start', 'index'], action: { type: 'href', href: homePath } },
     { id: 'go-work', shortcut: 'W', label: '/work', description: 'Case studies and current work', group: 'Go to', icon: 'work', keywords: ['projects', 'portfolio', 'godel', 'case studies'], action: { type: 'href', href: workPath } },
-    { id: 'go-demo', shortcut: 'D', label: '/demo', description: 'Live grid: 1,000 updates a second', group: 'Go to', icon: 'demo', keywords: ['performance', 'legend state', 'grid', 'worker', 'live'], action: { type: 'href', href: `${workPath}#live-grid` } },
+    { id: 'go-demo', shortcut: 'D', label: '/demo', description: 'Live grid: up to 160,000 updates a second', group: 'Go to', icon: 'demo', keywords: ['performance', 'legend state', 'grid', 'worker', 'live'], action: { type: 'href', href: `${workPath}#live-grid` } },
     { id: 'go-about', shortcut: 'A', label: '/about', description: "How I work and what I'm looking for", group: 'Go to', icon: 'about', keywords: ['me', 'bio', 'roles'], action: { type: 'href', href: aboutPath } },
     { id: 'go-resume', shortcut: 'R', label: '/resume', description: 'Experience, skills, and a PDF', group: 'Go to', icon: 'resume', keywords: ['cv', 'experience', 'skills'], action: { type: 'href', href: resumePath } },
     { id: 'go-notes', shortcut: 'N', label: '/notes', description: 'Field notes from building things', group: 'Go to', icon: 'notes', keywords: ['blog', 'writing', 'journal'], action: { type: 'href', href: notesPath } },

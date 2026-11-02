@@ -52,7 +52,7 @@ export function WorkPage() {
             <h2 id="live-grid-title">See it under load</h2>
             <p>
               The pattern behind the live grids I build: each cell subscribes to its own value, so a price tick re-renders
-              one cell instead of the table. Push it to 1,000 updates a second, then switch to naive.
+              one cell instead of the table. Grow it to 10,000 rows, then switch to naive.
             </p>
           </div>
         </div>
