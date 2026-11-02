@@ -28,7 +28,8 @@ const SYMBOLS = [
   'GS', 'BKNG', 'RTX', 'HON', 'AXP', 'PFE', 'LOW', 'BLK', 'SYK', 'MS',
 ];
 
-export const ROW_SIZES = [60, 250, 1000] as const;
+/** Row counts the demo offers. The first is the 60 real tickers plus 1,000 generated ones. */
+export const ROW_SIZES = [1060, 5000, 10000] as const;
 
 /** mulberry32: small deterministic PRNG for the seed only. */
 function prng(seed: number) {

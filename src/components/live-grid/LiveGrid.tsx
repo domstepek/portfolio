@@ -6,6 +6,7 @@ import {
 } from 'react';
 import { batch, observable, type Observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { Code, Pause, Play } from 'lucide-react';
 import SegmentedControl from '@/components/arc/segmented-control/segmented-control';
 import { Switch } from '@/components/arc/switch/switch';
@@ -19,6 +20,8 @@ import { createTickerWorker } from './ticker-worker';
  * LiveGrid — a stress test for cell-level subscriptions.
  *
  * A Web Worker runs the random walk and streams [row, field, value] batches.
+ * The table is virtualized with TanStack Virtual: only on-screen rows mount,
+ * while every row in the store keeps updating.
  * Each batch is applied to one Legend State observable inside batch().
  *   Atomic: every cell subscribes to its own field (grid$.rows[r].last),
  *           so a tick re-renders only the cells whose value changed.
@@ -29,7 +32,8 @@ import { createTickerWorker } from './ticker-worker';
 
 type Mode = 'atomic' | 'naive';
 type GridStore = Observable<{ rows: Row[] }>;
-type FieldNodes = Record<Field, Observable<number>>;
+const ROW_H = 34;
+const VIEW_ROWS = 13;
 
 const DESKTOP_COLUMNS: Field[] = ['last', 'chg', 'chgPct', 'bid', 'ask', 'bidSize', 'askSize', 'volume', 'updated'];
 const PHONE_COLUMNS: Field[] = ['last', 'chg', 'chgPct'];
@@ -110,47 +114,77 @@ function NaiveCell({ value, field }: { value: number; field: Field }) {
   return <div role="cell" ref={ref} className={className}>{format(field, value)}</div>;
 }
 
-const AtomicBody = memo(function AtomicBody({ nodes, symbols, columns }: { nodes: FieldNodes[]; symbols: string[]; columns: Field[] }) {
+/** Atomic row: memoized per index, so scrolling mounts new rows without touching old ones. */
+const AtomicRow = memo(function AtomicRow({ grid$, index, start, columns }: { grid$: GridStore; index: number; start: number; columns: Field[] }) {
+  const row$ = grid$.rows[index];
   return (
-    <div role="rowgroup">
-      {nodes.map((row, r) => (
-        <div role="row" className="live-grid__row" key={symbols[r]}>
-          <div role="rowheader" className="live-grid__symbol">{symbols[r]}</div>
-          {columns.map((f) => <AtomicCell key={f} node$={row[f]} field={f} />)}
-        </div>
-      ))}
+    <div role="row" aria-rowindex={index + 2} className="live-grid__row" style={{ transform: `translateY(${start}px)` }}>
+      <div role="rowheader" className="live-grid__symbol">{row$.symbol.peek()}</div>
+      {columns.map((f) => <AtomicCell key={f} node$={row$[f] as Observable<number>} field={f} />)}
     </div>
   );
 });
 
-const NaiveBody = memo(function NaiveBody({ grid$, columns }: { grid$: GridStore; columns: Field[] }) {
-  // Subscribe to the whole table: any field change re-renders every row.
-  // useSyncExternalStore gives it the same render priority as useSelector.
+function NaiveRow({ row, index, start, columns }: { row: Row; index: number; start: number; columns: Field[] }) {
+  return (
+    <div role="row" aria-rowindex={index + 2} className="live-grid__row" style={{ transform: `translateY(${start}px)` }}>
+      <div role="rowheader" className="live-grid__symbol">{row.symbol}</div>
+      {columns.map((f) => <NaiveCell key={f} value={row[f]} field={f} />)}
+    </div>
+  );
+}
+
+interface GridBodyProps {
+  grid$: GridStore;
+  mode: Mode;
+  rowCount: number;
+  columns: Field[];
+  /** State, not a ref: the parent's ref attaches after this child's layout effect. */
+  scrollEl: HTMLDivElement | null;
+  visibleRows: MutableRefObject<number>;
+}
+
+const GridBody = memo(function GridBody({ grid$, mode, rowCount, columns, scrollEl, visibleRows }: GridBodyProps) {
+  const virtualizer = useVirtualizer({
+    count: rowCount,
+    getScrollElement: () => scrollEl,
+    estimateSize: () => ROW_H,
+    overscan: 4,
+    initialRect: { width: 1000, height: ROW_H * VIEW_ROWS },
+  });
+
+  // Naive only: subscribe to the whole table, so any change re-renders every
+  // visible row. Same render priority as useSelector (useSyncExternalStore).
   const version = useRef(0);
   const subscribe = useCallback(
-    (onStoreChange: () => void) => grid$.rows.onChange(() => { version.current++; onStoreChange(); }),
-    [grid$],
+    (onStoreChange: () => void) =>
+      mode === 'naive' ? grid$.rows.onChange(() => { version.current++; onStoreChange(); }) : () => {},
+    [grid$, mode],
   );
   const tick = useSyncExternalStore(subscribe, () => version.current, () => 0);
+
   const env = useContext(CellContext)!;
   const groupRef = useRef<HTMLDivElement>(null);
-  // Every cell re-rendered, so one outline around the table says it honestly.
+  // Every visible cell re-rendered, so one outline around the table says it honestly.
   useLayoutEffect(() => {
-    if (!tick || !env.highlight.current || !env.motion.current) return;
+    if (mode !== 'naive' || !tick || !env.highlight.current || !env.motion.current) return;
     groupRef.current?.animate(
       [{ boxShadow: 'inset 0 0 0 1px rgb(224 180 92 / 0.85)' }, { boxShadow: 'inset 0 0 0 1px transparent' }],
       { duration: 500, easing: 'ease-out' },
     );
-  }, [tick, env]);
-  const rows = grid$.rows.peek();
+  }, [tick, env, mode]);
+
+  const items = virtualizer.getVirtualItems();
+  visibleRows.current = items.length;
+  const rows = mode === 'naive' ? grid$.rows.peek() : null;
+
   return (
-    <div role="rowgroup" ref={groupRef} className="live-grid__body">
-      {rows.map((row) => (
-        <div role="row" className="live-grid__row" key={row.symbol}>
-          <div role="rowheader" className="live-grid__symbol">{row.symbol}</div>
-          {columns.map((f) => <NaiveCell key={f} value={row[f]} field={f} />)}
-        </div>
-      ))}
+    <div role="rowgroup" ref={groupRef} className="live-grid__body" style={{ height: virtualizer.getTotalSize() }}>
+      {items.map((v) =>
+        rows
+          ? <NaiveRow key={v.key} row={rows[v.index]} index={v.index} start={v.start} columns={columns} />
+          : <AtomicRow key={v.key} grid$={grid$} index={v.index} start={v.start} columns={columns} />,
+      )}
     </div>
   );
 });
@@ -161,10 +195,11 @@ interface Readout {
   cellsPerTick: number;
   p95: number;
   work: number;
+  visibleRows: number;
   bars: number[];
   applied: number;
 }
-const EMPTY: Readout = { updatesPerSecond: 0, cellsPerTick: 0, p95: 0, work: 0, bars: [], applied: 0 };
+const EMPTY: Readout = { updatesPerSecond: 0, cellsPerTick: 0, p95: 0, work: 0, visibleRows: 0, bars: [], applied: 0 };
 
 function p95(values: number[]) {
   if (!values.length) return 0;
@@ -186,9 +221,10 @@ function useIsPhone() {
 
 const CODE = `import { batch, observable } from '@legendapp/state'
 import { useSelector } from '@legendapp/state/react'
+import { useVirtualizer } from '@tanstack/react-virtual'
 
 // One store for every row. The worker streams [row, field, value] triples.
-const grid$ = observable({ rows: seedRows() })
+const grid$ = observable({ rows: seedRows(1060) })
 
 worker.onmessage = ({ data }) => {
   const updates = new Float64Array(data.buffer)
@@ -197,14 +233,17 @@ worker.onmessage = ({ data }) => {
       grid$.rows[updates[i]][FIELDS[updates[i + 1]]].set(updates[i + 2])
     }
   })
-  // Ack after React commits; until then the worker conflates to latest values.
+  // Ack after React commits; until then the worker keeps only the latest values.
   queueMicrotask(() => worker.postMessage({ type: 'ack' }))
 }
 
+// Only on-screen rows mount. Off-screen rows keep updating in the store.
+const rows = useVirtualizer({ count: 1060, estimateSize: () => 34, getScrollElement })
+
 // Each cell subscribes to one field, so a tick re-renders only that cell.
 const Cell = memo(({ node$ }) => {
-  const value = useSelector(node$) // e.g. grid$.rows[12].last
-  return <td>{format(value)}</td>
+  const value = useSelector(node$) // e.g. grid$.rows[812].last
+  return <div role="cell">{format(value)}</div>
 })`;
 
 export function LiveGrid() {
@@ -218,16 +257,13 @@ export function LiveGrid() {
   const [showCode, setShowCode] = useState(false);
   const [readout, setReadout] = useState<Readout>(EMPTY);
 
-  const [rowCount, setRowCount] = useState<number>(ROW_SIZES[1]);
+  const [rowCount, setRowCount] = useState<number>(ROW_SIZES[0]);
   // A new table size is a new store (and a new worker, below).
   const grid$ = useMemo<GridStore>(() => observable({ rows: seedRows(rowCount) }), [rowCount]);
-  const symbols = useMemo(() => grid$.rows.peek().map((r) => r.symbol), [grid$]);
-  const nodes = useMemo<FieldNodes[]>(
-    () => symbols.map((_, r) => Object.fromEntries(FIELDS.map((f) => [f, grid$.rows[r][f]])) as unknown as FieldNodes),
-    [grid$, symbols],
-  );
 
   const rootRef = useRef<HTMLDivElement>(null);
+  const [scrollEl, setScrollEl] = useState<HTMLDivElement | null>(null);
+  const visibleRows = useRef(VIEW_ROWS + 4);
   const workerRef = useRef<Worker | null>(null);
   const rateRef = useRef(rate);
   const activeRef = useRef(false);
@@ -279,7 +315,7 @@ export function LiveGrid() {
       const updates = new Float64Array(event.data.buffer);
       batch(() => {
         for (let i = 0; i < updates.length; i += 3) {
-          nodes[updates[i]][FIELDS[updates[i + 1]]].set(updates[i + 2]);
+          grid$.rows[updates[i]][FIELDS[updates[i + 1]]].set(updates[i + 2]);
         }
       });
       queueMicrotask(() => {
@@ -296,7 +332,7 @@ export function LiveGrid() {
       revoke();
       workerRef.current = null;
     };
-  }, [nodes, grid$]);
+  }, [grid$]);
 
   useEffect(() => {
     rateRef.current = rate;
@@ -345,9 +381,10 @@ export function LiveGrid() {
       const tickCommits = w.ticks.map(([, c]) => c);
       setReadout({
         updatesPerSecond: w.events.reduce((s, [, n]) => s + n, 0),
-        cellsPerTick: tickCommits.length ? Math.round(tickCommits.reduce((s, c) => s + c, 0) / tickCommits.length) : 0,
+        cellsPerTick: tickCommits.length ? tickCommits.reduce((s, c) => s + c, 0) / tickCommits.length : 0,
         p95: p95(recent),
         work: p95(w.work.map(([, d]) => d)),
+        visibleRows: visibleRows.current,
         bars: w.frames.slice(-24).map(([, d]) => d),
         applied: w.applied,
       });
@@ -363,7 +400,7 @@ export function LiveGrid() {
     setMode(value as Mode);
   }, []);
 
-  const totalCells = rowCount * columns.length;
+  const visibleCells = (readout.visibleRows || VIEW_ROWS + 4) * columns.length;
   const overBudget = readout.p95 > BUDGET_MS * 1.05;
 
   return (
@@ -374,8 +411,8 @@ export function LiveGrid() {
       data-mode={mode}
       data-running={active ? 'true' : 'false'}
       data-applied={readout.applied}
-      data-cells-per-tick={readout.cellsPerTick}
-      data-total-cells={totalCells}
+      data-cells-per-tick={readout.cellsPerTick.toFixed(2)}
+      data-visible-cells={visibleCells}
       data-work-ms={readout.work.toFixed(2)}
     >
       <div className="live-grid__header">
@@ -385,9 +422,10 @@ export function LiveGrid() {
             <Badge pill>Simulated data</Badge>
           </div>
           <p>
-            Simulated prices, generated in a Web Worker and streamed into a Legend State store. In atomic mode each cell
-            subscribes to its own field, so the work per tick tracks how many values changed. Naive re-renders the whole
-            table, so its work grows with the table. Make the table bigger and watch which one holds.
+            Simulated prices for {group.format(rowCount)} rows, generated in a Web Worker and streamed into a Legend State
+            store. TanStack Virtual keeps only the on-screen rows in the DOM while every row keeps updating. In atomic mode
+            each cell subscribes to its own field and re-renders only when that value changes. Naive re-renders every
+            visible cell on every tick.
           </p>
         </div>
         <div className="live-grid__controls">
@@ -399,7 +437,7 @@ export function LiveGrid() {
           />
           <SegmentedControl
             label="Table size"
-            options={ROW_SIZES.map((n) => ({ value: String(n), label: `${group.format(n * columns.length)} cells` }))}
+            options={ROW_SIZES.map((n) => ({ value: String(n), label: `${group.format(n)} rows` }))}
             value={String(rowCount)}
             onValueChange={(v) => setRowCount(Number(v))}
           />
@@ -430,8 +468,8 @@ export function LiveGrid() {
         </div>
         <div>
           <dt>Cells rendered per tick</dt>
-          <dd>{group.format(readout.cellsPerTick)} <span>of {group.format(totalCells)}</span></dd>
-          <p>{mode === 'atomic' ? 'Only the cells that changed' : 'Every cell, every tick'}</p>
+          <dd>{readout.cellsPerTick < 10 ? readout.cellsPerTick.toFixed(1) : group.format(Math.round(readout.cellsPerTick))} <span>of {group.format(visibleCells)} on screen</span></dd>
+          <p>{mode === 'atomic' ? 'Only on-screen cells whose value changed' : 'Every on-screen cell, every tick'}</p>
         </div>
         <div className={readout.work > BUDGET_MS / 2 ? 'is-bad' : undefined}>
           <dt>Render work per tick</dt>
@@ -458,7 +496,7 @@ export function LiveGrid() {
         </div>
       </div>
 
-      <div className="live-grid__scroll">
+      <div className="live-grid__scroll" ref={setScrollEl}>
         <div
           role="table"
           aria-label="Simulated prices"
@@ -467,15 +505,13 @@ export function LiveGrid() {
           style={{ '--cols': columns.length } as CSSProperties}
         >
           <div role="rowgroup" className="live-grid__head">
-            <div role="row" className="live-grid__row">
+            <div role="row" aria-rowindex={1} className="live-grid__row">
               <div role="columnheader" className="live-grid__symbol">Symbol</div>
               {columns.map((f) => <div key={f} role="columnheader" className="live-grid__cell">{LABELS[f]}</div>)}
             </div>
           </div>
           <CellContext.Provider value={env.current}>
-            {mode === 'atomic'
-              ? <AtomicBody nodes={nodes} symbols={symbols} columns={columns} />
-              : <NaiveBody grid$={grid$} columns={columns} />}
+            <GridBody grid$={grid$} mode={mode} rowCount={rowCount} columns={columns} scrollEl={scrollEl} visibleRows={visibleRows} />
           </CellContext.Provider>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
+import { GeistPixelSquare } from 'geist/font/pixel';
 import ShaderBackground from '@/components/shader/ShaderBackground';
 import { PageTransitions } from '@/components/motion/PageTransitions';
 import { Providers } from '@/components/layout/Providers';
@@ -38,7 +39,7 @@ export default function RootLayout({
   );
 
   return (
-    <html lang="en" data-theme="dark" data-accent="green" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" data-theme="dark" data-accent="green" className={`${GeistSans.variable} ${GeistMono.variable} ${GeistPixelSquare.variable}`}>
       <body className="site-shell">
         <ShaderBackground />
         <PageTransitions />
@@ -60,7 +61,6 @@ export default function RootLayout({
           </main>
         <footer className="site-footer">
           <div className="shell site-footer__inner">
-            <p>Built with Next.js, Geist, Arc, and a custom WebGPU shader.</p>
             <nav className="site-footer__contact" aria-label="Contact">
               <a href="mailto:domstepek@gmail.com" className="site-footer__contact-link" aria-label="Email">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>

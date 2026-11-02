@@ -1,35 +1,35 @@
-# dom stepek
+# Dom Stepek
 
-full-stack engineer. i work across product, analytics & ai, and developer experience — most of what i build sits where data, platform, workflow, and internal tooling overlap.
+Full-stack engineer. I work across product, analytics and AI, and developer experience. Most of what I build sits where data, platform, workflow, and internal tooling overlap.
 
-i like work that sits between product questions, system shape, and the operational details that usually get hand-waved until they hurt.
+I like work that sits between product questions, system shape, and the operational details that usually get hand-waved until they hurt.
 
-## currently
+## Currently
 
-exploring agent-style workflows and how model context protocol changes the shape of internal tooling.
+Exploring agent-style workflows and how Model Context Protocol changes the shape of internal tooling.
 
-## what i build
+## What I build
 
-**product & ops tools** — workflow-heavy software that turns messy operational processes into usable tools. built a predictive analytics platform for inventory planning that reduced waste by $30M/year. built the operational app for sample shipment tracking that saved ~800 hrs/year by replacing manual reconciliation across separate tools.
+**Product and ops tools.** Workflow-heavy software that turns messy operational processes into usable tools. I built a predictive analytics platform for inventory planning that reduced waste by $30M/year, and the operational app for sample shipment tracking, which saved ~800 hrs/year by replacing manual reconciliation across separate tools.
 
-**analytics & ai** — reporting surfaces, ai-assisted tooling, and data-heavy interfaces where the challenge is making the numbers useful and the model behavior practical. built a full-stack analytics platform with real-time collaboration, configurable curation tables, a presentation builder, and an ai chatbot using AWS Bedrock and RAG retrieval that cut support tickets by 50%. wrote MCP tool definitions and built a demo surface for stakeholder evaluation of agent-driven workflows.
+**Analytics and AI.** Reporting surfaces, AI-assisted tooling, and data-heavy interfaces where the challenge is making the numbers useful and the model behavior practical. I built a full-stack analytics platform with real-time collaboration, configurable curation tables, a presentation builder, and an AI chatbot using AWS Bedrock and RAG retrieval that cut support tickets by 50%. I also wrote MCP tool definitions and built a demo surface so stakeholders could evaluate agent-driven workflows.
 
-**developer experience** — shared tooling and automation that help engineers ship faster and repeat less setup. built a monorepo template with shared configs, ci pipelines, and deploy conventions so new projects start from a proven baseline. built a shared react component library and storybook-backed design system across two product surfaces.
+**Developer experience.** Shared tooling and automation that help engineers ship faster and repeat less setup. I built a monorepo template with shared configs, CI pipelines, and deploy conventions so new projects start from a proven baseline, plus a shared React component library and Storybook-backed design system used across two product surfaces.
 
-## tech
+## Tech
 
-**languages:** TypeScript, Python, SQL, GraphQL
+**Languages:** TypeScript, Python, SQL, GraphQL
 
-**frontend:** React, Next.js, Vite, Legend State, Mantine, Tailwind CSS
+**Frontend:** React, Next.js, Vite, Legend State, Mantine, Tailwind CSS
 
-**backend:** Node.js, Express, Apollo GraphQL, Prisma, FastAPI
+**Backend:** Node.js, Express, Apollo GraphQL, Prisma, FastAPI
 
-**data:** PostgreSQL, Snowflake, Redis, BullMQ, DynamoDB
+**Data:** PostgreSQL, Snowflake, Redis, BullMQ, DynamoDB
 
-**infra:** AWS (CDK, Bedrock, Cognito, Lambda), Docker, Jenkins, GitHub Actions
+**Infra:** AWS (CDK, Bedrock, Cognito, Lambda), Docker, Jenkins, GitHub Actions
 
-**ai/ml:** AWS Bedrock, RAG retrieval, MCP tools, agent harnesses
+**AI/ML:** AWS Bedrock, RAG retrieval, MCP tools, agent harnesses
 
-## links
+## Links
 
-[portfolio](https://jean-dominique-stepek.is-a.dev) · [linkedin](https://linkedin.com/in/jean-dominique-stepek) · [email](mailto:domstepek@gmail.com)
+[Portfolio](https://jean-dominique-stepek.is-a.dev) · [LinkedIn](https://linkedin.com/in/jean-dominique-stepek) · [Email](mailto:domstepek@gmail.com)

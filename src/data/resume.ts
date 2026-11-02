@@ -61,7 +61,7 @@ export const resumePage: ResumePageData = {
   ],
   experience: [
     {
-      company: "Gödel Terminal",
+      company: "Godel Terminal",
       title: "Software Engineer",
       dates: "May 2026 – Present",
       projects: [
@@ -69,9 +69,9 @@ export const resumePage: ResumePageData = {
           title: "",
           bullets: [
             { text: "Built configurable financial data grids with sorting, filtering, row virtualization, and cell-level store subscriptions to live prices delivered through Kafka-backed WebSocket feeds." },
-            { text: "Introduced the terminal’s first shared UI component library, standardizing nearly all terminal table and shared-chart rendering." },
+            { text: "Introduced the terminal's first shared UI component library, standardizing nearly all terminal table and shared-chart rendering." },
             { text: "Owned React Native mobile development across two two-week iterations, from chat to financial research and brokerage-integrated order entry; adapted desktop commands into guided mobile workflows. Released on Android, with iOS in private beta." },
-            { text: "Built Gödel Atlas and all terminal supply-chain visualization views, including Three.js 3D views, for exploring a dataset of 15,184 companies and 56,340 relationships." },
+            { text: "Built Godel Atlas and all terminal supply-chain visualization views, including Three.js 3D views, for exploring a dataset of 15,184 companies and 56,340 relationships." },
             { text: "Established linting, formatting, type checking, and React Doctor CI checks; validated workflows with automated tests, coverage reporting, Playwright E2E testing, and internal beta testing." },
             { text: "Worked with engineering leadership and the CEO on trading-product requirements, using direct customer feedback to prioritize features and usability improvements." },
           ],
@@ -115,6 +115,6 @@ export const resumePage: ResumePageData = {
   seo: {
     title: "resume",
     description:
-      "resume for Jean-Dominique Stepek — software engineer building interfaces for data-heavy and financial software.",
+      "resume for Jean-Dominique Stepek, software engineer building interfaces for data-heavy financial software.",
   },
 };

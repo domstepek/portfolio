@@ -6,9 +6,9 @@ export const siteConfig = {
   name: "Dom",
   defaultTitle: "Dom | Software engineer",
   defaultDescription:
-    "Dom builds interfaces for data-heavy and financial software: real-time UIs, shared component systems, and the product work around them.",
+    "Dom builds interfaces for data-heavy financial software: real-time UIs, shared component systems, and the product work around them.",
   siteUrl: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
-  // basePath is always "/" on Vercel — no dynamic configuration needed
+  // basePath is always "/" on Vercel, so no dynamic configuration is needed
   basePath: "/",
   defaultSocialImage: "og-default.png",
   defaultFavicon: "favicon.svg",

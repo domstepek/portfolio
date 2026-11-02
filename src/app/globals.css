@@ -185,7 +185,7 @@ a, button, [role="button"], [role="option"], [role="tab"], summary, label[for] {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: var(--space-4);
   padding-block: var(--space-6);
   color: var(--text-muted);
@@ -256,7 +256,30 @@ a, button, [role="button"], [role="option"], [role="tab"], summary, label[for] {
 .home-page__now { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--text-muted); font-size: var(--text-sm); text-align: center; }
 .live-dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-subtle); }
 
-.command-dialog { width: min(640px, calc(100vw - 2rem)); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ⌘K: just the palette over a dimmed page (no dialog chrome). */
+.command-overlay { position: fixed; inset: 0; z-index: 100; background: rgb(0 0 0 / 0.62); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.command-dialog { position: fixed; z-index: 101; top: 14vh; left: 0; right: 0; width: min(640px, calc(100vw - 2rem)); margin-inline: auto; outline: none; }
+.command-dialog > [class*="__palette"] { box-shadow: var(--shadow-floating); }
+.command-sheet [class*="__headRow"] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* Command labels (/work, /notes...) in Geist Pixel. */
+[data-mono] [class*="__resultLabel"] { font-family: var(--font-geist-pixel-square), var(--font-mono); font-size: 14px; letter-spacing: 0.02em; }
+[data-mono] [class*="__resultLabel"] mark { font-family: inherit; }
+
+.home-palette { display: grid; gap: var(--space-3); }
+.home-palette__hint { color: var(--text-muted); font-size: 12px; text-align: center; }
+.home-palette__hint .kbd { margin-inline: 2px; }
+.shortcut-toast {
+  position: fixed; z-index: 120; left: 50%; bottom: var(--space-6);
+  padding: var(--space-2) var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-pill);
+  background: var(--surface-raised); color: var(--foreground); font-size: var(--text-sm); box-shadow: var(--shadow-floating);
+  opacity: 0; transform: translate(-50%, 8px); pointer-events: none;
+  transition: opacity var(--duration-quick) var(--ease-smooth-out), transform var(--duration-quick) var(--ease-smooth-out);
+}
+.shortcut-toast[data-visible] { opacity: 1; transform: translate(-50%, 0); }
+@media (max-width: 480px) { .home-palette__hint { display: none; } }
 
 /* ── Work ── */
 .work-current { display: grid; gap: var(--space-5); padding: var(--space-8); }
@@ -826,16 +849,15 @@ html[data-navigated] .home-page > *, html[data-navigated] .home-page__intro > * 
   height: 34px;
   align-items: center;
   border-top: 1px solid var(--border-subtle);
-  /* A value change can't relayout other rows; off-screen rows skip rendering. */
+  /* A value change can't relayout other rows. */
   contain: strict;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 34px;
 }
+.live-grid__body .live-grid__row { position: absolute; top: 0; left: 0; width: 100%; will-change: transform; }
 .live-grid__table.is-compact .live-grid__row { grid-template-columns: minmax(0, 1fr) repeat(var(--cols), 96px); }
 .live-grid__table.is-compact { min-width: 0; }
-.live-grid__body { border-radius: 10px; }
+.live-grid__body { position: relative; border-radius: 10px; }
 .live-grid__head { position: sticky; top: 0; z-index: 1; background: var(--surface); }
-.live-grid__head .live-grid__row { border-top: 0; border-bottom: 1px solid var(--border); content-visibility: visible; color: var(--text-muted); font-family: var(--font-body); font-size: 12px; }
+.live-grid__head .live-grid__row { border-top: 0; border-bottom: 1px solid var(--border); color: var(--text-muted); font-family: var(--font-body); font-size: 12px; }
 .live-grid__symbol { padding: 0 10px; font-family: var(--font-body); font-weight: 500; white-space: nowrap; }
 .live-grid__head .live-grid__symbol { font-weight: 400; }
 .live-grid__cell { display: flex; height: 30px; align-items: center; justify-content: flex-end; padding: 0 10px; border-radius: 6px; white-space: nowrap; }

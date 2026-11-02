@@ -55,19 +55,19 @@ export const homePage = {
   avatar: "/images/avatar.png",
   eyebrow: "Dom Stepek, software engineer",
   title:
-    "I build interfaces for data\u2011heavy and financial software.",
+    "I build interfaces for data\u2011heavy financial software.",
   lead:
-    "Right now that's Gödel Terminal: real-time research tools, a mobile trading app, and the shared components underneath them. Before that, four years building analytics and planning tools at Tapestry.",
+    "Right now that's Godel Terminal: real-time research tools, a mobile trading app, and the shared components underneath them. Before that, four years building analytics and planning tools at Tapestry.",
   paletteLead:
-    "Dom Stepek, software engineer at Gödel Terminal. Type a command or pick one below.",
-  now: "Now: financial data grids, the mobile app, and shared components at Gödel.",
+    "Dom Stepek, software engineer at Godel Terminal. Type a command or pick one below.",
+  now: "Now: financial data grids, the mobile app, and shared components at Godel.",
   current: {
-    company: "Gödel Terminal",
+    company: "Godel Terminal",
     meta: "May 2026 to now",
     intro:
-      "Gödel is a financial research terminal with a mobile app for research and trading. I work on the parts people look at all day: the tables, the charts, and the app.",
+      "Godel is a financial research terminal with a mobile app for research and trading. I work on the parts people look at all day: the tables, the charts, and the app.",
     highlights: [
-      { title: "Live data grids", body: "Sorting, filtering, and virtualized rows. A price tick from the Kafka-backed WebSocket feed re-renders one cell, not the table." },
+      { title: "Live data grids", body: "Sorting, filtering, and virtualized rows. A price tick from the Kafka-backed WebSocket feed re-renders only the cell it affects." },
       { title: "Shared components", body: "The terminal's first component library. Nearly every table and shared chart renders through it." },
       { title: "Mobile app", body: "React Native, from discovery to research to placing an order. Live on Android, in private beta on iOS." },
       { title: "Atlas", body: "Supply-chain views, including 3D in Three.js, across 15,184 companies and 56,340 relationships." },
@@ -106,12 +106,12 @@ export const homePage = {
   freshness: {
     label: "Currently",
     value:
-      "Working on the Gödel mobile app and the terminal's shared components.",
+      "Working on the Godel mobile app and the terminal's shared components.",
     note: "Last updated November 2026.",
   },
   seo: {
     title: "Software engineer",
     description:
-      "Dom builds interfaces for data-heavy and financial software: real-time UIs, shared component systems, and the product work around them.",
+      "Dom builds interfaces for data-heavy financial software: real-time UIs, shared component systems, and the product work around them.",
   },
 } satisfies HomePageData;

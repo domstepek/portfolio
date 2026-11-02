@@ -3,7 +3,7 @@ import { WorkPage } from '@/components/work/WorkPage';
 
 export const metadata: Metadata = {
   title: 'Work',
-  description: 'What Dom is building at Gödel Terminal, and case studies from Tapestry and Charla.',
+  description: 'What Dom is building at Godel Terminal, and case studies from Tapestry and Charla.',
   alternates: { canonical: '/work/' },
 };
 

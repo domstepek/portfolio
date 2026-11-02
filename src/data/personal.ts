@@ -44,7 +44,7 @@ export const personalPage = {
     "I like work that sits between product questions, system shape, and the operational details that usually get hand-waved until they hurt.",
   howIWork: {
     title: "How I work",
-    intro: "The short version is that I care about the whole loop, not just the code in front of me.",
+    intro: "Short version: I care about the whole loop the code sits in.",
     principles: {
       systems: {
         title: "Systems",
@@ -59,7 +59,7 @@ export const personalPage = {
       collaboration: {
         title: "Collaboration",
         body:
-          "I work best with people who like direct feedback, quick iteration, and clear tradeoffs. I document decisions, surface risks early, and try to make handoffs lighter instead of louder.",
+          "I work best with teams that have adopted fully agentic workflows, love rapid iteration, and believe we should always be shipping, using AI to monitor production and build the fixes.",
       },
     },
   },
@@ -68,14 +68,14 @@ export const personalPage = {
     intro:
       "I'm looking for full-time roles where I can own product problems end-to-end and work across the stack to ship them.",
     roles: [
-      "Product-minded frontend or full-stack roles on complex, data-heavy software",
+      "Product-minded frontend or full-stack roles on complex, data-heavy financial software",
       "Senior full-stack or product engineering roles",
       "Roles where product work touches deployment, data, or platform concerns",
       "Founding or early-team roles where scope is wide and ownership is real",
     ],
     problemSpaces: [
       "Internal tools and operational systems",
-      "Real-time and data-heavy interfaces, including financial tools",
+      "Real-time, data-heavy financial interfaces",
       "Teams that need stronger handoffs between product, platform, and delivery",
     ],
     boundaries: [
@@ -86,10 +86,10 @@ export const personalPage = {
   resume: {
     title: "Resume",
     summary:
-      "Short version: financial research and trading interfaces at Gödel, and before that four years of analytics and operations tools at Tapestry.",
+      "Short version: financial research and trading interfaces at Godel, and before that four years of analytics and operations tools at Tapestry.",
     highlights: [
       "Product surfaces, operational tools, and workflow-heavy internal software",
-      "Real-time and data-heavy interfaces, including financial research and trading tools",
+      "Real-time, data-heavy financial interfaces for research and trading",
       "Design systems, shared components, and developer tooling",
     ],
     note: "The case studies have full walkthroughs with stack details, decisions, and outcomes.",

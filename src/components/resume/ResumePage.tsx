@@ -15,7 +15,7 @@ export function ResumePage() {
     <div className="page resume-page" data-resume-page data-route-visibility="public" data-gate-state="open">
       <header className="page-header resume-page__header">
         <h1>{resumePage.name}</h1>
-        <p className="page-header__lead">Software engineer building React and TypeScript interfaces for financial and data‑heavy products.</p>
+        <p className="page-header__lead">Software engineer building React and TypeScript interfaces for data‑heavy financial products.</p>
         <div className="resume-page__actions print-hide">
           <LinkButton variant="primary" href={assetPath('Jean-Dominique-Stepek-Resume.pdf')} download icon={<Download size={16} strokeWidth={1.75} aria-hidden="true" />}>
             Download PDF
