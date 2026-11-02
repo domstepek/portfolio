@@ -359,6 +359,9 @@ input:not([type="checkbox"], [type="radio"], [type="range"], [type="button"], [t
 .flagship__role p { color: var(--text-secondary); font-size: var(--text-sm); line-height: 1.6; }
 .flagship__accordion { border-radius: var(--radius-panel); padding: var(--space-1) var(--space-5); }
 .flagship__accordion p { color: var(--text-secondary); font-size: var(--text-sm); line-height: 1.6; }
+/* Inside a bordered surface the panel edge is the divider; drop the accordion's own outer rules. */
+.surface > [class*="accordion-module"][class*="__accordion"] { border-top: 0; }
+.surface > [class*="accordion-module"][class*="__accordion"] > :last-child { border-bottom: 0; }
 .flagship__links { display: flex; flex-wrap: wrap; gap: var(--space-4); font-size: var(--text-sm); }
 .flagship__media { display: grid; gap: var(--space-5); min-width: 0; position: sticky; top: calc(64px + var(--space-6)); }
 .flagship code, .supporting code { padding: 1px 5px; border-radius: 5px; background: rgb(255 255 255 / 0.06); font-size: 0.9em; }
