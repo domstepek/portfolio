@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import {
-  Check, Copy, Download, FileText, Folder, House, Lock, NotebookPen, ScrollText, User,
+  Activity, Check, Copy, Download, FileText, Folder, House, Lock, NotebookPen, ScrollText, User,
 } from 'lucide-react';
 import type { CommandIcon } from '@/data/commands';
 
@@ -26,6 +26,7 @@ export function commandIcon(name: CommandIcon): ReactNode {
     case 'resume': return <FileText {...props} />;
     case 'notes': return <NotebookPen {...props} />;
     case 'lock': return <Lock {...props} />;
+    case 'demo': return <Activity {...props} />;
     case 'note': return <ScrollText {...props} />;
     case 'copy': return <Copy {...props} />;
     case 'copied': return <Check {...props} />;

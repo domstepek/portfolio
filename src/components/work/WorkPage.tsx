@@ -5,6 +5,7 @@ import { LinkButton } from '@/components/layout/LinkButton';
 import { homePage } from '@/data/home';
 import { domains } from '@/data/domains';
 import { domainPath } from '@/lib/paths';
+import { LiveGrid } from '@/components/live-grid/LiveGrid';
 
 const highlightIcons = [Table2, Component, Smartphone, Globe];
 const icon = { size: 20, strokeWidth: 1.75, 'aria-hidden': true } as const;
@@ -33,6 +34,7 @@ export function WorkPage() {
                 <Icon {...icon} className="accent-icon" />
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
+                {i === 0 && <a className="work-current__demo-link" href="#live-grid">Try it below ↓</a>}
               </li>
             );
           })}
@@ -42,6 +44,19 @@ export function WorkPage() {
             {current.link.label}
           </LinkButton>
         </div>
+      </section>
+
+      <section className="live-grid-section" id="live-grid" aria-labelledby="live-grid-title">
+        <div className="section-head">
+          <div>
+            <h2 id="live-grid-title">See it under load</h2>
+            <p>
+              The pattern behind the live grids I build: each cell subscribes to its own value, so a price tick re-renders
+              one cell instead of the table. Push it to 1,000 updates a second, then switch to naive.
+            </p>
+          </div>
+        </div>
+        <LiveGrid />
       </section>
 
       <section className="work-earlier" aria-labelledby="work-earlier-title" data-home-domain-nav>
