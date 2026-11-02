@@ -401,6 +401,14 @@ input:not([type="checkbox"], [type="radio"], [type="range"], [type="button"], [t
 .principle + .principle { border-left: 1px solid var(--border); }
 .principle h3 { font-size: var(--text-base); }
 .principle p { color: var(--text-secondary); font-size: var(--text-sm); line-height: 1.6; }
+.craft-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8) var(--space-10, 40px); }
+.craft { display: grid; align-content: start; justify-items: start; gap: var(--space-2); }
+.craft h3 { font-size: var(--text-base); }
+.craft p { color: var(--text-secondary); font-size: var(--text-sm); line-height: 1.6; }
+.craft__link { margin-top: var(--space-1); color: var(--accent); font-size: 13px; text-decoration: none; }
+.craft__link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.toolkit { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.toolkit li { padding: 5px 12px; border: 1px solid var(--border); border-radius: var(--radius-pill); background: var(--surface-glass); color: var(--text-secondary); font-family: var(--font-mono); font-size: 12.5px; }
 .open-to-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8); }
 .open-to-groups section { display: grid; align-content: start; gap: var(--space-3); }
 
@@ -847,6 +855,7 @@ html[data-entering] .site-main > * > :nth-child(5) { animation-delay: 330ms; }
   .flagship { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
   .flagship__media { position: static; }
   .open-to-groups { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+  .craft-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
 }
 @media (max-width: 40rem) {
   .shell { width: min(calc(100% - 2rem), var(--shell-width)); }

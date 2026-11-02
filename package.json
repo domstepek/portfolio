@@ -4,6 +4,7 @@
   "type": "module",
   "packageManager": "pnpm@10.15.1",
   "scripts": {
+    "resume:pdf": "node scripts/generate-resume-pdf.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

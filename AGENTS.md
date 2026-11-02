@@ -15,6 +15,7 @@ Personal portfolio website for Dom — domain-first information architecture wit
 - `pnpm dev` — local dev server (Turbopack)
 - `pnpm build` — production build (`next build`)
 - `pnpm test` — run Playwright integration tests (20 tests, the release gate)
+- `pnpm resume:pdf` — regenerate `public/Jean-Dominique-Stepek-Resume.pdf` from `src/data/resume.ts` (run after any resume edit)
 - `tsc --noEmit` — type checking (strict across all `src/`)
 - `CI=true pnpm build && CI=true pnpm test` — reproduce CI locally (production build + tests against `next start`)
 

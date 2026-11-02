@@ -1,5 +1,5 @@
-import { Compass, Layers, Mail, Users } from 'lucide-react';
-import { personalPage } from '@/data/personal';
+import { Activity, Boxes, Compass, Mail, MousePointerClick, Network, ShieldCheck, Users } from 'lucide-react';
+import { personalPage, type PersonalCraft } from '@/data/personal';
 import { notesPath, resumePath } from '@/lib/paths';
 import { LinkButton } from '@/components/layout/LinkButton';
 import Link from 'next/link';
@@ -7,10 +7,17 @@ import Link from 'next/link';
 const icon = { size: 20, strokeWidth: 1.75, 'aria-hidden': true, className: 'accent-icon' } as const;
 
 export function PersonalPage() {
-  const { systems, product, collaboration } = personalPage.howIWork.principles;
+  const { performance, components, interaction, visualization } = personalPage.craft.items;
+  const craft: (PersonalCraft & { key: string; Icon: typeof Activity })[] = [
+    { key: 'performance', Icon: Activity, ...performance },
+    { key: 'components', Icon: Boxes, ...components },
+    { key: 'interaction', Icon: MousePointerClick, ...interaction },
+    { key: 'visualization', Icon: Network, ...visualization },
+  ];
+  const { product, quality, collaboration } = personalPage.howIWork.principles;
   const principles = [
-    { key: 'systems', Icon: Layers, ...systems },
     { key: 'product', Icon: Compass, ...product },
+    { key: 'quality', Icon: ShieldCheck, ...quality },
     { key: 'collaboration', Icon: Users, ...collaboration },
   ];
 
@@ -21,10 +28,25 @@ export function PersonalPage() {
         <p className="page-header__lead">{personalPage.lead}</p>
       </header>
 
+      <section className="page-section split-section" aria-labelledby="personal-craft-heading" data-craft>
+        <h2 id="personal-craft-heading">{personalPage.craft.title}</h2>
+        <div className="split-section__body">
+          <div className="craft-grid">
+            {craft.map(({ key, Icon, title, body, link }) => (
+              <section key={key} className="craft">
+                <Icon {...icon} />
+                <h3>{title}</h3>
+                <p>{body}</p>
+                {link && <Link className="craft__link" href={link.href}>{link.label} →</Link>}
+              </section>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="page-section split-section" aria-labelledby="personal-how-i-work-heading" data-how-i-work>
         <h2 id="personal-how-i-work-heading">{personalPage.howIWork.title}</h2>
         <div className="split-section__body">
-          <p className="secondary">{personalPage.howIWork.intro}</p>
           <div className="principles">
             {principles.map(({ key, Icon, title, body }) => (
               <section key={key} className="principle" {...{ [`data-how-i-work-${key}`]: '' }}>
@@ -34,6 +56,15 @@ export function PersonalPage() {
               </section>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="page-section split-section" aria-labelledby="personal-toolkit-heading" data-toolkit>
+        <h2 id="personal-toolkit-heading">{personalPage.toolkit.title}</h2>
+        <div className="split-section__body">
+          <ul className="toolkit" aria-label="Tools I use">
+            {personalPage.toolkit.items.map((t) => <li key={t}>{t}</li>)}
+          </ul>
         </div>
       </section>
 
@@ -59,7 +90,7 @@ export function PersonalPage() {
       </section>
 
       <section className="page-section split-section" aria-labelledby="personal-next-heading" data-resume-section>
-        <h2 id="personal-next-heading">Next</h2>
+        <h2 id="personal-next-heading">{personalPage.resume.title}</h2>
         <div className="split-section__body">
           <p className="secondary">
             {personalPage.resume.summary} Lighter field notes live in{' '}
