@@ -23,7 +23,7 @@ Personal portfolio website for Dom — domain-first information architecture wit
 - **Domain pages** (`/domains/[slug]`) — protected portfolio proof, gated by server-side auth (middleware + HttpOnly cookie). Unauthenticated requests see a gate form at the same URL; content is never shipped to unauthenticated clients.
 - **Command palette** — the homepage is Arc's command palette (`HomePalette`); every other page opens the same commands with ⌘K (`CommandMenu`: dialog on desktop, bottom sheet on phones). Commands live in `src/data/commands.ts`, each with a single-key shortcut (plain key outside text fields, Alt/Option + key while typing). The ⌘K dialog is a bare Radix dialog around the palette, not Arc's `DialogContent`
 - **Public pages** (`/`, `/work`, `/about`, `/resume`, `/notes/*`) — always accessible, never gated
-- **Live grid demo** (`/work#live-grid`) — Web Worker ticker → Legend State store → per-field cell subscriptions, virtualized with TanStack Virtual (`src/components/live-grid/`)
+- **Live grid demo** (`/work#live-grid`) — Web Worker ticker (rate scales with row count; only the virtualized viewport range is streamed) → Legend State store → per-field cell subscriptions, virtualized with TanStack Virtual (`src/components/live-grid/`)
 - **Shader** — custom WebGPU/WebGL2 faded dither background, site-wide with per-page opt-out via `ShaderBackground` client component
 - **DOM marker contract** — `data-route-visibility`, `data-gate-state`, `data-visual-state` attributes are consumed by tests; don't change them without updating both
 

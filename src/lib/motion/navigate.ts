@@ -3,7 +3,9 @@
  * command palette both route through here, so every way of moving around
  * the site gets the same View Transition, direction, and shader pulse.
  */
-type Router = { push: (href: string) => void };
+import { scrollToHash } from './scroll';
+
+type Router = { push: (href: string, options?: { scroll?: boolean }) => void };
 type DocumentWithTransitions = Document & {
   startViewTransition?: (update: () => Promise<void>) => { finished: Promise<void> };
 };
@@ -23,6 +25,7 @@ export function directionBetween(from: string, to: string) {
 }
 
 let settle: (() => void) | null = null;
+const ENTER_MS = 900;
 
 /** Called by PageTransitions once the new route has committed. */
 export function settleTransition() {
@@ -36,14 +39,23 @@ export function navigateWithTransition(
   origin?: { x: number; y: number },
 ) {
   const url = new URL(href, window.location.href);
-  const target = url.pathname + url.search + url.hash;
+  // Hash targets are scrolled to with animation after the page lands,
+  // instead of the router's instant jump.
+  const target = url.pathname + url.search;
   const doc = document as DocumentWithTransitions;
   const root = document.documentElement;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (url.pathname === window.location.pathname || !doc.startViewTransition || reducedMotion) {
+  if (url.pathname === window.location.pathname) {
+    if (url.hash) scrollToHash(url.hash);
+    else window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+    return;
+  }
+
+  if (!doc.startViewTransition || reducedMotion) {
     root.dataset.navigated = 'true';
     router.push(target);
+    if (url.hash) scrollToHash(url.hash, { push: false, delay: 120 });
     return;
   }
 
@@ -53,16 +65,30 @@ export function navigateWithTransition(
     window.dispatchEvent(new CustomEvent('portfolio:pulse', { detail: origin }));
   }
 
+  root.dataset.scanning = '';
   const transition = doc.startViewTransition(
     () =>
       new Promise<void>((resolve) => {
-        settle = resolve;
+        let done = false;
+        const land = () => {
+          if (done) return;
+          done = true;
+          // The new page's sections cascade in (live, under the old snapshot).
+          root.dataset.entering = '';
+          window.setTimeout(() => {
+            delete root.dataset.entering;
+            delete root.dataset.navDirection;
+          }, ENTER_MS);
+          resolve();
+        };
+        settle = land;
         router.push(target);
-        window.setTimeout(resolve, 1500); // never hold the page hostage
+        window.setTimeout(land, 1500); // never hold the page hostage
       }),
   );
   transition.finished.finally(() => {
-    delete root.dataset.navDirection;
+    window.setTimeout(() => delete root.dataset.scanning, 500);
     window.dispatchEvent(new Event('portfolio:transition-end'));
+    if (url.hash) scrollToHash(url.hash, { push: false, delay: 260 });
   });
 }

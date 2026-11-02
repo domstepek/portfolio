@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { navigateWithTransition, settleTransition } from '@/lib/motion/navigate';
+import { scrollToHash } from '@/lib/motion/scroll';
 
 /**
  * PageTransitions — wraps same-origin link navigation in a View Transition
@@ -27,7 +28,14 @@ export function PageTransitions() {
 
       const url = new URL(anchor.href, window.location.href);
       if (url.origin !== window.location.origin) return;
-      if (url.pathname === window.location.pathname) return; // in-page anchors
+      if (url.pathname === window.location.pathname) {
+        // In-page anchors travel instead of jumping. The skip link stays instant.
+        if (!url.hash || anchor.classList.contains('skip-link')) return;
+        if (!document.getElementById(decodeURIComponent(url.hash.slice(1)))) return;
+        event.preventDefault();
+        scrollToHash(url.hash);
+        return;
+      }
       if (/\.[a-z0-9]+$/i.test(url.pathname)) return; // files such as the resume PDF
 
       event.preventDefault();

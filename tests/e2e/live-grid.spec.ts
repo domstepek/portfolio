@@ -33,7 +33,8 @@ test("live grid: virtualized, worker streams updates, atomic renders fewer cells
   await expect.poll(() => num(grid, "data-cells-per-tick"), { timeout: 10_000 }).toBeGreaterThan(0);
   const visibleCells = await num(grid, "data-visible-cells");
   expect(visibleCells).toBeGreaterThan(0);
-  expect(await num(grid, "data-cells-per-tick")).toBeLessThan(visibleCells / 2);
+  // Steady state (the scroll above mounted rows, which counts as renders for a moment).
+  await expect.poll(() => num(grid, "data-cells-per-tick"), { timeout: 10_000 }).toBeLessThan(visibleCells / 2);
 
   // Naive: every on-screen cell re-renders every tick.
   await grid.getByText("Naive", { exact: true }).click();

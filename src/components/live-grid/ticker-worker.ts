@@ -12,13 +12,20 @@
  * rendering), new updates collapse into the latest value per row and field.
  * A slow consumer gets fewer, larger batches instead of an unbounded backlog.
  *
- * In:  { type: 'init', rows, fields } | { type: 'rate', perSecond } | { type: 'start' } | { type: 'stop' } | { type: 'ack' }
- * Out: { type: 'batch', buffer: ArrayBuffer, events: number }
+ * Viewport streaming: every row keeps ticking here, but only rows inside the
+ * rendered range (sent by the virtualizer) are shipped to the main thread.
+ * Rows entering the range get a full snapshot, the way trading grids
+ * subscribe to what's on screen. Main-thread cost tracks the viewport, so the
+ * rate can scale with the table.
+ *
+ * In:  { type: 'init', rows, fields } | { type: 'rate', perSecond } | { type: 'range', start, end }
+ *      | { type: 'start' } | { type: 'stop' } | { type: 'ack' }
+ * Out: { type: 'batch', buffer: ArrayBuffer, events: number, shipped: number }
  */
 import type { Field, Row } from './seed';
 
 function tickerWorker() {
-  type Msg = { type: string; rows?: Row[]; fields?: Field[]; perSecond?: number };
+  type Msg = { type: string; rows?: Row[]; fields?: Field[]; perSecond?: number; start?: number; end?: number };
   const ctx = self as unknown as {
     postMessage: (message: unknown, transfer?: Transferable[]) => void;
     onmessage: ((event: MessageEvent<Msg>) => void) | null;
@@ -32,6 +39,9 @@ function tickerWorker() {
   let lastTick = 0;
   let inFlight = false;
   let pendingEvents = 0;
+  let pendingShipped = 0;
+  let rangeStart = 0;
+  let rangeEnd = 30;
   const pending = new Map<number, number>(); // row * 16 + fieldIndex -> latest value
 
   function flush() {
@@ -44,10 +54,12 @@ function tickerWorker() {
       out[i++] = value;
     });
     const events = pendingEvents;
+    const shipped = pendingShipped;
     pending.clear();
     pendingEvents = 0;
+    pendingShipped = 0;
     inFlight = true;
-    ctx.postMessage({ type: 'batch', buffer: out.buffer, events }, [out.buffer]);
+    ctx.postMessage({ type: 'batch', buffer: out.buffer, events, shipped }, [out.buffer]);
   }
 
   const round2 = (n: number) => Math.round(n * 100) / 100;
@@ -69,6 +81,8 @@ function tickerWorker() {
     for (let e = 0; e < events; e++) {
       const r = Math.floor(Math.random() * rows.length);
       const row = rows[r];
+      const ship = r >= rangeStart && r <= rangeEnd;
+      if (ship) pendingShipped++;
       if (Math.random() < 0.7) {
         // Price move: last, change, bid/ask, and the timestamp change together.
         const next = Math.max(1, round2(row.last * (1 + gaussian() * 0.0006)));
@@ -79,6 +93,7 @@ function tickerWorker() {
         row.bid = round2(next - 0.01 * (1 + Math.floor(Math.random() * 3)));
         row.ask = round2(next + 0.01 * (1 + Math.floor(Math.random() * 3)));
         row.updated = stamp;
+        if (!ship) continue;
         push(r, 'last', row.last);
         push(r, 'chg', row.chg);
         push(r, 'chgPct', row.chgPct);
@@ -91,6 +106,7 @@ function tickerWorker() {
         const size = 100 * (1 + Math.floor(Math.random() * 9));
         row[side] = size;
         row.volume += Math.floor(Math.random() * 400);
+        if (!ship) continue;
         push(r, side, size);
         push(r, 'volume', row.volume);
       }
@@ -107,6 +123,16 @@ function tickerWorker() {
       msg.fields.forEach((f, i) => { index[f] = i; });
     }
     if (msg.type === 'rate' && msg.perSecond) perSecond = msg.perSecond;
+    if (msg.type === 'range' && msg.start !== undefined && msg.end !== undefined) {
+      // Snapshot rows that just came into view; they've been ticking unseen.
+      for (let r = msg.start; r <= msg.end && r < rows.length; r++) {
+        if (r >= rangeStart && r <= rangeEnd) continue;
+        for (const f in index) pending.set(r * 16 + index[f], (rows[r] as unknown as Record<string, number>)[f]);
+      }
+      rangeStart = msg.start;
+      rangeEnd = msg.end;
+      flush();
+    }
     if (msg.type === 'ack') {
       inFlight = false;
       flush();

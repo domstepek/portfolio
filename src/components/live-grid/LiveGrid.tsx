@@ -41,7 +41,9 @@ const LABELS: Record<Field, string> = {
   last: 'Last', chg: 'Chg', chgPct: 'Chg %', bid: 'Bid', ask: 'Ask',
   bidSize: 'Bid size', askSize: 'Ask size', volume: 'Volume', updated: 'Updated',
 };
-const RATES = [10, 100, 1000];
+/** Updates per row per second. The total rate scales with the table. */
+const PER_ROW = [2, 8, 16];
+const compact = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 });
 const BUDGET_MS = 1000 / 60;
 const FLASHES: ReadonlySet<Field> = new Set(['last', 'chg', 'chgPct', 'bid', 'ask']);
 const SIGNED: ReadonlySet<Field> = new Set(['chg', 'chgPct']);
@@ -74,15 +76,18 @@ function useCell(field: Field, value: number) {
   const env = useContext(CellContext)!;
   const ref = useRef<HTMLDivElement>(null);
   const prev = useRef(value);
+  const mountedAt = useRef(0);
 
   // Runs once per commit of this cell: that's the "rendered" count.
   useLayoutEffect(() => {
     env.stats.commits++;
+    if (!mountedAt.current) mountedAt.current = performance.now();
     const el = ref.current;
     const before = prev.current;
     const changed = before !== value;
     prev.current = value;
-    if (!el || !env.motion.current) return;
+    // Skip the snapshot that lands right after a row scrolls into view.
+    if (!el || !env.motion.current || performance.now() - mountedAt.current < 200) return;
     if (changed && FLASHES.has(field)) {
       el.animate(
         [{ backgroundColor: value > before ? 'rgb(123 196 127 / 0.24)' : 'rgb(229 138 120 / 0.24)' }, { backgroundColor: 'transparent' }],
@@ -142,9 +147,10 @@ interface GridBodyProps {
   /** State, not a ref: the parent's ref attaches after this child's layout effect. */
   scrollEl: HTMLDivElement | null;
   visibleRows: MutableRefObject<number>;
+  onRange: (start: number, end: number) => void;
 }
 
-const GridBody = memo(function GridBody({ grid$, mode, rowCount, columns, scrollEl, visibleRows }: GridBodyProps) {
+const GridBody = memo(function GridBody({ grid$, mode, rowCount, columns, scrollEl, visibleRows, onRange }: GridBodyProps) {
   const virtualizer = useVirtualizer({
     count: rowCount,
     getScrollElement: () => scrollEl,
@@ -176,6 +182,9 @@ const GridBody = memo(function GridBody({ grid$, mode, rowCount, columns, scroll
 
   const items = virtualizer.getVirtualItems();
   visibleRows.current = items.length;
+  const first = items[0]?.index ?? 0;
+  const last = items[items.length - 1]?.index ?? 0;
+  useEffect(() => { onRange(first, last); }, [first, last, onRange]);
   const rows = mode === 'naive' ? grid$.rows.peek() : null;
 
   return (
@@ -192,6 +201,7 @@ const GridBody = memo(function GridBody({ grid$, mode, rowCount, columns, scroll
 // ── Measurements ──
 interface Readout {
   updatesPerSecond: number;
+  shippedPerSecond: number;
   cellsPerTick: number;
   p95: number;
   work: number;
@@ -199,7 +209,7 @@ interface Readout {
   bars: number[];
   applied: number;
 }
-const EMPTY: Readout = { updatesPerSecond: 0, cellsPerTick: 0, p95: 0, work: 0, visibleRows: 0, bars: [], applied: 0 };
+const EMPTY: Readout = { updatesPerSecond: 0, shippedPerSecond: 0, cellsPerTick: 0, p95: 0, work: 0, visibleRows: 0, bars: [], applied: 0 };
 
 function p95(values: number[]) {
   if (!values.length) return 0;
@@ -237,8 +247,9 @@ worker.onmessage = ({ data }) => {
   queueMicrotask(() => worker.postMessage({ type: 'ack' }))
 }
 
-// Only on-screen rows mount. Off-screen rows keep updating in the store.
+// Only on-screen rows mount, and the worker only streams those rows.
 const rows = useVirtualizer({ count: 1060, estimateSize: () => 34, getScrollElement })
+useEffect(() => worker.postMessage({ type: 'range', start: first, end: last }), [first, last])
 
 // Each cell subscribes to one field, so a tick re-renders only that cell.
 const Cell = memo(({ node$ }) => {
@@ -250,7 +261,7 @@ export function LiveGrid() {
   const phone = useIsPhone();
   const columns = phone ? PHONE_COLUMNS : DESKTOP_COLUMNS;
   const [mode, setMode] = useState<Mode>('atomic');
-  const [rate, setRate] = useState(1000);
+  const [perRow, setPerRow] = useState(PER_ROW[2]);
   const [running, setRunning] = useState(true);
   const [inView, setInView] = useState(false);
   const [highlight, setHighlight] = useState(false);
@@ -265,13 +276,14 @@ export function LiveGrid() {
   const [scrollEl, setScrollEl] = useState<HTMLDivElement | null>(null);
   const visibleRows = useRef(VIEW_ROWS + 4);
   const workerRef = useRef<Worker | null>(null);
-  const rateRef = useRef(rate);
+  const rateRef = useRef(0);
+  const rangeRef = useRef<[number, number]>([0, 30]);
   const activeRef = useRef(false);
   const highlightRef = useRef(false);
   const motionRef = useRef(true);
   const cellOutlinesRef = useRef(true);
   const env = useRef<CellEnv>({ stats: { commits: 0 }, highlight: highlightRef, motion: motionRef, cellOutlines: cellOutlinesRef });
-  const windows = useRef({ events: [] as [number, number][], ticks: [] as [number, number][], frames: [] as [number, number][], work: [] as [number, number][], lastCommits: 0, applied: 0 });
+  const windows = useRef({ events: [] as [number, number][], shipped: [] as [number, number][], ticks: [] as [number, number][], frames: [] as [number, number][], work: [] as [number, number][], lastCommits: 0, applied: 0 });
 
   useEffect(() => { highlightRef.current = highlight; }, [highlight]);
   useEffect(() => { cellOutlinesRef.current = mode === 'atomic'; }, [mode]);
@@ -298,10 +310,11 @@ export function LiveGrid() {
     const { worker, revoke } = createTickerWorker(grid$.rows.peek().map((r) => ({ ...r })), FIELDS);
     workerRef.current = worker;
     worker.postMessage({ type: 'rate', perSecond: rateRef.current });
+    worker.postMessage({ type: 'range', start: rangeRef.current[0], end: rangeRef.current[1] });
     // Work per tick: JavaScript time from batch arrival to React's commit.
     // Store subscriptions render on React's sync lane, flushed in a microtask
     // queued during batch(); ours is queued after it, so it runs post-commit.
-    worker.onmessage = (event: MessageEvent<{ type: string; buffer: ArrayBuffer; events: number }>) => {
+    worker.onmessage = (event: MessageEvent<{ type: string; buffer: ArrayBuffer; events: number; shipped: number }>) => {
       if (event.data.type !== 'batch') return;
       const w = windows.current;
       const now = performance.now();
@@ -310,6 +323,7 @@ export function LiveGrid() {
       w.ticks.push([now, commits - w.lastCommits]);
       w.lastCommits = commits;
       w.events.push([now, event.data.events]);
+      w.shipped.push([now, event.data.shipped]);
       w.applied += event.data.events;
 
       const updates = new Float64Array(event.data.buffer);
@@ -325,7 +339,7 @@ export function LiveGrid() {
       });
     };
     // Fresh store: restart at the current play state and reset the windows.
-    windows.current = { events: [], ticks: [], frames: [], work: [], lastCommits: env.current.stats.commits, applied: windows.current.applied };
+    windows.current = { events: [], shipped: [], ticks: [], frames: [], work: [], lastCommits: env.current.stats.commits, applied: windows.current.applied };
     if (activeRef.current && document.visibilityState === 'visible') worker.postMessage({ type: 'start' });
     return () => {
       worker.terminate();
@@ -334,10 +348,15 @@ export function LiveGrid() {
     };
   }, [grid$]);
 
+  const rate = rowCount * perRow;
+  rateRef.current = rate;
   useEffect(() => {
-    rateRef.current = rate;
     workerRef.current?.postMessage({ type: 'rate', perSecond: rate });
   }, [rate]);
+  const onRange = useCallback((start: number, end: number) => {
+    rangeRef.current = [start, end];
+    workerRef.current?.postMessage({ type: 'range', start, end });
+  }, []);
 
   const active = running && inView;
   activeRef.current = active;
@@ -374,6 +393,7 @@ export function LiveGrid() {
       const w = windows.current;
       const now = performance.now();
       w.events = w.events.filter(([t]) => now - t < 1000);
+      w.shipped = w.shipped.filter(([t]) => now - t < 1000);
       w.ticks = w.ticks.filter(([t]) => now - t < 1000);
       w.frames = w.frames.filter(([t]) => now - t < 2000);
       w.work = w.work.filter(([t]) => now - t < 2000);
@@ -381,6 +401,7 @@ export function LiveGrid() {
       const tickCommits = w.ticks.map(([, c]) => c);
       setReadout({
         updatesPerSecond: w.events.reduce((s, [, n]) => s + n, 0),
+        shippedPerSecond: w.shipped.reduce((s, [, n]) => s + n, 0),
         cellsPerTick: tickCommits.length ? tickCommits.reduce((s, c) => s + c, 0) / tickCommits.length : 0,
         p95: p95(recent),
         work: p95(w.work.map(([, d]) => d)),
@@ -422,10 +443,10 @@ export function LiveGrid() {
             <Badge pill>Simulated data</Badge>
           </div>
           <p>
-            Simulated prices for {group.format(rowCount)} rows, generated in a Web Worker and streamed into a Legend State
-            store. TanStack Virtual keeps only the on-screen rows in the DOM while every row keeps updating. In atomic mode
-            each cell subscribes to its own field and re-renders only when that value changes. Naive re-renders every
-            visible cell on every tick.
+            Simulated prices for {group.format(rowCount)} rows, generated in a Web Worker. Every row ticks, but the worker
+            only streams the rows on screen into a Legend State store, and TanStack Virtual keeps only those rows in the
+            DOM. In atomic mode each cell subscribes to its own field and re-renders only when that value changes. Naive
+            re-renders every visible cell on every tick.
           </p>
         </div>
         <div className="live-grid__controls">
@@ -443,9 +464,9 @@ export function LiveGrid() {
           />
           <SegmentedControl
             label="Updates per second"
-            options={RATES.map((r) => ({ value: String(r), label: r >= 1000 ? `${r / 1000}k/s` : `${r}/s` }))}
-            value={String(rate)}
-            onValueChange={(v) => setRate(Number(v))}
+            options={PER_ROW.map((n) => ({ value: String(n), label: `${compact.format(rowCount * n)}/s` }))}
+            value={String(perRow)}
+            onValueChange={(v) => setPerRow(Number(v))}
           />
           <Button
             variant="secondary"
@@ -464,7 +485,7 @@ export function LiveGrid() {
         <div>
           <dt>Updates per second</dt>
           <dd>{group.format(readout.updatesPerSecond)}</dd>
-          <p>{active ? 'Measured, last second' : 'Paused'}</p>
+          <p>{active ? `${group.format(readout.shippedPerSecond)} of them on screen` : 'Paused'}</p>
         </div>
         <div>
           <dt>Cells rendered per tick</dt>
@@ -511,7 +532,7 @@ export function LiveGrid() {
             </div>
           </div>
           <CellContext.Provider value={env.current}>
-            <GridBody grid$={grid$} mode={mode} rowCount={rowCount} columns={columns} scrollEl={scrollEl} visibleRows={visibleRows} />
+            <GridBody grid$={grid$} mode={mode} rowCount={rowCount} columns={columns} scrollEl={scrollEl} visibleRows={visibleRows} onRange={onRange} />
           </CellContext.Provider>
         </div>
       </div>

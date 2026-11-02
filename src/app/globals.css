@@ -92,6 +92,9 @@ html { background: var(--background); }
 body {
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background: transparent;
   color: var(--foreground);
   font-family: var(--font-body);
@@ -107,11 +110,15 @@ p { margin: 0; text-wrap: pretty; }
 a { color: inherit; }
 code, kbd, pre { font-family: var(--font-mono); }
 
-/* Retro pixel cursors */
-*, *::before, *::after { cursor: url('/cursors/default.png'), auto; }
-a, button, [role="button"], [role="option"], [role="tab"], summary, label[for] {
-  cursor: url('/cursors/pointer.png') 10 0, pointer;
+/* Cursors: a dark arrow with a light edge; interactive targets turn it accent green. */
+*, *::before, *::after { cursor: url('/cursors/arrow.svg') 4 3, auto; }
+a, button, [role="button"], [role="option"], [role="tab"], [role="radio"], [role="switch"], summary, label[for], select {
+  cursor: url('/cursors/pointer.svg') 4 3, pointer;
 }
+input:not([type="checkbox"], [type="radio"], [type="range"], [type="button"], [type="submit"]), textarea, [contenteditable="true"] {
+  cursor: url('/cursors/text.svg') 12 12, text;
+}
+:disabled, [aria-disabled="true"] { cursor: url('/cursors/arrow.svg') 4 3, not-allowed; }
 
 .shell { width: min(calc(100% - 3rem), var(--shell-width)); margin-inline: auto; }
 
@@ -179,7 +186,8 @@ a, button, [role="button"], [role="option"], [role="tab"], summary, label[for] {
 }
 
 /* ── Main + footer ── */
-.site-main { padding-block: var(--space-20) var(--space-24); }
+.site-main { flex: 1 0 auto; padding-block: var(--space-20) var(--space-24); }
+.site-footer { margin-top: auto; }
 .site-footer { border-top: 1px solid var(--border); background: rgb(10 10 10 / 0.6); }
 .site-footer__inner {
   display: flex;
@@ -573,7 +581,7 @@ a, button, [role="button"], [role="option"], [role="tab"], summary, label[for] {
 }
 .screenshot-gallery__trigger {
   all: unset;
-  cursor: url('/cursors/pointer.png') 10 0, pointer;
+  cursor: url('/cursors/pointer.svg') 4 3, pointer;
   display: block;
 }
 .screenshot-gallery__trigger:hover {
@@ -628,7 +636,7 @@ a, button, [role="button"], [role="option"], [role="tab"], summary, label[for] {
   height: 0.5rem;
   border-radius: 50%;
   background: var(--border);
-  cursor: url('/cursors/pointer.png') 10 0, pointer;
+  cursor: url('/cursors/pointer.svg') 4 3, pointer;
   transition: background var(--duration-quick) var(--ease-smooth-out);
 }
 .screenshot-gallery__dot--active {
@@ -732,13 +740,56 @@ html[data-nav-direction='back'] { --nav-dir: -1; }
 ::view-transition-group(page) {
   animation: none;
 }
-::view-transition-old(page) { animation: t-page-out var(--page-out-dur) var(--ease-smooth-out) both; }
-::view-transition-new(page) { animation: t-page-in var(--page-in-dur) var(--ease-smooth-out) var(--page-in-delay) both; }
+/* Out: the old page lifts, blurs, and dims quickly. In: the new page is live
+   underneath, and its sections cascade in while a scan line sweeps the
+   screen in the direction of travel (down for forward, up for back). */
+::view-transition-old(page) { animation: t-page-out 220ms cubic-bezier(0.4, 0, 1, 1) both; }
+::view-transition-new(page) { animation: none; }
 @keyframes t-page-out {
-  to { opacity: 0; transform: translateX(calc(var(--nav-dir) * var(--page-slide-distance) * -1)); filter: blur(var(--page-blur)); }
+  to { opacity: 0; transform: translateY(calc(var(--nav-dir) * -12px)) scale(0.985); filter: blur(8px); }
 }
-@keyframes t-page-in {
-  from { opacity: 0; transform: translateX(calc(var(--nav-dir) * var(--page-slide-distance))); filter: blur(var(--page-blur)); }
+
+.page-scan {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden;
+  view-transition-name: page-scan;
+  visibility: hidden;
+}
+.page-scan::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 140px;
+  /* A dithered trail behind a bright leading edge. */
+  background:
+    linear-gradient(to bottom, transparent calc(100% - 1px), rgb(123 196 127 / 0.9) calc(100% - 1px)),
+    repeating-linear-gradient(to bottom, rgb(123 196 127 / 0.12) 0 1px, transparent 1px 3px),
+    linear-gradient(to bottom, transparent, rgb(123 196 127 / 0.1));
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 85%);
+  mask-image: linear-gradient(to bottom, transparent, #000 85%);
+  filter: drop-shadow(0 0 6px rgb(123 196 127 / 0.55));
+  transform: translateY(-160px);
+}
+html[data-nav-direction='back'] .page-scan::before { transform: translateY(100vh) scaleY(-1); }
+html[data-scanning] .page-scan { visibility: visible; }
+html[data-scanning] .page-scan::before { animation: t-scan 760ms cubic-bezier(0.65, 0, 0.35, 1) 60ms both; }
+html[data-scanning][data-nav-direction='back'] .page-scan::before { animation-name: t-scan-up; }
+::view-transition-old(page-scan) { display: none; }
+::view-transition-new(page-scan), ::view-transition-group(page-scan) { animation: none; }
+@keyframes t-scan {
+  0% { transform: translateY(-160px); opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(calc(100vh + 20px)); opacity: 0; }
+}
+@keyframes t-scan-up {
+  0% { transform: translateY(calc(100vh + 20px)) scaleY(-1); opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(-160px) scaleY(-1); opacity: 0; }
 }
 
 /* First load only: the home intro rises line by line (texts reveal). */
@@ -750,6 +801,15 @@ html[data-nav-direction='back'] { --nav-dir: -1; }
 .home-page > .home-page__now { animation-delay: calc(var(--stagger-step) * 4); }
 .home-page > .home-page__intro { animation: none; }
 html[data-navigated] .home-page > *, html[data-navigated] .home-page__intro > * { animation: none; }
+html[data-entering] .site-main > * > * { animation: t-enter 560ms var(--ease-smooth-out) both; animation-delay: 380ms; }
+html[data-entering] .site-main > * > :nth-child(1) { animation-delay: 90ms; }
+html[data-entering] .site-main > * > :nth-child(2) { animation-delay: 150ms; }
+html[data-entering] .site-main > * > :nth-child(3) { animation-delay: 210ms; }
+html[data-entering] .site-main > * > :nth-child(4) { animation-delay: 270ms; }
+html[data-entering] .site-main > * > :nth-child(5) { animation-delay: 330ms; }
+@keyframes t-enter {
+  from { opacity: 0; transform: translateY(calc(var(--nav-dir, 1) * 16px)); filter: blur(6px); }
+}
 @keyframes t-rise {
   from { opacity: 0; transform: translateY(var(--stagger-distance)); filter: blur(var(--stagger-blur)); }
 }

@@ -79,6 +79,7 @@ export default function RootLayout({
         </footer>
           <CommandMenu commands={commands} />
         </Providers>
+        <div className="page-scan" aria-hidden="true" />
         <div className="crt-overlay" aria-hidden="true" />
         <Analytics />
         <SpeedInsights />
