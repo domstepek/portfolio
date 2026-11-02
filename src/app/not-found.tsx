@@ -1,22 +1,16 @@
-import Link from 'next/link';
-import { TerminalPanel } from '@/components/layout/TerminalPanel';
+import { LinkButton } from '@/components/layout/LinkButton';
 
-/**
- * Custom 404 page — renders inside the root layout.
- *
- * Next.js automatically invokes this component for unknown routes.
- * Keeps the retro terminal aesthetic with a minimal "not found" message.
- */
 export default function NotFound() {
   return (
-    <div data-not-found-page>
-      <TerminalPanel>
-        <h1>page not found</h1>
-        <p>the route you requested does not exist.</p>
-        <p>
-          <Link href="/">return home</Link>
-        </p>
-      </TerminalPanel>
+    <div className="page not-found" data-not-found-page>
+      <header className="page-header">
+        <p className="not-found__code">404</p>
+        <h1>Page not found</h1>
+        <p className="page-header__lead">That route doesn&apos;t exist. Press ⌘K to jump anywhere, or start over.</p>
+      </header>
+      <div>
+        <LinkButton variant="primary" href="/">Return home</LinkButton>
+      </div>
     </div>
   );
 }

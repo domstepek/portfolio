@@ -14,11 +14,16 @@ export interface HomePersonalTeaser {
   notesLabel: string;
 }
 
+export interface HomeHighlight {
+  title: string;
+  body: string;
+}
+
 export interface HomeCurrentRole {
   company: string;
   meta: string;
   intro: string;
-  highlights: string[];
+  highlights: HomeHighlight[];
   link: { label: string; href: string };
 }
 
@@ -27,6 +32,8 @@ export interface HomePageData {
   eyebrow: string;
   title: string;
   lead: string;
+  paletteLead: string;
+  now: string;
   current: HomeCurrentRole;
   workHeading: string;
   domainIntro: string;
@@ -48,25 +55,28 @@ export const homePage = {
   avatar: "/images/avatar.png",
   eyebrow: "Dom Stepek, software engineer",
   title:
-    "I build interfaces for data-heavy and financial software.",
+    "I build interfaces for data\u2011heavy and financial software.",
   lead:
     "Right now that's Gödel Terminal: real-time research tools, a mobile trading app, and the shared components underneath them. Before that, four years building analytics and planning tools at Tapestry.",
+  paletteLead:
+    "Dom Stepek, software engineer at Gödel Terminal. Type a command or pick one below.",
+  now: "Now: financial data grids, the mobile app, and shared components at Gödel.",
   current: {
     company: "Gödel Terminal",
-    meta: "Software engineer, May 2026 to now",
+    meta: "May 2026 to now",
     intro:
       "Gödel is a financial research terminal with a mobile app for research and trading. I work on the parts people look at all day: the tables, the charts, and the app.",
     highlights: [
-      "Live data grids with sorting, filtering, and virtualized rows. Prices update cell by cell from a Kafka-backed WebSocket feed, so a tick re-renders one cell instead of the table.",
-      "The terminal's first shared component library. Nearly every table and shared chart now renders through it.",
-      "The React Native app, which turns desktop terminal commands into guided flows from discovery to research to placing an order. Live on Android, in private beta on iOS.",
-      "Atlas and the supply-chain views, including 3D views in Three.js, across 15,184 companies and 56,340 relationships.",
+      { title: "Live data grids", body: "Sorting, filtering, and virtualized rows. A price tick from the Kafka-backed WebSocket feed re-renders one cell, not the table." },
+      { title: "Shared components", body: "The terminal's first component library. Nearly every table and shared chart renders through it." },
+      { title: "Mobile app", body: "React Native, from discovery to research to placing an order. Live on Android, in private beta on iOS." },
+      { title: "Atlas", body: "Supply-chain views, including 3D in Three.js, across 15,184 companies and 56,340 relationships." },
     ],
     link: { label: "Open Atlas", href: "https://atlas.godelterminal.com/" },
   },
   workHeading: "Earlier work",
   domainIntro:
-    "Case studies from Tapestry and Charla, grouped by the kind of problem. They're passcode-protected, so email me if you'd like one.",
+    "Tapestry and Charla, grouped by the kind of problem. Each case study needs a passcode.",
   personalTeaser: {
     heading: "More about me",
     body:

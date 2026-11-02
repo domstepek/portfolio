@@ -25,9 +25,9 @@ function getCSSVar(name: string): string {
 
 /** Build full ShaderColors from CSS vars, with optional overrides. */
 function resolveColors(overrides?: Partial<ShaderColors>): ShaderColors {
-  const bg = overrides?.bg ?? srgbToLinear(getCSSVar('--bg') || '#0a0a0a');
-  const accent = overrides?.accent ?? srgbToLinear(getCSSVar('--accent') || '#6fba7f');
-  const strong = overrides?.strong ?? srgbToLinear(getCSSVar('--accent-strong') || '#7fd48f');
+  const bg = overrides?.bg ?? srgbToLinear(getCSSVar('--shader-bg') || '#0a0a0a');
+  const accent = overrides?.accent ?? srgbToLinear(getCSSVar('--shader-accent') || '#6fba7f');
+  const strong = overrides?.strong ?? srgbToLinear(getCSSVar('--shader-accent-strong') || '#7fd48f');
   return { bg, accent, strong };
 }
 

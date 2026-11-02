@@ -6,8 +6,13 @@ import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import ShaderBackground from '@/components/shader/ShaderBackground';
 import { PageTransitions } from '@/components/motion/PageTransitions';
+import { Providers } from '@/components/layout/Providers';
+import { SiteNav } from '@/components/layout/SiteNav';
+import { CommandMenu, JumpButton } from '@/components/command/CommandMenu';
+import { buildCommands } from '@/data/commands';
+import { getAllNotes } from '@/lib/notes';
 import { siteConfig } from '@/data/site';
-import { aboutPath, notesPath, resumePath } from '@/lib/paths';
+import '@/components/arc/foundation.css';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -23,30 +28,39 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const commands = buildCommands(
+    getAllNotes().map((note) => ({
+      slug: note.slug,
+      title: note.frontmatter.title,
+      published: note.frontmatter.published.toISOString(),
+      tags: note.frontmatter.tags,
+    })),
+  );
+
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" data-theme="dark" data-accent="green" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="site-shell">
         <ShaderBackground />
         <PageTransitions />
-        <a className="skip-link" href="#main-content">skip to content</a>
-        <header className="site-header">
-          <div className="shell site-header__inner">
-            <Link className="site-title" href="/">
-              <span className="site-title__prompt" aria-hidden="true">~/</span>{siteConfig.name}
-            </Link>
-            <nav className="site-nav" aria-label="Primary">
-              <Link href={aboutPath}>about</Link>
-              <Link href={notesPath}>notes</Link>
-              <Link href={resumePath}>resume</Link>
-            </nav>
-          </div>
-        </header>
-        <main id="main-content" className="site-main shell">
-          {children}
-        </main>
+        <Providers>
+          <a className="skip-link" href="#main-content">Skip to content</a>
+          <header className="site-header">
+            <div className="shell site-header__inner">
+              <Link className="site-title" href="/">
+                <span className="site-title__prompt" aria-hidden="true">~/</span>{siteConfig.name}
+              </Link>
+              <div className="site-header__right">
+                <SiteNav />
+                <JumpButton />
+              </div>
+            </div>
+          </header>
+          <main id="main-content" className="site-main shell">
+            {children}
+          </main>
         <footer className="site-footer">
           <div className="shell site-footer__inner">
-            <p>Next.js, Geist, and a custom WebGPU shader.</p>
+            <p>Built with Next.js, Geist, Arc, and a custom WebGPU shader.</p>
             <nav className="site-footer__contact" aria-label="Contact">
               <a href="mailto:domstepek@gmail.com" className="site-footer__contact-link" aria-label="Email">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -63,6 +77,8 @@ export default function RootLayout({
             </nav>
           </div>
         </footer>
+          <CommandMenu commands={commands} />
+        </Providers>
         <div className="crt-overlay" aria-hidden="true" />
         <Analytics />
         <SpeedInsights />
