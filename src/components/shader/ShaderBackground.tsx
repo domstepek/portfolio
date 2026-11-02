@@ -88,18 +88,6 @@ export default function ShaderBackground() {
         { passive: true, signal },
       );
 
-      // ── Navigation pulse: three rings from the link that was clicked ──
-      window.addEventListener(
-        'portfolio:pulse',
-        (e: Event) => {
-          const { x, y } = (e as CustomEvent<{ x: number; y: number }>).detail;
-          [0, 110, 220].forEach((delay) =>
-            window.setTimeout(() => instance?.addRipple(x, y, true), delay),
-          );
-        },
-        { signal },
-      );
-
       // ── Reduced motion: freeze to one static frame ──────────────
       applyMotionPref(motionQuery.matches);
       motionQuery.addEventListener(

@@ -1,6 +1,6 @@
 ---
 title: Systems over abstractions
-summary: Usually the problem is a missing system boundary, and the abstraction takes the blame.
+summary: The abstraction usually is not the problem; the missing system boundary is.
 published: 2026-03-10
 type: note
 tags: [opinion, engineering]

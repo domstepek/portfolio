@@ -9,27 +9,27 @@ const product: DomainEntry = {
   seoDescription:
     "Product domain page for workflow-heavy internal software and operational systems Dom builds.",
   thesis:
-    "I like product work where the software has to hold a messy real-world process together: approvals, exceptions, and handoffs between teams.",
+    "I like product work when the software has to hold together a messy real-world process, not just present a clean screen.",
   scope:
-    "Apps that operators use every day, where the states and handoffs matter as much as the screens.",
+    "This is the workflow-heavy application side — shaping states, decisions, and handoffs into tools operators actually use day to day.",
   belongsHere: [
     "Building operator-facing apps that carry real daily process, approvals, and exception handling",
     "Turning messy business workflows into software where the design matters as much as the data model",
-    "Shipping systems where speed, clarity, and edge cases need product judgment on top of API coverage",
+    "Shipping systems that need product judgment around speed, clarity, and edge cases — not just API coverage",
   ],
   flagships: [
     {
       slug: "sample-tracking",
       title: "Sample Tracking",
       summary:
-        "The operational app for tracking sample shipments, statuses, exports, and recurring reporting, with automated regression testing. It moved the workflow out of scattered status updates and into one tool.",
+        "The operational app for tracking sample shipments, statuses, exports, and recurring reporting — with automated regression testing so the workflow lived in software instead of scattered updates.",
       problem:
         "Teams needed one place to see where samples were, what had changed, and what still needed follow-up without piecing it together from status pings and spreadsheet cleanup.",
       role:
-        "I shaped the product workflow around shipment state, reporting, and exception handling so the app followed how the process actually ran day to day. I also set up automated BDD regression testing around the high-risk portal flows.",
+        "I shaped the product workflow around shipment state, reporting, and exception handling so the app supported the real operational process instead of only recording rows. Also set up automated BDD regression testing around high-risk portal flows.",
       constraints: [
         "The workflow had to cover shipments, status changes, exports, and recurring reporting in one product surface.",
-        "A raw tracker wasn't enough for operators, because most of the value was in handoffs and follow-up.",
+        "Operators needed something clearer than a raw tracker because the value came from handoffs and follow-up, not just storage.",
         "The app had to stay useful as a daily tool, which meant the reporting and operational views had to support each other.",
         "High-risk flows needed automated regression coverage so releases stopped depending on expensive manual re-testing.",
       ],
@@ -40,10 +40,10 @@ const product: DomainEntry = {
         "Paired `WebdriverIO` and `Cucumber` `BDD` tests with targeted API checks around the flows worth protecting most.",
       ],
       outcomes: [
-        "Sample movement and status tracking moved out of update threads and into one place.",
+        "Sample movement and status tracking lived in one operational home instead of scattered across update threads.",
         "Reconciling exports, shipment context, and recurring updates across separate tools stopped being a daily chore.",
-        "Portal regressions showed up before release day, and the team stopped paying for repetitive manual checks.",
-        "This is the kind of workflow-heavy product work I like most.",
+        "Portal regressions surfaced before release day instead of after, removing the repetitive manual checking tax.",
+        "Showed the kind of workflow-heavy product work I like most: software that holds a messy real process together.",
       ],
       stack: [
         "React",
@@ -60,9 +60,9 @@ const product: DomainEntry = {
         "Cucumber",
       ],
       visual: {
-        alt: "A state diagram showing the shipment lifecycle from created through shipped, received, processed, reported, and archived, with exception handling branching off the shipped state.",
+        alt: "A state diagram showing the shipment lifecycle from created through shipped, received, processed, reported, and archived — with exception handling branching off the shipped state.",
         caption:
-          "The shipment lifecycle the app was built around. Exceptions and follow-ups took far more work than the happy path.",
+          "The shipment lifecycle the app was built around — exceptions and follow-ups were the hard part, not the happy path.",
         mermaid: `graph TD
   Created --> Shipped
   Shipped --> Received
@@ -76,12 +76,12 @@ const product: DomainEntry = {
         {
           src: "/highlights/product/sample-tracking/reports-library.png",
           alt: "The reports library showing published and draft reports with department, channel, owner, and status columns.",
-          caption: "Reports library: published and draft reports with status tracking",
+          caption: "Reports library — published and draft reports with status tracking",
         },
         {
           src: "/highlights/product/sample-tracking/report-detail.png",
           alt: "A report detail view with KPI cards for total samples, received, on-time, and delayed counts, plus a filterable sample table.",
-          caption: "Report detail: KPI summary cards with filterable sample table below",
+          caption: "Report detail — KPI summary cards with filterable sample table below",
         },
       ],
     },
@@ -93,11 +93,11 @@ const product: DomainEntry = {
       problem:
         "Inventory planners needed a way to adjust forecasts against fiscal season targets and receipt predictions without falling back to spreadsheet workflows that couldn't keep up with the pace of decisions.",
       role:
-        "I led full-stack development of the forecasting interface and backend, designing the experience around fiscal season targets and receipt predictions so planners could work directly in the tool.",
+        "I spearheaded full-stack development of the forecasting interface and backend, designing the experience around fiscal season targets and receipt predictions so planners could work directly in the tool.",
       constraints: [
         "The interface had to make forecast adjustments feel natural alongside fiscal targets and receipt data.",
         "The backend needed to coordinate across `Snowflake`, `GraphQL`, and real-time state without becoming a black box.",
-        "The tool had to replace the spreadsheet workflows entirely, since partial adoption would have left the coordination problem in place.",
+        "The tool had to replace spreadsheet workflows entirely — partial adoption would not have solved the coordination problem.",
       ],
       decisions: [
         "Designed the forecasting interface around fiscal season structure so planners saw targets and predictions together.",
@@ -105,7 +105,7 @@ const product: DomainEntry = {
         "Built the full stack as one product surface so forecast inputs, model outputs, and team decisions stayed connected.",
       ],
       outcomes: [
-        "Reduced inventory waste by **$30M/year** because planners could act on forecast data directly instead of going through spreadsheets.",
+        "Reduced inventory waste by **$30M/year** by enabling planners to act on forecast data directly instead of through spreadsheet intermediaries.",
         "Inventory planners could adjust forecasts without falling back to spreadsheet workflows.",
         "Showed how product work and data work overlap when the interface has to carry real operational decisions.",
       ],
@@ -121,7 +121,7 @@ const product: DomainEntry = {
         {
           src: "/highlights/product/supply-chain/forecast-table.png",
           alt: "The forecasting interface showing fiscal season targets across multiple seasons with department breakdowns and receipt unit data.",
-          caption: "Forecast table: fiscal season targets with department-level drill-down across seasons",
+          caption: "Forecast table — fiscal season targets with department-level drill-down across seasons",
         },
       ],
     },
@@ -131,12 +131,12 @@ const product: DomainEntry = {
       summary:
         "A social analytics platform I co-founded for tracking community engagement patterns across social media APIs, with unified customer profiles and proprietary metrics.",
       problem:
-        "Brands had no unified view of community engagement across social platforms. The data was siloed, metrics were inconsistent, and the feedback loop between content and audience behavior was slow.",
+        "Brands had no unified way to understand community engagement across social platforms — data was siloed, metrics were inconsistent, and the feedback loop between content and audience behavior was slow.",
       role:
-        "I co-founded the company and built the platform end-to-end: frontend, API layer, social media integrations, and infrastructure.",
+        "Co-founded the company and built the platform end-to-end: frontend, API layer, social media integrations, and infrastructure.",
       constraints: [
         "The platform had to unify data from multiple social media APIs with different rate limits, schemas, and auth models.",
-        "Infrastructure had to stay lean: two co-founders and no dedicated ops team.",
+        "Infrastructure had to stay lean — two co-founders, no dedicated ops team.",
         "The product needed proprietary engagement metrics that went beyond what any single platform's analytics offered.",
       ],
       decisions: [
@@ -147,7 +147,7 @@ const product: DomainEntry = {
       outcomes: [
         "Shipped a working social analytics product with unified cross-platform engagement tracking.",
         "The co-founder experience shaped how I think about product scope, infrastructure tradeoffs, and shipping under real constraints.",
-        "Built the full stack from zero with a small team. It's the closest I've come to greenfield product ownership.",
+        "Built the full stack from zero with a small team — the closest thing to greenfield product ownership in my experience.",
       ],
       stack: [
         "React",
@@ -162,12 +162,12 @@ const product: DomainEntry = {
         {
           src: "/highlights/product/charla/dashboard.png",
           alt: "The Charla analytics dashboard showing cross-platform engagement metrics and community health indicators.",
-          caption: "Charla dashboard: cross-platform social engagement analytics",
+          caption: "Charla dashboard — cross-platform social engagement analytics",
         },
         {
           src: "/highlights/product/charla/community-health.png",
           alt: "The community health page showing audience engagement patterns and growth trends across connected social platforms.",
-          caption: "Community health: audience engagement patterns across platforms",
+          caption: "Community health — audience engagement patterns across platforms",
         },
       ],
     },
@@ -176,12 +176,12 @@ const product: DomainEntry = {
     {
       title: "Pricing App",
       context:
-        "Helped set up the infrastructure and deployment for a dedicated pricing workflow app. Other engineers led the product and backend logic; I did the initial project scaffolding and deploy path.",
+        "Helped set up the infrastructure and deployment for a dedicated pricing workflow app — the product and backend logic were led by other engineers, but I contributed the initial project scaffolding and deploy path.",
     },
     {
       title: "CMS",
       context:
-        "A multi-tenant `Payload CMS` for shared content and admin workflows.",
+        "A multi-tenant `Payload CMS` for shared content and admin workflows rather than a one-off marketing site.",
     },
   ],
   relatedDomains: ["analytics-ai", "developer-experience"],

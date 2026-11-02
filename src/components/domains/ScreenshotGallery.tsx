@@ -94,6 +94,7 @@ export function ScreenshotGallery({ screenshots }: ScreenshotGalleryProps) {
         <img
           className="screenshot-gallery__lightbox-image"
           data-gallery-lightbox-img
+          src=""
           alt=""
         />
         <p

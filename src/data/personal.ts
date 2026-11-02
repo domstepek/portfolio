@@ -3,33 +3,17 @@ export interface PersonalPrinciple {
   body: string;
 }
 
-export interface PersonalCraft extends PersonalPrinciple {
-  link?: { label: string; href: string };
-}
-
 export interface PersonalPageData {
   title: string;
   lead: string;
-  craft: {
-    title: string;
-    items: {
-      performance: PersonalCraft;
-      components: PersonalCraft;
-      interaction: PersonalCraft;
-      visualization: PersonalCraft;
-    };
-  };
   howIWork: {
     title: string;
+    intro: string;
     principles: {
+      systems: PersonalPrinciple;
       product: PersonalPrinciple;
-      quality: PersonalPrinciple;
       collaboration: PersonalPrinciple;
     };
-  };
-  toolkit: {
-    title: string;
-    items: string[];
   };
   openTo: {
     title: string;
@@ -41,6 +25,12 @@ export interface PersonalPageData {
   resume: {
     title: string;
     summary: string;
+    highlights: string[];
+    note: string;
+  };
+  notes: {
+    intro: string;
+    label: string;
   };
   seo: {
     title: string;
@@ -51,84 +41,66 @@ export interface PersonalPageData {
 export const personalPage = {
   title: "About",
   lead:
-    "I'm a UI engineer. I build the screens people keep open all day in data-heavy financial software: live grids, charts, and the component systems underneath them.",
-  craft: {
-    title: "What I build",
-    items: {
-      performance: {
-        title: "Live data that stays fast",
-        body:
-          "Grids with sorting, filtering, and virtualized rows, fed by Kafka-backed WebSocket prices. Each cell subscribes to its own value, so a price tick repaints one cell and leaves the rest of the table alone.",
-        link: { label: "Try the live grid", href: "/work/#live-grid" },
-      },
-      components: {
-        title: "Component systems",
-        body:
-          "I introduced Godel's first shared UI component library. It now renders nearly every table and shared chart in the terminal.",
-      },
-      interaction: {
-        title: "Interaction detail",
-        body:
-          "Keyboard navigation, drag and drop, and PDF export in a presentation editor at Tapestry. At Godel, desktop terminal commands rebuilt as guided mobile flows in React Native.",
-      },
-      visualization: {
-        title: "Large datasets you can explore",
-        body:
-          "Godel Atlas and the supply-chain views, including Three.js 3D, for exploring 15,184 companies and 56,340 relationships between them.",
-        link: { label: "See Apple's supply chain", href: "https://app.godelterminal.com/splc/AAPL.US" },
-      },
-    },
-  },
+    "I like work that sits between product questions, system shape, and the operational details that usually get hand-waved until they hurt.",
   howIWork: {
     title: "How I work",
+    intro: "The short version is that I care about the whole loop, not just the code in front of me.",
     principles: {
-      product: {
-        title: "Close to the product",
+      systems: {
+        title: "Systems",
         body:
-          "I work on requirements with the people who own them. At Godel that means trading-product decisions with engineering leadership and the CEO, ranked by what customers tell us.",
+          "I try to make the data model, workflows, and failure modes obvious early so the team is not discovering the real shape of the problem at the end.",
       },
-      quality: {
-        title: "Quality by default",
+      product: {
+        title: "Product",
         body:
-          "Type checking, linting, React Doctor, and Playwright run in CI, so UI regressions show up in review before they reach anyone's screen.",
+          "I like ambiguous product spaces where the right answer comes from tightening the loop between what users need, what the system can support, and what the team can actually maintain.",
       },
       collaboration: {
         title: "Collaboration",
         body:
-          "I work best with teams that have adopted fully agentic workflows, love rapid iteration, and believe we should always be shipping, using AI to monitor production and build the fixes.",
+          "I work best with people who like direct feedback, quick iteration, and clear tradeoffs. I document decisions, surface risks early, and try to make handoffs lighter instead of louder.",
       },
     },
   },
-  toolkit: {
-    title: "Toolkit",
-    items: ["TypeScript", "React", "React Native", "Next.js", "Legend State", "TanStack Virtual", "Three.js", "Tailwind CSS", "Playwright"],
-  },
   openTo: {
     title: "Open to",
-    intro: "Full-time UI and frontend roles where I own the interface end to end, from the component library to the last interaction.",
+    intro:
+      "I'm looking for full-time roles where I can own product problems end-to-end and work across the stack to ship them.",
     roles: [
-      "UI engineering on data-heavy financial software",
-      "Frontend roles that own a design system or component library",
-      "Small teams where frontend scope is wide and the interface is mine to shape",
+      "Senior full-stack or product engineering roles",
+      "Roles where product work touches deployment, data, or platform concerns",
+      "Founding or early-team roles where scope is wide and ownership is real",
     ],
     problemSpaces: [
-      "Real-time grids, charts, and dashboards that have to stay fast",
-      "Dense workflows turned into clear, keyboard-friendly screens",
-      "Mobile versions of tools that started on the desktop",
+      "Internal tools and operational systems",
+      "Analytics, data, or AI-adjacent workflows",
+      "Teams that need stronger handoffs between product, platform, and delivery",
     ],
     boundaries: [
-      "I'm a better fit where the interface is the product than where the frontend is an afterthought.",
+      "I'm a better fit for systems with ownership and ambiguity than for narrow feature-factory work.",
       "I care more about the problem and the team than about matching one exact title.",
     ],
   },
   resume: {
-    title: "Next",
+    title: "Resume",
     summary:
-      "Short version: financial research and trading interfaces at Godel, and before that four years of analytics and planning interfaces at Tapestry.",
+      "Short version: I've spent most of my time building operational tools, data-heavy products, and the glue between product intent and real delivery constraints.",
+    highlights: [
+      "Product surfaces, operational tools, and workflow-heavy internal software",
+      "Analytics platforms, AI-assisted tooling, and data-driven interfaces",
+      "Developer tooling, shared systems, and team-facing enablement work",
+    ],
+    note: "The domain pages have full project walkthroughs with stack details, decisions, and outcomes.",
+  },
+  notes: {
+    intro:
+      "For the lighter field-note version of what I'm noticing while building and operating systems, head to the",
+    label: "Notes index",
   },
   seo: {
     title: "About",
     description:
-      "Dom is a UI engineer building interfaces for data-heavy financial software: live grids, component systems, and the interaction detail around them.",
+      "How Dom works across systems, product, collaboration, current fit, and a compact resume view.",
   },
 } satisfies PersonalPageData;

@@ -14,29 +14,11 @@ export interface HomePersonalTeaser {
   notesLabel: string;
 }
 
-export interface HomeHighlight {
-  title: string;
-  body: string;
-}
-
-export interface HomeCurrentRole {
-  company: string;
-  meta: string;
-  intro: string;
-  highlights: HomeHighlight[];
-  link: { label: string; href: string };
-    secondaryLink: { label: string; href: string };
-}
-
 export interface HomePageData {
   avatar: string;
   eyebrow: string;
   title: string;
   lead: string;
-  paletteLead: string;
-  now: string;
-  current: HomeCurrentRole;
-  workHeading: string;
   domainIntro: string;
   personalTeaser: HomePersonalTeaser;
   contactHeading: string;
@@ -54,35 +36,17 @@ export interface HomePageData {
 
 export const homePage = {
   avatar: "/images/avatar.png",
-  eyebrow: "Dom Stepek, software engineer",
+  eyebrow: "Dom Stepek / Systems, Products, and Tooling",
   title:
-    "I build interfaces for data\u2011heavy financial software.",
+    "I work across product, analytics & AI, and developer experience.",
   lead:
-    "Right now that's Godel Terminal: real-time research tools, a mobile trading app, and the shared components underneath them. Before that, four years building analytics and planning tools at Tapestry.",
-  paletteLead:
-    "Dom Stepek, software engineer at Godel Terminal. Type a command or pick one below.",
-  now: "Currently at Godel, building a financial terminal: live market data, the mobile app, and the shared components behind both.",
-  current: {
-    company: "Godel Terminal",
-    meta: "May 2026 to now",
-    intro:
-      "Godel is a financial research terminal with a mobile app for research and trading. I work on the parts people look at all day: the tables, the charts, and the app.",
-    highlights: [
-      { title: "Live data grids", body: "Sorting, filtering, and virtualized rows. A price tick from the Kafka-backed WebSocket feed re-renders only the cell it affects." },
-      { title: "Shared components", body: "The terminal's first component library. Nearly every table and shared chart renders through it." },
-      { title: "Mobile app", body: "React Native, from discovery to research to placing an order. Live on Android, in private beta on iOS." },
-      { title: "Atlas", body: "Supply-chain views, including 3D in Three.js, across 15,184 companies and 56,340 relationships." },
-    ],
-    link: { label: "Open Atlas", href: "https://atlas.godelterminal.com/" },
-    secondaryLink: { label: "Supply chain for AAPL", href: "https://app.godelterminal.com/splc/AAPL.US" },
-  },
-  workHeading: "Earlier work",
+    "Most of what I build sits where data, platform, workflow, and internal tooling overlap — the kind of work that only makes sense when you see the full loop.",
   domainIntro:
-    "Tapestry and Charla, grouped by the kind of problem. Each case study needs a passcode.",
+    "Pick the domain that matches the problem.",
   personalTeaser: {
-    heading: "More about me",
+    heading: "Personal Context",
     body:
-      "How I work, the teams I fit best, and my resume. I also keep an engineering journal with notes on what I'm building and how.",
+      "How I work, what kinds of teams I fit best, and where the compact resume lives. I also keep an engineering journal with notes on what I'm building and how.",
     aboutLabel: "About",
     resumeLabel: "Resume",
     notesLabel: "Notes",
@@ -108,12 +72,12 @@ export const homePage = {
   freshness: {
     label: "Currently",
     value:
-      "Working on the Godel mobile app and the terminal's shared components.",
-    note: "Last updated November 2026.",
+      "Exploring agent-style workflows and how model context protocol changes the shape of internal tooling.",
+    note: "Last updated March 2026.",
   },
   seo: {
-    title: "Software engineer",
+    title: "Systems, Products, and Tooling",
     description:
-      "Dom builds interfaces for data-heavy financial software: real-time UIs, shared component systems, and the product work around them.",
+      "Homepage for Dom's work across product systems, analytics & AI tooling, and developer experience.",
   },
 } satisfies HomePageData;

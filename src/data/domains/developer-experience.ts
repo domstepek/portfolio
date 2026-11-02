@@ -5,13 +5,13 @@ const developerExperience: DomainEntry = {
   order: 3,
   title: "Developer Experience",
   summary:
-    "Design systems, shared components, and tooling that stop engineers from repeating the same setup.",
+    "Shared tooling and automation that help engineers ship faster and repeat less setup.",
   seoDescription:
     "Developer experience domain page for monorepo tooling, design systems, and team automation Dom builds.",
   thesis:
     "I invest in developer experience when the team keeps burning time on the same setup, regression, or UI tax.",
   scope:
-    "Internal tooling and automation that help engineers catch regressions sooner and skip repeated setup.",
+    "This is the internal tooling and automation layer — everything aimed at helping engineers ship faster, catch regressions sooner, and stop repeating the same setup work.",
   belongsHere: [
     "Building shared tooling that replaces repeated setup, config edits, and release chores",
     "Creating reusable UI or workflow primitives so teams stop rebuilding the same patterns from scratch",
@@ -24,13 +24,13 @@ const developerExperience: DomainEntry = {
       summary:
         "A pnpm-workspace monorepo foundation with shared configs, CI pipelines, and deployment conventions so new projects start from a proven baseline instead of from scratch.",
       problem:
-        "Every new project started with the same setup chores (linting, `TypeScript` config, CI pipelines, deploy scripts), and each team solved them slightly differently, so projects drifted apart.",
+        "Every new project started with the same setup chores — linting, `TypeScript` config, CI pipelines, deploy scripts — and each team solved them slightly differently, creating drift.",
       role:
         "I built the monorepo template as the shared starting point for new projects, encoding the conventions the team had already agreed on into a reusable foundation.",
       constraints: [
         "The template had to support multiple apps and packages without becoming tightly coupled to any single project's needs.",
         "CI and deploy conventions needed to work out of the box so new projects did not reinvent the release process.",
-        "The team had to be able to maintain the foundation without depending on whoever set it up.",
+        "The foundation had to stay maintainable by the team, not just by the person who set it up.",
       ],
       decisions: [
         "Used `pnpm` workspaces for monorepo orchestration so builds, linting, and testing could run across packages with shared dependencies.",
@@ -52,7 +52,7 @@ const developerExperience: DomainEntry = {
       visual: {
         alt: "A dependency graph showing two apps depending on shared packages for UI components, TypeScript config, and ESLint config.",
         caption:
-          "pnpm workspace graph. Shared configs live in packages, so conventions stay consistent without copy-pasting.",
+          "pnpm workspace graph — shared configs as packages so conventions stay consistent without copy-pasting.",
         mermaid: `graph TD
   Root[pnpm workspace root] --> Frontend[frontend]
   Root --> Backend[backend]
@@ -75,9 +75,9 @@ const developerExperience: DomainEntry = {
       role:
         "I helped turn those repeated UI needs into a maintainable shared system so teams could ship product work without re-solving common components every time.",
       constraints: [
-        "The library had to work across multiple product surfaces without being tuned for one app in particular.",
+        "The library had to be reusable across multiple product surfaces, not secretly optimized for one app.",
         "Shared components needed enough consistency to help without locking teams into brittle one-off abstractions.",
-        "Documentation and publishing discipline were part of the job, since a design system is only useful if teams can consume it.",
+        "Documentation and publishing discipline mattered because a design system only helps if teams can actually consume it.",
       ],
       decisions: [
         "Kept the system as a dedicated library rather than copying component code between apps.",
@@ -87,7 +87,7 @@ const developerExperience: DomainEntry = {
       outcomes: [
         "Product teams got a shared UI baseline instead of repeated component drift.",
         "Consistent interface work across two apps stopped requiring each team to solve the same component problems.",
-        "UI reuse became a maintained library instead of a folder of copied snippets.",
+        "Turned UI reuse into something maintainable rather than a folder of copied snippets.",
       ],
       stack: [
         "React",
@@ -99,7 +99,7 @@ const developerExperience: DomainEntry = {
         {
           src: "/highlights/developer-experience/global-design-system/storybook.png",
           alt: "Storybook showing the design system color documentation with base, gray, primary, error, warning, and success color scales alongside the component tree.",
-          caption: "Storybook: color system documentation with component tree navigation",
+          caption: "Storybook — color system documentation with component tree navigation",
         },
       ],
     },
@@ -118,12 +118,12 @@ const developerExperience: DomainEntry = {
     {
       title: "CDK-EKS Contributions",
       context:
-        "Contributed AWS permissions and access patterns to the shared `EKS` platform foundation. Another engineer led the core `CDK` stacks and cluster setup.",
+        "Contributed AWS permissions and access patterns to the shared `EKS` platform foundation — the core `CDK` stacks and cluster setup were led by another engineer.",
     },
     {
       title: "Stargazer Applications",
       context:
-        "Tweaked `Helm` chart templates and environment values in the GitOps repo for service deployments on the shared `EKS` cluster. Another engineer led the `ArgoCD` and ApplicationSet setup.",
+        "Tweaked `Helm` chart templates and environment values in the GitOps repo for service deployments on the shared `EKS` cluster — the `ArgoCD` and ApplicationSet setup was led by another engineer.",
     },
     {
       title: "Private CDN",

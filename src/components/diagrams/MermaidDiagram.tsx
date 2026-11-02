@@ -54,7 +54,7 @@ export function MermaidDiagram({ definition, alt, caption }: MermaidDiagramProps
             titleColor: '#e0e0e0',
             edgeLabelBackground: '#141414',
             fontFamily:
-              '"Geist Mono", ui-monospace, "SFMono-Regular", "SF Mono", Consolas, monospace',
+              '"Space Mono", ui-monospace, "SFMono-Regular", "SF Mono", Consolas, monospace',
           },
         });
         mermaidInitialized = true;

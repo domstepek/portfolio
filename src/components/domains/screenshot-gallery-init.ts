@@ -5,7 +5,6 @@
  * Shared between ScreenshotGallery.astro (static render) and
  * domain-gate-client.ts (dynamic mount after unlock).
  */
-import { cssTime } from "@/lib/motion/css-time";
 
 export function initGalleries() {
   document.querySelectorAll<HTMLElement>("[data-screenshot-gallery]").forEach((gallery) => {
@@ -27,16 +26,8 @@ export function initGalleries() {
 
     if (slides.length === 0) return;
 
-    // How many slides fit is read from the layout, not assumed: case-study
-    // galleries show one slide at a time even on desktop, so a hardcoded 3
-    // made each step skip two screenshots.
-    function measureVisible() {
-      const slideWidth = slides[0].getBoundingClientRect().width;
-      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-      if (!slideWidth) return 1;
-      return Math.max(1, Math.round((viewport.clientWidth + gap) / (slideWidth + gap)));
-    }
-    let visibleCount = measureVisible();
+    const mobileQuery = window.matchMedia("(max-width: 40rem)");
+    let visibleCount = mobileQuery.matches ? 1 : 3;
 
     function getPageCount() {
       return Math.max(1, Math.ceil(slides.length / visibleCount));
@@ -113,13 +104,11 @@ export function initGalleries() {
     viewport.addEventListener("scroll", () => updateState(), { passive: true });
     viewport.addEventListener("scrollend", () => updateState(), { passive: true });
 
-    new ResizeObserver(() => {
-      const next = measureVisible();
-      if (next === visibleCount) return;
-      visibleCount = next;
+    mobileQuery.addEventListener("change", (e) => {
+      visibleCount = e.matches ? 1 : 3;
       buildDots();
       updateNavVisibility();
-    }).observe(viewport);
+    });
 
     // Lightbox
     function openLightbox(trigger: HTMLButtonElement) {
@@ -127,29 +116,13 @@ export function initGalleries() {
       lightboxImg.alt = trigger.dataset.fullAlt || "";
       lightboxCaption.textContent = trigger.dataset.caption || "";
       document.documentElement.style.overflow = "hidden";
-      lightbox.classList.remove("is-closing");
       lightbox.showModal();
-      requestAnimationFrame(() => lightbox.classList.add("is-open"));
     }
-
-    const closeMs = cssTime("--modal-close-dur", 150);
 
     function closeLightbox() {
-      if (!lightbox.open || lightbox.classList.contains("is-closing")) return;
-      lightbox.classList.remove("is-open");
-      lightbox.classList.add("is-closing");
-      window.setTimeout(() => {
-        lightbox.close();
-        lightbox.classList.remove("is-closing");
-        document.documentElement.style.overflow = "";
-      }, closeMs);
+      lightbox.close();
+      document.documentElement.style.overflow = "";
     }
-
-    // Esc: animate out instead of the dialog's instant close.
-    lightbox.addEventListener("cancel", (e) => {
-      e.preventDefault();
-      closeLightbox();
-    });
 
     triggers.forEach((trigger) => {
       trigger.addEventListener("click", () => openLightbox(trigger));

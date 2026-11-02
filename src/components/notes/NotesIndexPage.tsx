@@ -1,4 +1,7 @@
+import Link from "next/link";
+import { TerminalPanel } from "@/components/layout/TerminalPanel";
 import { getAllNotes, getAllTags } from "@/lib/notes";
+import { homePath } from "@/lib/paths";
 import { TagFilter, type SerializedNoteEntry } from "./TagFilter";
 
 export function NotesIndexPage() {
@@ -16,14 +19,25 @@ export function NotesIndexPage() {
   }));
 
   return (
-    <div className="page notes-index" data-notes-index>
-      <header className="page-header">
-        <h1>Notes</h1>
-        <p className="page-header__lead">
-          Short field notes on system shape, product decisions, and the small details that make a workflow clearer or quietly worse.
-        </p>
-      </header>
-      <TagFilter notes={serializedNotes} allTags={allTags} />
+    <div className="notes-index" data-notes-index>
+      <p className="notes-index__back">
+        <Link className="notes-index__back-link" href={homePath}>
+          Back home
+        </Link>
+      </p>
+
+      <TerminalPanel>
+        <section className="notes-index__intro">
+          <h1>Notes</h1>
+          <p>
+            Short field notes on system shape, product decisions, and the small
+            implementation details that either clarify a workflow or quietly make
+            it worse.
+          </p>
+        </section>
+
+        <TagFilter notes={serializedNotes} allTags={allTags} />
+      </TerminalPanel>
     </div>
   );
 }

@@ -29,7 +29,7 @@ export async function submitPasscode(
 
   if (hash !== process.env.GATE_HASH) {
     console.log('[gate] invalid passcode attempt');
-    return { error: "That passcode didn't match. Check for typos, or email me for a new one." };
+    return { error: 'Incorrect passcode. Please try again.' };
   }
 
   // Cookie set before redirect — redirect() must not be inside try/catch

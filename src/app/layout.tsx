@@ -2,18 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { GeistSans } from 'geist/font/sans';
-import { GeistMono } from 'geist/font/mono';
-import { GeistPixelSquare } from 'geist/font/pixel';
 import ShaderBackground from '@/components/shader/ShaderBackground';
-import { PageTransitions } from '@/components/motion/PageTransitions';
-import { Providers } from '@/components/layout/Providers';
-import { SiteNav } from '@/components/layout/SiteNav';
-import { CommandMenu, JumpButton } from '@/components/command/CommandMenu';
-import { buildCommands } from '@/data/commands';
-import { getAllNotes } from '@/lib/notes';
 import { siteConfig } from '@/data/site';
-import '@/components/arc/foundation.css';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -29,38 +19,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const commands = buildCommands(
-    getAllNotes().map((note) => ({
-      slug: note.slug,
-      title: note.frontmatter.title,
-      published: note.frontmatter.published.toISOString(),
-      tags: note.frontmatter.tags,
-    })),
-  );
-
   return (
-    <html lang="en" data-theme="dark" data-accent="green" className={`${GeistSans.variable} ${GeistMono.variable} ${GeistPixelSquare.variable}`}>
+    <html lang="en">
       <body className="site-shell">
         <ShaderBackground />
-        <PageTransitions />
-        <Providers>
-          <a className="skip-link" href="#main-content">Skip to content</a>
-          <header className="site-header">
-            <div className="shell site-header__inner">
-              <Link className="site-title" href="/">
-                <span className="site-title__prompt" aria-hidden="true">~/</span>{siteConfig.name}
-              </Link>
-              <div className="site-header__right">
-                <SiteNav />
-                <JumpButton />
-              </div>
-            </div>
-          </header>
-          <main id="main-content" className="site-main shell">
-            {children}
-          </main>
+        <a className="skip-link" href="#main-content">skip to content</a>
+        <header className="site-header">
+          <div className="shell site-header__inner">
+            <Link className="site-title" href="/">{siteConfig.name}</Link>
+          </div>
+        </header>
+        <main id="main-content" className="site-main shell">
+          {children}
+        </main>
         <footer className="site-footer">
           <div className="shell site-footer__inner">
+            <p>minimal shell for systems, products, and tooling.</p>
             <nav className="site-footer__contact" aria-label="Contact">
               <a href="mailto:domstepek@gmail.com" className="site-footer__contact-link" aria-label="Email">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -77,9 +51,6 @@ export default function RootLayout({
             </nav>
           </div>
         </footer>
-          <CommandMenu commands={commands} />
-        </Providers>
-        <div className="page-scan" aria-hidden="true" />
         <div className="crt-overlay" aria-hidden="true" />
         <Analytics />
         <SpeedInsights />

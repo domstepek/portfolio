@@ -1,87 +1,67 @@
 'use client';
 
-import { useActionState, useEffect, useRef, useState } from 'react';
-import { Mail } from 'lucide-react';
+import { useActionState } from 'react';
 import { submitPasscode } from '@/app/domains/actions';
-import { PasswordField } from '@/components/arc/password-field/password-field';
-import { Alert } from '@/components/arc/alert/alert';
-import { Button } from '@/components/arc/button/button';
-import { LinkButton } from '@/components/layout/LinkButton';
-import { cssTime } from '@/lib/motion/css-time';
 
 interface GateFormProps {
   slug: string;
 }
 
 /**
- * GateForm — passcode form (Arc password field, alert, and button).
+ * GateForm — client component for the portfolio gate passcode form.
+ *
+ * Uses useActionState for progressive-enhancement-friendly error display.
+ * Hidden `slug` input carries the domain slug to the server action for redirect.
  *
  * Required data-* attributes (gate test contract, D015):
  *   data-passcode-input — the password input
  *   data-passcode-submit — the submit button
- *   data-gate-error — the error alert (only rendered when an error exists)
+ *   data-gate-error — error span (only rendered when error exists)
  *
  * D042: GateForm is 'use client' with useActionState; DomainGatePage stays a pure server component.
  */
 export function GateForm({ slug }: GateFormProps) {
-  const [state, action, pending] = useActionState(submitPasscode, { error: null });
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [errorShown, setErrorShown] = useState(false);
-  const [shaking, setShaking] = useState(false);
-
-  // Wrong passcode: shake the field, show the alert, keep it until they type.
-  useEffect(() => {
-    if (!state?.error) return;
-    const shakeMs = cssTime('--shake-dur-a', 80) * 2 + cssTime('--shake-dur-b', 60) * 2;
-    setErrorShown(true);
-    setShaking(false);
-    const raf = requestAnimationFrame(() => setShaking(true)); // replay on repeat errors
-    const stop = window.setTimeout(() => setShaking(false), shakeMs + 40);
-    inputRef.current?.select();
-    return () => {
-      cancelAnimationFrame(raf);
-      window.clearTimeout(stop);
-    };
-  }, [state]);
+  const [state, action, pending] = useActionState(submitPasscode, {
+    error: null,
+  });
 
   return (
-    <form action={action} className="gate__form">
+    <form action={action} className="flex flex-col gap-3 mt-6">
       <input name="slug" value={slug} type="hidden" readOnly />
 
-      {state?.error && (
-        <Alert
-          tone="danger"
-          title="That passcode didn't match"
-          open={errorShown}
-          data-gate-error=""
-          id="gate-error"
+      <div className="flex flex-col gap-1">
+        <label
+          htmlFor="gate-passcode"
+          className="text-[var(--muted)] text-sm uppercase tracking-widest"
         >
-          Check for typos, or email me for a new one.
-        </Alert>
-      )}
-
-      <div className={`gate__field${shaking ? ' is-shaking' : ''}`}>
-        <PasswordField
-          ref={inputRef}
-          label="Passcode"
-          description="Passcodes are case-sensitive."
+          Passcode
+        </label>
+        <input
+          id="gate-passcode"
           name="passcode"
+          type="password"
           data-passcode-input=""
+          placeholder="Enter passcode"
           autoComplete="off"
           required
-          aria-invalid={errorShown ? true : undefined}
-          onInput={() => setErrorShown(false)}
+          className="bg-[var(--bg-elevated)] border border-[var(--border)] text-[var(--text)] font-mono px-3 py-2 focus:outline-none focus:border-[var(--accent)] w-full max-w-xs"
         />
       </div>
 
-      <div className="gate__actions">
-        <Button type="submit" variant="primary" className="button-accent" loading={pending} data-passcode-submit="">
-          Unlock case studies
-        </Button>
-        <LinkButton href="mailto:domstepek@gmail.com?subject=Portfolio%20passcode" icon={<Mail size={16} strokeWidth={1.75} aria-hidden="true" />}>
-          Email for a passcode
-        </LinkButton>
-      </div>
+      <button
+        data-passcode-submit=""
+        type="submit"
+        disabled={pending}
+        className="self-start px-4 py-2 border border-[var(--accent)] text-[var(--accent-strong)] font-mono text-sm hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {pending ? 'Checking...' : 'Submit'}
+      </button>
+
+      {state?.error && (
+        <span data-gate-error="" className="text-red-400 text-sm font-mono">
+          {state.error}
+        </span>
+      )}
     </form>
   );
 }

@@ -1,39 +1,110 @@
+import Link from 'next/link';
 import { homePage } from '@/data/home';
-import { buildCommands } from '@/data/commands';
-import { getAllNotes } from '@/lib/notes';
-import { HomePalette } from '@/components/command/CommandMenu';
+import { domains } from '@/data/domains';
+import { aboutPath, domainPath, notesPath, resumePath } from '@/lib/paths';
+import { TerminalPanel } from '@/components/layout/TerminalPanel';
 
-/**
- * HomePage — the homepage is a command palette (Arc command-palette block).
- * /work, /about, /resume, /notes navigate; plain text searches pages,
- * case studies, and notes. Markers kept for the public-route tests.
- */
+const isExternalHttpLink = (href: string) => href.startsWith('https://');
+
 export function HomePage() {
-  const commands = buildCommands(
-    getAllNotes().map((note) => ({
-      slug: note.slug,
-      title: note.frontmatter.title,
-      published: note.frontmatter.published.toISOString(),
-      tags: note.frontmatter.tags,
-    })),
-  );
+  const homeDomains = domains.map((domain) => ({
+    ...domain,
+    href: domainPath(domain.slug),
+  }));
 
   return (
     <div className="home-page" data-home-page data-route-visibility="public" data-gate-state="open">
-      <section className="home-page__intro" data-home-hero>
+      <section className="home-page__hero" data-home-hero>
         <div className="home-avatar-wrap">
-          <img src={homePage.avatar} alt="Dom" className="home-avatar" width={68} height={68} />
+          <img
+            src={homePage.avatar}
+            alt="dom"
+            className="home-avatar"
+            width={160}
+            height={160}
+          />
         </div>
-        <h1 className="home-page__title">{homePage.title}</h1>
-        <p className="home-page__lead">{homePage.paletteLead}</p>
+        <p className="home-page__eyebrow">{homePage.eyebrow}</p>
+        <h1>{homePage.title}</h1>
+        <p className="home-page__lead">{homePage.lead}</p>
       </section>
 
-      <HomePalette commands={commands} />
+      <TerminalPanel>
+        <nav
+          className="home-page__section home-page__domains"
+          aria-labelledby="home-domain-nav-title"
+          data-home-domain-nav
+        >
+          <div className="home-page__section-copy">
+            <h2 id="home-domain-nav-title">Pick a Domain</h2>
+            <p className="home-page__domain-intro">{homePage.domainIntro}</p>
+          </div>
+          <ul className="home-page__domain-list">
+            {homeDomains.map((domain) => (
+              <li key={domain.slug} className="home-page__domain-item">
+                <Link className="home-page__domain-link" data-home-domain-link href={domain.href}>
+                  {domain.title}
+                </Link>
+                <p className="home-page__domain-summary">{domain.summary}</p>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-      <p className="home-page__now">
-        <span className="live-dot" aria-hidden="true" />
-        {homePage.now}
-      </p>
+        <section
+          className="home-page__section home-page__personal"
+          aria-labelledby="home-personal-title"
+          data-home-personal-teaser
+        >
+          <div className="home-page__section-copy">
+            <h2 id="home-personal-title">{homePage.personalTeaser.heading}</h2>
+            <p>{homePage.personalTeaser.body}</p>
+          </div>
+          <div className="home-page__personal-links">
+            <Link data-home-personal-link href={aboutPath}>
+              {homePage.personalTeaser.aboutLabel}
+            </Link>
+            <Link data-home-resume-link href={resumePath}>
+              {homePage.personalTeaser.resumeLabel}
+            </Link>
+            <Link data-home-notes-link href={notesPath}>
+              {homePage.personalTeaser.notesLabel}
+            </Link>
+          </div>
+        </section>
+
+        <div className="home-page__meta">
+          <section className="home-page__section home-page__contact" aria-labelledby="home-contact-title">
+            <h2 id="home-contact-title">{homePage.contactHeading}</h2>
+            <ul className="home-page__contact-list" data-home-contact-links>
+              {homePage.contactLinks.map((link) => (
+                <li key={link.key}>
+                  {isExternalHttpLink(link.href) ? (
+                    <a data-home-contact-link href={link.href} rel="noreferrer">
+                      {link.label}
+                    </a>
+                  ) : (
+                    <a data-home-contact-link href={link.href}>
+                      {link.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section
+            className="home-page__section home-page__freshness"
+            aria-labelledby="home-freshness-title"
+          >
+            <h2 id="home-freshness-title">{homePage.freshness.label}</h2>
+            <p className="home-page__freshness-copy" data-home-freshness>
+              {homePage.freshness.value}
+              <span className="home-page__freshness-note"> {homePage.freshness.note}</span>
+            </p>
+          </section>
+        </div>
+      </TerminalPanel>
     </div>
   );
 }

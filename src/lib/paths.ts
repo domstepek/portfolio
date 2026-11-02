@@ -20,8 +20,6 @@ export const homePath = routePath();
 
 export const aboutPath = routePath("about");
 
-export const workPath = routePath("work");
-
 export const domainPath = (slug: string) => routePath("domains", slug);
 
 export const notesPath = routePath("notes");
